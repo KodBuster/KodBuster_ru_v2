@@ -8,7 +8,7 @@ test("landing page exposes the primary journey", async ({ page }) => {
 
   await page.goto("/");
   await expect(page).toHaveTitle(/KodBuster/);
-  await expect(page.getByRole("heading", { level: 1 })).toContainText("Каждая заявка");
+  await expect(page.getByRole("heading", { level: 1 }).first()).toContainText("Разные дела");
   await expect(page.getByRole("link", { name: /Обсудить проект/ }).first()).toHaveAttribute("href", "https://t.me/kodbuster");
   await page.getByRole("link", { name: /Посмотреть кейсы/ }).click();
   await expect(page.locator("#cases")).toBeInViewport();
