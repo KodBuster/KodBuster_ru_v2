@@ -107,7 +107,7 @@ export function StoryHero() {
           </div>
 
           <div className="story-intro" data-hidden={activeScene !== -1}>
-            <h1 id="hero-title">Разные дела.<br />Одна цель — чтобы<br /><em>выбрали вас.</em></h1>
+            <h1 id="hero-title">Разные бизнесы.<br />Одна цель — чтобы<br /><em>выбрали вас.</em></h1>
             <div className="story-intro-bottom">
               <div>
                 <p className="story-kicker">Сайты для реального бизнеса</p>
@@ -147,23 +147,23 @@ export function StoryHero() {
               sizes="100vw"
             />
             <div className="mobile-story-shade" aria-hidden="true" />
-            <div className="mobile-story-label">
-              {index === 0 ? (
-                <><strong>{scene.number} / {scene.title}</strong><span>{scene.meta}</span></>
-              ) : (
-                <strong>Разные дела · Одна цель</strong>
-              )}
-            </div>
+            {index === 0 && (
+              <div className="mobile-story-label">
+                <strong>{scene.number} / {scene.title}</strong>
+                <span>{scene.meta}</span>
+              </div>
+            )}
 
             {index === 0 ? (
               <div className="mobile-story-content mobile-story-intro">
-                <h1>Разные дела.<br />Одна цель —<br /><em>чтобы выбрали вас.</em></h1>
+                <h1>Разные бизнесы.<br />Одна цель —<br /><em>чтобы выбрали вас.</em></h1>
                 <p className="story-kicker">Сайты для реального бизнеса</p>
                 <p>Показываем ценность бизнеса и передаём новую заявку прямо на смартфон.</p>
                 <PrimaryLink />
               </div>
             ) : (
               <div className="mobile-story-content">
+                <p className="mobile-story-lockup">Разные бизнесы · Одна цель</p>
                 <h2>{scene.title}</h2>
                 <p className="story-kicker">{scene.meta}</p>
                 <p>{scene.copy}</p>

@@ -240,9 +240,10 @@ svg { width: 1.2rem; height: 1.2rem; flex: none; }
 .mobile-story-label strong { font-size: .86rem; line-height: 1.1; letter-spacing: .05em; }
 .mobile-story-label span { font-size: .67rem; line-height: 1.2; font-weight: 800; letter-spacing: .02em; }
 .mobile-story-content { position: absolute; z-index: 2; inset: auto .9rem 1.1rem; }
+.mobile-story-lockup { margin: 0 0 .85rem; padding: .55rem .8rem .5rem .85rem; display: inline-block; max-width: 100%; color: var(--white); background: rgba(4,12,19,.9); border-left: 4px solid var(--orange); font-size: .72rem; font-weight: 800; letter-spacing: .04em; line-height: 1.15; text-transform: uppercase; }
 .mobile-story-content h1, .mobile-story-content h2 { margin: 0 0 1.15rem; font: 900 clamp(2.55rem, 12vw, 4.7rem)/.92 var(--display); letter-spacing: -.055em; text-transform: uppercase; }
 .mobile-story-content h1 em, .mobile-story-content h2 em { color: var(--orange); font-style: normal; }
-.mobile-story-content > p:not(.story-kicker) { max-width: 35rem; margin: 0 0 1.15rem; color: rgba(255,255,255,.84); font-size: .93rem; line-height: 1.45; }
+.mobile-story-content > p:not(.story-kicker):not(.mobile-story-lockup) { max-width: 35rem; margin: 0 0 1.15rem; color: rgba(255,255,255,.84); font-size: .93rem; line-height: 1.45; }
 .mobile-story-content .story-kicker { margin: 0 0 .8rem; color: var(--white); font-size: .68rem; font-weight: 900; letter-spacing: .1em; text-transform: uppercase; }
 .story-cta { min-height: 52px; padding: .9rem 1.15rem; display: inline-flex; align-items: center; justify-content: space-between; gap: 2rem; color: var(--white); background: var(--orange); border: 1px solid var(--orange); border-radius: 999px; font-size: .78rem; font-weight: 900; letter-spacing: .02em; text-transform: uppercase; transition: transform .18s ease-out, background-color .18s ease-out; }
 .story-cta:active { transform: scale(.985); }
