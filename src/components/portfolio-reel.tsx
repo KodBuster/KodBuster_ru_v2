@@ -26,7 +26,8 @@ const projects = [
     urlLabel: "synonym-jewelry.ru",
     href: "https://synonym-jewelry.ru/",
     image: "/images/case-synonym.webp",
-    alt: "Украшение из каталога ювелирного бренда Синоним",
+    alt: "Главный экран сайта ювелирного бренда Синоним",
+    shot: true,
     tone: "silver",
   },
   {
@@ -37,7 +38,8 @@ const projects = [
     urlLabel: "sharoduwi.ru",
     href: "https://sharoduwi.ru/",
     image: "/images/case-sharoduwi.webp",
-    alt: "Разноцветные воздушные шары из каталога Шародувы",
+    alt: "Главный экран интернет-магазина Шародувы",
+    shot: true,
     tone: "blue",
   },
   {
@@ -48,7 +50,8 @@ const projects = [
     urlLabel: "я-помогаю.рф/doli",
     href: "https://www.я-помогаю.рф/doli/",
     image: "/images/case-help.webp",
-    alt: "Главный визуал сайта услуг по выкупу долевой недвижимости",
+    alt: "Главный экран сайта по выкупу долевой недвижимости",
+    shot: true,
     tone: "green",
   },
   {
@@ -59,7 +62,8 @@ const projects = [
     urlLabel: "funshar.ru",
     href: "https://funshar.ru/",
     image: "/images/case-funshar.webp",
-    alt: "Воздушные шары из каталога ФанШар",
+    alt: "Главный экран каталога воздушных шаров ФанШар",
+    shot: true,
     tone: "yellow",
   },
 ] as const;
@@ -151,7 +155,7 @@ export function PortfolioReel() {
             {projects.map((project, index) => (
               <article className={`portfolio-card tone-${project.tone} ${index === activeIndex ? "is-active" : ""}`} key={project.title}>
                 <a href={project.href} target="_blank" rel="noreferrer" aria-label={`Открыть проект ${project.title}`}>
-                  <div className="portfolio-visual">
+                  <div className={`portfolio-visual${"shot" in project ? " is-shot" : ""}`}>
                     <div className="browser-bar" aria-hidden="true">
                       <span><i /><i /><i /></span>
                       <b>{project.urlLabel}</b>

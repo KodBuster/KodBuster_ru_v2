@@ -336,7 +336,7 @@ svg { width: 1.2rem; height: 1.2rem; flex: none; }
 .portfolio-card > a { min-height: 100%; display: flex; flex-direction: column; }
 .portfolio-visual { position: relative; min-height: 315px; overflow: hidden; background: var(--card-bg, #d9d8d4); border-bottom: 1px solid rgba(16,24,33,.16); }
 .portfolio-visual > img { object-fit: cover; transition: transform .55s cubic-bezier(.2,.75,.2,1), filter .35s ease-out; }
-.tone-silver .portfolio-visual > img { object-fit: contain; padding: 1.8rem; }
+.portfolio-visual.is-shot > img { object-position: center top; }
 .tone-orange { --card-accent: #ff6426; --card-bg: #221b19; }
 .tone-silver { --card-accent: #858c92; --card-bg: #f7f7f5; }
 .tone-blue { --card-accent: #2777d6; --card-bg: #d6e8ed; }
