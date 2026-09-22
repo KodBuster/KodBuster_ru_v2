@@ -167,7 +167,7 @@ export function PortfolioReel() {
                   </div>
                   <div className="portfolio-copy">
                     <div className="portfolio-meta"><span>{project.number} / 05</span><span>{project.category}</span></div>
-                    <div>
+                    <div className="portfolio-title">
                       <h3>{project.title}</h3>
                       <p>{project.description}</p>
                     </div>
