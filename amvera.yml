@@ -1,0 +1,12 @@
+# Static Next.js export for Amvera (Node.js Browser + nginx).
+# The site is served from the domain root, so leave NEXT_PUBLIC_BASE_PATH empty.
+# GitHub Pages sets that variable only in its own workflow.
+meta:
+  environment: node
+  toolchain:
+    name: browser
+    version: "22"
+
+build:
+  artifacts:
+    "out/*": /
