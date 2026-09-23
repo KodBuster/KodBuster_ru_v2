@@ -15,6 +15,7 @@ const projects = [
     urlLabel: "rampadel.ru",
     href: "https://rampadel.ru/",
     image: "/images/case-rampadel.webp",
+    imageMobile: "/images/case-rampadel-square.webp",
     alt: "Главный визуал сайта падел-клуба РамПадел",
     tone: "orange",
   },
@@ -38,6 +39,7 @@ const projects = [
     urlLabel: "sharoduwi.ru",
     href: "https://sharoduwi.ru/",
     image: "/images/case-sharoduwi.webp",
+    imageMobile: "/images/case-sharoduwi-square.webp",
     alt: "Главный экран интернет-магазина Шародувы",
     shot: true,
     tone: "blue",
@@ -50,6 +52,7 @@ const projects = [
     urlLabel: "я-помогаю.рф/doli",
     href: "https://www.я-помогаю.рф/doli/",
     image: "/images/case-help.webp",
+    imageMobile: "/images/case-help-square.webp",
     alt: "Главный экран сайта по выкупу долевой недвижимости",
     shot: true,
     tone: "green",
@@ -62,6 +65,7 @@ const projects = [
     urlLabel: "funshar.ru",
     href: "https://funshar.ru/",
     image: "/images/case-funshar.webp",
+    imageMobile: "/images/case-funshar-square.webp",
     alt: "Главный экран каталога воздушных шаров ФанШар",
     shot: true,
     tone: "yellow",
@@ -155,12 +159,23 @@ export function PortfolioReel() {
             {projects.map((project, index) => (
               <article className={`portfolio-card tone-${project.tone} ${index === activeIndex ? "is-active" : ""}`} key={project.title}>
                 <a href={project.href} target="_blank" rel="noreferrer" aria-label={`Открыть проект ${project.title}`}>
-                  <div className={`portfolio-visual${"shot" in project ? " is-shot" : ""}`}>
+                  <div className={`portfolio-visual${"imageMobile" in project ? " has-mobile-cover" : ""}${"shot" in project ? " is-shot" : ""}`}>
                     <div className="browser-bar" aria-hidden="true">
                       <span><i /><i /><i /></span>
                       <b>{project.urlLabel}</b>
                     </div>
+                    {"imageMobile" in project && (
+                      <Image
+                        className="cover-mobile"
+                        src={`${basePath}${project.imageMobile}`}
+                        alt={project.alt}
+                        fill
+                        sizes="82vw"
+                        loading="lazy"
+                      />
+                    )}
                     <Image
+                      className={"imageMobile" in project ? "cover-desktop" : undefined}
                       src={`${basePath}${project.image}`}
                       alt={project.alt}
                       fill

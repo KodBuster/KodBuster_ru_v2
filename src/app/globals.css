@@ -29,8 +29,9 @@ svg { width: 1.2rem; height: 1.2rem; flex: none; }
 .container { width: min(calc(100% - 2rem), var(--container)); margin-inline: auto; }
 .section-pad { padding-block: var(--section); }
 
-.site-header { position: fixed; inset: 0 0 auto; z-index: 100; color: var(--white); background: rgba(5, 15, 25, .78); border-bottom: 1px solid rgba(255,255,255,.14); backdrop-filter: blur(16px); }
-.header-inner { width: min(calc(100% - 2rem), var(--container)); min-height: 80px; margin-inline: auto; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; }
+.site-header { position: fixed; inset: 0 0 auto; z-index: 100; color: var(--white); }
+.site-header::before { content: ""; position: absolute; z-index: 2; inset: 0 0 auto; height: 80px; background: rgba(5, 15, 25, .94); border-bottom: 1px solid rgba(255,255,255,.14); backdrop-filter: blur(16px); }
+.header-inner { position: relative; z-index: 3; width: min(calc(100% - 2rem), var(--container)); min-height: 80px; margin-inline: auto; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; }
 .brand { min-height: 48px; display: inline-flex; align-items: center; gap: .9rem; font-weight: 900; font-size: 1.25rem; letter-spacing: -.04em; }
 .brand small { padding-left: .9rem; color: rgba(255,255,255,.68); border-left: 1px solid rgba(255,255,255,.28); font-size: .63rem; line-height: 1.25; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; }
 .desktop-nav { display: none; align-items: center; gap: 2rem; }
@@ -39,7 +40,7 @@ svg { width: 1.2rem; height: 1.2rem; flex: none; }
 .header-cta { min-height: 48px; display: none; align-items: center; gap: 1rem; padding: 0 1.4rem; border: 1px solid rgba(255,255,255,.72); border-radius: 999px; font-size: .76rem; font-weight: 800; text-transform: uppercase; transition: background .18s ease-out, border-color .18s ease-out; }
 .header-cta:hover { background: var(--orange); border-color: var(--orange); }
 .menu-toggle { width: 48px; height: 48px; display: grid; place-items: center; color: var(--white); background: transparent; border: 1px solid rgba(255,255,255,.35); border-radius: 50%; cursor: pointer; }
-.mobile-menu { position: fixed; inset: 80px 0 0; z-index: 90; padding: 1rem; color: var(--white); background: var(--navy); opacity: 0; visibility: hidden; transform: translateY(-10px); transition: opacity .2s ease-out, transform .2s ease-out, visibility .2s; }
+.mobile-menu { position: fixed; inset: 80px 0 0; z-index: 1; padding: 1rem 1.25rem 2rem; overflow: auto; color: var(--white); background: #071421; opacity: 0; visibility: hidden; transform: translateY(-10px); transition: opacity .2s ease-out, transform .2s ease-out, visibility .2s; }
 .mobile-menu[data-open="true"] { opacity: 1; visibility: visible; transform: none; }
 .mobile-menu nav { display: grid; }
 .mobile-menu a { min-height: 64px; display: flex; align-items: center; gap: 1rem; border-bottom: 1px solid rgba(255,255,255,.14); font-size: clamp(1.3rem, 7vw, 2rem); font-weight: 800; }
@@ -178,6 +179,7 @@ svg { width: 1.2rem; height: 1.2rem; flex: none; }
 
 @media (min-width: 1180px) {
   .header-inner { min-height: 88px; }
+  .site-header::before { height: 88px; }
   .mobile-menu { inset-block-start: 88px; }
   .hero { padding-top: 10rem; }
 }
@@ -337,6 +339,12 @@ svg { width: 1.2rem; height: 1.2rem; flex: none; }
 .portfolio-visual { position: relative; min-height: 315px; overflow: hidden; background: var(--card-bg, #d9d8d4); border-bottom: 1px solid rgba(16,24,33,.16); }
 .portfolio-visual > img { object-fit: cover; transition: transform .55s cubic-bezier(.2,.75,.2,1), filter .35s ease-out; }
 .portfolio-visual.is-shot > img { object-position: center top; }
+.portfolio-visual.has-mobile-cover .cover-desktop { display: none; }
+.portfolio-visual.has-mobile-cover .cover-mobile { object-position: center center; }
+@media (min-width: 960px) {
+  .portfolio-visual.has-mobile-cover .cover-desktop { display: block; }
+  .portfolio-visual.has-mobile-cover .cover-mobile { display: none; }
+}
 .tone-orange { --card-accent: #ff6426; --card-bg: #221b19; }
 .tone-silver { --card-accent: #858c92; --card-bg: #f7f7f5; }
 .tone-blue { --card-accent: #2777d6; --card-bg: #d6e8ed; }
