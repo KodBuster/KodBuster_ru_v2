@@ -3,8 +3,8 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { ArrowUpRight } from "@/components/icons";
+import { contactAnchor } from "@/data/contacts";
 
-const telegramUrl = "https://t.me/kodbuster";
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
 const scenes = [
@@ -36,7 +36,7 @@ const scenes = [
 
 function PrimaryLink() {
   return (
-    <a className="story-cta" href={telegramUrl} target="_blank" rel="noreferrer">
+    <a className="story-cta" href={contactAnchor}>
       <span>Обсудить проект</span><ArrowUpRight />
     </a>
   );

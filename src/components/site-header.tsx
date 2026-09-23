@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { CloseIcon, MenuIcon } from "@/components/icons";
+import { CloseIcon, MenuIcon, PhoneIcon } from "@/components/icons";
+import { contactAnchor, contacts } from "@/data/contacts";
 import { navigation } from "@/data/site";
 
 export function SiteHeader() {
@@ -28,9 +29,14 @@ export function SiteHeader() {
           ))}
         </nav>
 
-        <a className="header-cta" href="https://t.me/kodbuster" target="_blank" rel="noreferrer">
-          Обсудить проект <span aria-hidden="true">→</span>
-        </a>
+        <div className="header-actions">
+          {contacts.phone && contacts.phoneHref && (
+            <a className="header-phone" href={contacts.phoneHref}><PhoneIcon />{contacts.phone}</a>
+          )}
+          <a className="header-cta" href={contactAnchor}>
+            Обсудить проект <span aria-hidden="true">→</span>
+          </a>
+        </div>
 
         <button
           className="menu-toggle"
@@ -51,10 +57,17 @@ export function SiteHeader() {
               <span>0{index + 1}</span>{item.label}
             </a>
           ))}
-          <a className="mobile-menu-cta" href="https://t.me/kodbuster" target="_blank" rel="noreferrer">
-            Написать в Telegram
+          <a className="mobile-menu-cta" href={contactAnchor} onClick={() => setOpen(false)}>
+            Оставить заявку
           </a>
         </nav>
+        <div className="mobile-menu-contacts">
+          {contacts.phone && contacts.phoneHref && (
+            <a href={contacts.phoneHref}><PhoneIcon />{contacts.phone}</a>
+          )}
+          <a href={contacts.telegramUrl} target="_blank" rel="noreferrer">Telegram</a>
+          {contacts.maxUrl && <a href={contacts.maxUrl} target="_blank" rel="noreferrer">MAX</a>}
+        </div>
       </div>
     </header>
   );

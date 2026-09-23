@@ -1,30 +1,39 @@
 import type { Metadata, Viewport } from "next";
+import { CookieNotice } from "@/components/cookie-notice";
+import { pageUrl, siteRoot } from "@/lib/site-url";
 import "./globals.css";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://kodbuster.github.io/KodBuster_ru_v2/";
+const description = "Продающие сайты для локального бизнеса. Старт — 70 000 ₽, Рост — 120 000 ₽, Система — 170 000 ₽. Заявка приходит в Telegram или MAX.";
 
 export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
+  metadataBase: new URL(siteRoot()),
   title: {
     default: "KodBuster — продающие сайты для бизнеса",
     template: "%s — KodBuster",
   },
-  description: "Создаём продающие сайты под ключ: дизайн, структура, SEO и GEO, заявки в Telegram или MAX, аналитика и продвижение в Яндексе.",
+  description,
   applicationName: "KodBuster",
-  alternates: { canonical: siteUrl },
+  authors: [{ name: "KodBuster", url: siteRoot() }],
+  alternates: {
+    canonical: siteRoot(),
+    types: { "text/plain": [{ url: pageUrl("llms.txt"), title: "Краткие факты для агентов нейросетей" }] },
+  },
   icons: { icon: "./favicon.svg" },
+  robots: { index: true, follow: true },
   openGraph: {
     type: "website",
     locale: "ru_RU",
-    url: siteUrl,
+    url: siteRoot(),
     siteName: "KodBuster",
     title: "KodBuster — продающие сайты для бизнеса",
-    description: "Сайт под ключ, который приводит клиентов и отправляет новые заявки прямо на смартфон.",
+    description,
+    images: [{ url: pageUrl("images/hero-auto-owner.webp"), alt: "Собственник проверяет новую заявку с сайта на смартфоне" }],
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: "KodBuster — продающие сайты для бизнеса",
-    description: "Сайт под ключ, который приводит клиентов и отправляет новые заявки прямо на смартфон.",
+    description,
+    images: [pageUrl("images/hero-auto-owner.webp")],
   },
 };
 
@@ -37,7 +46,7 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="ru">
-      <body>{children}</body>
+      <body>{children}<CookieNotice /></body>
     </html>
   );
 }
