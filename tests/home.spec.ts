@@ -19,7 +19,7 @@ test("landing page exposes the primary journey", async ({ page }) => {
   await expect(page.getByRole("heading", { name: "РамПадел" })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Синоним" })).toBeVisible();
   await expect(page.locator("#packages").getByText("70 000 ₽", { exact: true })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Оставить заявку" })).toBeAttached();
+  await expect(page.getByRole("heading", { name: "Запросить предварительный разбор" })).toBeAttached();
   await expect(page.locator("#contact form")).toHaveCount(1);
   await expect(page.locator("body")).not.toHaveCSS("overflow-x", "scroll");
   expect(errors).toEqual([]);
@@ -43,7 +43,7 @@ test("lead form applies antibot timer and validation", async ({ page }) => {
   await dismissCookies(page);
   const form = page.locator("#contact form");
   const alert = form.getByRole("alert");
-  const submit = form.getByRole("button", { name: "Отправить заявку" });
+  const submit = form.getByRole("button", { name: "Запросить разбор" });
   await expect(submit).toBeDisabled();
   await form.getByLabel("Как к вам обращаться").fill("Тест");
   await expect(submit).toBeDisabled();
@@ -52,7 +52,7 @@ test("lead form applies antibot timer and validation", async ({ page }) => {
   await submit.click();
   await expect(alert).toContainText("Попробуйте ещё раз");
   await page.waitForTimeout(3200);
-  await form.getByRole("button", { name: "Отправить заявку" }).click();
+  await form.getByRole("button", { name: "Запросить разбор" }).click();
   await expect(alert).toContainText("Укажите мобильный номер");
 });
 
