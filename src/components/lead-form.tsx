@@ -115,7 +115,7 @@ export function LeadForm() {
   return (
     <form className="lead-card" onSubmit={onSubmit} onFocusCapture={markStart} onPointerDownCapture={markStart} noValidate aria-labelledby={`${id}-title`}>
       <h3 id={`${id}-title`}>Оставить заявку</h3>
-      <p className="lead-intro">Имя и телефон. Перезвоним или напишем — как вам удобнее.</p>
+      <p className="lead-intro">Расскажите, какой у вас бизнес и есть ли сайт. Уточним задачу и предложим следующий шаг без навязывания тарифа.</p>
       {chosenPackage && <p className="lead-choice">Пакет: «{chosenPackage}»</p>}
 
       <div className="lead-field">
@@ -154,7 +154,7 @@ export function LeadForm() {
           name="comment"
           rows={3}
           maxLength={1000}
-          placeholder="Например: детейлинг в Подольске, сайта нет"
+          placeholder="Например: детейлинг в Жуковском, сайт example.ru; хочу понять, что улучшить"
           value={comment}
           onChange={(event) => { markStart(); setComment(event.target.value); }}
         />
