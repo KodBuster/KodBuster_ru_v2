@@ -37,7 +37,7 @@ const scenes = [
 function PrimaryLink() {
   return (
     <a className="story-cta" href={contactAnchor}>
-      <span>Обсудить проект</span><ArrowUpRight />
+      <span>Получить разбор</span><ArrowUpRight />
     </a>
   );
 }
@@ -111,8 +111,8 @@ export function StoryHero() {
             <div className="story-intro-bottom">
               <div>
                 <p className="story-kicker">Сайты для реального бизнеса</p>
-                <p className="story-lead">Создаём сайты, которые показывают ценность вашего бизнеса, помогают сделать выбор и передают новую заявку прямо на смартфон.</p>
-                <a className="story-work-link" href="#cases">Смотреть наши работы <ArrowUpRight /></a>
+                <p className="story-lead">Клиент сравнивает вас с конкурентами ещё до первого звонка. Помогаем показать преимущества, подтвердить качество и сделать обращение простым.</p>
+                <a className="story-work-link" href="#compare">Посмотреть сравнение <ArrowUpRight /></a>
               </div>
               <PrimaryLink />
             </div>
@@ -158,7 +158,7 @@ export function StoryHero() {
               <div className="mobile-story-content mobile-story-intro">
                 <h1>Не просто сайт. Система <em>привлечения клиентов.</em></h1>
                 <p className="story-kicker">Сайты для реального бизнеса</p>
-                <p>Показываем ценность бизнеса и передаём новую заявку прямо на смартфон.</p>
+                <p>Ваш уровень должен быть заметен до первого звонка. Покажем преимущества и сделаем путь к обращению понятным.</p>
                 <PrimaryLink />
               </div>
             ) : (
