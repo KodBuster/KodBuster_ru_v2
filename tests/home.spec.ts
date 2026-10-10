@@ -1,4 +1,5 @@
 import { expect, test, type Page } from "@playwright/test";
+import { validateLead } from "../src/lib/lead-validation";
 
 async function dismissCookies(page: Page) {
   const decline = page.getByRole("button", { name: "Отказаться" });
@@ -38,7 +39,7 @@ test("mobile navigation opens and reaches sections", async ({ page }, testInfo) 
   await expect(page.getByRole("button", { name: "Открыть меню" })).toHaveAttribute("aria-expanded", "false");
 });
 
-test("lead form applies antibot timer and validation", async ({ page }) => {
+test("lead form requires consent and validates phone on real devices", async ({ page }) => {
   await page.goto("/#contact");
   await dismissCookies(page);
   const form = page.locator("#contact form");
@@ -49,10 +50,10 @@ test("lead form applies antibot timer and validation", async ({ page }) => {
   await expect(submit).toBeDisabled();
   await form.getByRole("checkbox", { name: /Соглашаюсь/ }).check();
   await expect(submit).toBeEnabled();
+  // Mobile form navigation can take longer than the 3-second antibot window.
+  // Wait to test phone validation deterministically, then verify timer separately.
+  await page.waitForTimeout(3100);
   await submit.click();
-  await expect(alert).toContainText("Попробуйте ещё раз");
-  await page.waitForTimeout(3200);
-  await form.getByRole("button", { name: "Запросить разбор" }).click();
   await expect(alert).toContainText("Укажите мобильный номер");
 });
 
@@ -61,4 +62,18 @@ test("page has no horizontal overflow", async ({ page }) => {
   await dismissCookies(page);
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
   expect(overflow).toBeLessThanOrEqual(1);
+});
+
+test("antibot minimum duration rejects too-fast requests deterministically", () => {
+  const now = Date.now();
+  const payload = {
+    name: "Иван",
+    phone: "+7 (916) 984-27-63",
+    comment: "Обращение: предварительный разбор бизнеса",
+    consent: true,
+    website: "",
+    form_started_at: now - 1000,
+  };
+  expect(validateLead(payload, now)).toContain("Попробуйте ещё раз");
+  expect(validateLead({ ...payload, form_started_at: now - 3200 }, now)).toBeNull();
 });
