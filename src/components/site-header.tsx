@@ -34,7 +34,7 @@ export function SiteHeader() {
             <a className="header-phone" href={contacts.phoneHref}><PhoneIcon />{contacts.phone}</a>
           )}
           <a className="header-cta" href={contactAnchor}>
-            Обсудить проект <span aria-hidden="true">→</span>
+            Получить разбор <span aria-hidden="true">→</span>
           </a>
         </div>
 
@@ -58,7 +58,7 @@ export function SiteHeader() {
             </a>
           ))}
           <a className="mobile-menu-cta" href={contactAnchor} onClick={() => setOpen(false)}>
-            Оставить заявку
+            Запросить разбор
           </a>
         </nav>
         <div className="mobile-menu-contacts">
