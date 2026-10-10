@@ -58,6 +58,7 @@ export function LeadForm() {
     if (startedAt.current) return;
     startedAt.current = Date.now();
     reachGoal("form_start");
+    if (!chosenPackage) reachGoal("audit_form_start");
   };
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -109,6 +110,7 @@ export function LeadForm() {
       }
       setStatus("success");
       reachGoal("lead_submit");
+      reachGoal(chosenPackage ? "package_lead_submit" : "audit_request_submit");
     } catch {
       setError(fallbackError);
       setStatus("idle");
