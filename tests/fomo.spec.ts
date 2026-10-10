@@ -37,6 +37,26 @@ test("FOMO content avoids guarantees, fake scarcity and invented ROI", async ({ 
 
 test("FOMO sections remain within viewport", async ({ page }) => {
   await page.goto("/");
-  const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
-  expect(overflow).toBeLessThanOrEqual(1);
+  const { overflow, elements } = await page.evaluate(() => {
+    const vw = document.documentElement.clientWidth;
+    return {
+      overflow: document.documentElement.scrollWidth - vw,
+      elements: Array.from(document.querySelectorAll("body *"))
+        .map((element) => {
+          const bounds = element.getBoundingClientRect();
+          const styles = window.getComputedStyle(element);
+          return {
+            tag: element.tagName,
+            className: typeof element.className === "string" ? element.className.slice(0, 90) : "",
+            right: Math.round(bounds.right * 10) / 10,
+            left: Math.round(bounds.left * 10) / 10,
+            position: styles.position,
+          };
+        })
+        .filter((item) => item.right > vw + 1 && item.left < vw && item.position !== "fixed")
+        .sort((a, b) => b.right - a.right)
+        .slice(0, 15),
+    };
+  });
+  expect(overflow, JSON.stringify(elements)).toBeLessThanOrEqual(1);
 });
