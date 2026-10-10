@@ -60,3 +60,17 @@ test("FOMO sections remain within viewport", async ({ page }) => {
   });
   expect(overflow, JSON.stringify(elements)).toBeLessThanOrEqual(1);
 });
+
+test("business audit request asks for evidence without creating a fictitious result", async ({ page }) => {
+  await page.goto("/#contact");
+  const form = page.locator("#contact form");
+  await expect(form.getByRole("heading", { name: "Запросить предварительный разбор" })).toBeVisible();
+  await form.getByLabel("Направление бизнеса").selectOption("Детейлинг / автосервис");
+  await form.getByLabel("Сайт или Яндекс Карты").fill("https://example.ru");
+  await form.getByLabel("Что хотите улучшить").fill("Хочу проверить путь к заявке");
+  await expect(form.getByRole("button", { name: "Запросить разбор" })).toBeDisabled();
+  await form.getByRole("checkbox", { name: /Соглашаюсь/ }).check();
+  await expect(form.getByRole("button", { name: "Запросить разбор" })).toBeEnabled();
+  await expect(form).toContainText("не обещаем аудит до разговора");
+  await expect(form).toContainText("не обещание бесплатного подробного аудита");
+});
