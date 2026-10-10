@@ -18,7 +18,7 @@ test("landing page exposes the primary journey", async ({ page }) => {
   await expect(page.getByRole("link", { name: /Получить разбор/ }).first()).toHaveAttribute("href", "#contact");
   await expect(page.getByRole("heading", { name: "РамПадел" })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Синоним" })).toBeVisible();
-  await expect(page.getByText("70 000 ₽", { exact: true })).toBeVisible();
+  await expect(page.locator("#packages").getByText("70 000 ₽", { exact: true })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Оставить заявку" })).toBeAttached();
   await expect(page.locator("#contact form")).toHaveCount(1);
   await expect(page.locator("body")).not.toHaveCSS("overflow-x", "scroll");
