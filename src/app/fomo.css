@@ -89,3 +89,6 @@
 @media(max-width:959px){.fomo-lab-top{align-items:flex-start;flex-direction:column}.fomo-audit-shell,.fomo-economy-grid{grid-template-columns:1fr}.fomo-lab-bottom{align-items:flex-start;flex-direction:column}.fomo-lab-bottom .button{max-width:100%}}
 @media(max-width:640px){.fomo-header h2{font-size:clamp(2.4rem,11vw,3.6rem)}.fomo-lab-top{padding:1.1rem}.fomo-industries{width:100%}.fomo-industries button{flex:1;min-width:90px;padding:.55rem .5rem}.fomo-compare-grid,.fomo-insights{grid-template-columns:1fr}.fomo-preview-body{min-height:0}.fomo-preview-better:before{top:3rem;right:.5rem;font-size:.49rem}.fomo-mock-photo{height:126px}.fomo-preview-footer{padding:1rem}.fomo-insights{gap:1.5rem}.fomo-lab-bottom{padding:1.1rem}.fomo-lab-bottom .button{width:100%;justify-content:space-between}.fomo-tier-controls{gap:.25rem}.fomo-tier-controls button{padding:.65rem .15rem}.fomo-tier-controls button b{font-size:.7rem}.fomo-economy-card{box-shadow:none}}
 @media(prefers-reduced-motion:reduce){.fomo-preview,.fomo-industries button{transition:none}}
+
+/* Prevent the existing highlighted route step from overhanging narrow viewports. */
+@media(max-width:640px){.route-flow .route-active{margin-inline:0}}
