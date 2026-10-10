@@ -92,3 +92,8 @@
 
 /* Prevent the existing highlighted route step from overhanging narrow viewports. */
 @media(max-width:640px){.route-flow .route-active{margin-inline:0}}
+
+/* Featured dark tariff card keeps explanatory text readable. */
+.package-featured .fomo-price-why{background:rgba(255,255,255,.065)}
+.package-featured .fomo-price-why span{color:#cbd8e1}
+.package-featured .fomo-price-why strong{color:#fff}
