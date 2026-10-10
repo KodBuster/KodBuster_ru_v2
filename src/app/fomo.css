@@ -97,3 +97,8 @@
 .package-featured .fomo-price-why{background:rgba(255,255,255,.065)}
 .package-featured .fomo-price-why span{color:#cbd8e1}
 .package-featured .fomo-price-why strong{color:#fff}
+
+/* Sales pilot: a compact, accessible audit-intake select. */
+.lead-field select{width:100%;min-height:52px;padding:.8rem 1rem;color:var(--ink);background:#f6f5f2;border:1px solid var(--line);border-radius:0;font:inherit;font-size:1rem}
+.lead-field select:focus-visible{outline:3px solid #54c9ff;outline-offset:2px}
+.lead-field input[maxlength="240"]{overflow-wrap:anywhere}
