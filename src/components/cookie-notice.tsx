@@ -34,9 +34,15 @@ export function CookieNotice() {
 
   useEffect(() => {
     const saved = window.localStorage.getItem(storageKey);
-    setChoice(saved);
-    setReady(true);
+    let cancelled = false;
+    // Update after effect setup to avoid a synchronous render cascade.
+    queueMicrotask(() => {
+      if (cancelled) return;
+      setChoice(saved);
+      setReady(true);
+    });
     if (saved === "accept") loadMetrika();
+    return () => { cancelled = true; };
   }, []);
 
   const choose = (value: "accept" | "decline") => {
