@@ -36,13 +36,20 @@ export function LeadForm() {
 
   useEffect(() => {
     const stored = readPackageChoice();
-    if (stored) setChosenPackage(stored);
+    let cancelled = false;
+    // Restore a remembered choice without updating state during effect setup.
+    if (stored) queueMicrotask(() => {
+      if (!cancelled) setChosenPackage(stored);
+    });
     const onChoice = (event: Event) => {
       const choice = packageChoice((event as CustomEvent<string>).detail);
       if (choice) setChosenPackage(choice);
     };
     window.addEventListener(PACKAGE_CHOICE_EVENT, onChoice);
-    return () => window.removeEventListener(PACKAGE_CHOICE_EVENT, onChoice);
+    return () => {
+      cancelled = true;
+      window.removeEventListener(PACKAGE_CHOICE_EVENT, onChoice);
+    };
   }, []);
 
   const markStart = () => {
