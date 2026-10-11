@@ -35,6 +35,9 @@ try {
   await page.evaluate(() => window.scrollTo(0, 0));
   await page.waitForTimeout(350);
   await page.screenshot({path:`${out}/01-desktop-hero.jpg`, type:"jpeg", quality:72});
+  // Section screenshots are taller than the viewport; hide the fixed header and
+  // keyboard skip-link only while capturing sections to avoid stitched duplicates.
+  await page.addStyleTag({content:".site-header,.skip-link{visibility:hidden!important;pointer-events:none!important}"});
   await capture(page, "#compare", "02-desktop-comparison.jpg");
   await capture(page, "#packages", "03-desktop-packages.jpg");
   await capture(page, "#contact", "04-desktop-contact.jpg");
@@ -46,6 +49,7 @@ try {
   if(await mdecline.isVisible().catch(()=>false)) await mdecline.click();
   await m.evaluate(() => window.scrollTo(0, 0));
   await m.screenshot({path:`${out}/05-mobile-hero.jpg`, type:"jpeg", quality:78});
+  await m.addStyleTag({content:".site-header,.skip-link{visibility:hidden!important;pointer-events:none!important}"});
   await capture(m, "#compare", "06-mobile-comparison.jpg", 65);
   await capture(m, "#contact", "07-mobile-contact.jpg", 65);
   console.log("Capture completed without touching production");
