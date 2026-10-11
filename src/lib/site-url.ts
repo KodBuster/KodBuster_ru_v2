@@ -1,6 +1,6 @@
 /** Полный публичный адрес сайта, включая base path GitHub Pages. */
 export function siteRoot() {
-  const raw = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://kodbuster.github.io/KodBuster_ru_v2/").trim();
+  const raw = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://kodbuster.ru/").trim();
   return raw.endsWith("/") ? raw : `${raw}/`;
 }
 
