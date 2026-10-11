@@ -1,6 +1,9 @@
 import Image from "next/image";
 import { ArrowUpRight, PhoneIcon } from "@/components/icons";
 import { LeadForm } from "@/components/lead-form";
+import { FomoComparison } from "@/components/fomo-comparison";
+import { FomoAudit } from "@/components/fomo-audit";
+import { PaybackCalculator } from "@/components/payback-calculator";
 import { PackageLayers } from "@/components/package-layers";
 import { PortfolioReel } from "@/components/portfolio-reel";
 import { SiteHeader } from "@/components/site-header";
@@ -28,6 +31,8 @@ export default function HomePage() {
         <StoryHero />
 
         <PortfolioReel />
+        <FomoComparison />
+        <FomoAudit />
 
         <section className="service-intro section-pad" id="services" aria-labelledby="services-title">
           <div className="container">
@@ -93,12 +98,14 @@ export default function HomePage() {
           </div>
         </section>
 
+        <PaybackCalculator />
+
         <section className="final-cta" id="contact" aria-labelledby="contact-title">
           <div className="container final-card">
             <div className="final-copy">
               <p className="section-kicker light"><i /> Старт проекта</p>
-              <h2 id="contact-title">Ваш следующий<br />клиент<br /><em>уже ищет вас.</em></h2>
-              <p>Расскажите, чем занимаетесь и что нужно запустить. Ответим по существу и предложим следующий шаг.</p>
+              <h2 id="contact-title">Клиент сравнивает.<br /><em>Покажем вашу силу.</em></h2>
+              <p>Расскажите, чем занимаетесь, и оставьте ссылку на сайт или Яндекс Карты. Начнём с предметного вопроса: что мешает клиенту выбрать вашу компанию?</p>
               <ul className="contact-list" aria-label="Другие способы связи">
                 {contacts.phone && contacts.phoneHref && (
                   <li><span>Позвонить</span><a href={contacts.phoneHref}><PhoneIcon />{contacts.phone}</a></li>
