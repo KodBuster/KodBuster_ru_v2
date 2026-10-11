@@ -49,5 +49,7 @@ jobs:
           git add docs/previews/
           if ! git diff --cached --quiet; then
             git commit -m "docs(preview): render actual branch screenshots [skip ci]"
+            git fetch origin feature/fomo-sales-next-6052b7e
+            git rebase origin/feature/fomo-sales-next-6052b7e
             git push origin HEAD:feature/fomo-sales-next-6052b7e
           fi
