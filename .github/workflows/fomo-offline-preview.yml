@@ -1,0 +1,102 @@
+name: Interactive FOMO review package (offline)
+on:
+  push:
+    branches: [feature/fomo-sales-next-6052b7e]
+    paths:
+      - ".github/workflows/fomo-offline-preview.yml"
+      - "scripts/preview/**"
+      - "src/**"
+      - "public/**"
+      - "next.config.ts"
+      - "package.json"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Build latest branch as a self-contained static site
+        run: npm run build
+        env:
+          NEXT_PUBLIC_BASE_PATH: ""
+          NEXT_PUBLIC_SITE_URL: "https://kodbuster.ru/"
+          NEXT_PUBLIC_YM_ID: ""
+          NEXT_PUBLIC_LEAD_ENDPOINT: "/api/lead.php"
+          NEXT_PUBLIC_MAX_URL: ""
+      - name: Package website and local launchers
+        run: |
+          set -euo pipefail
+          mkdir -p preview-package/site
+          cp -a out/. preview-package/site/
+          cp scripts/preview/serve-preview.ps1 scripts/preview/start-preview.bat scripts/preview/start-preview-macos-linux.sh scripts/preview/README-PREVIEW.txt preview-package/
+          test -s preview-package/site/index.html
+          test -s preview-package/site/packages/start/index.html
+          test -s preview-package/site/packages/rost/index.html
+          test -s preview-package/site/packages/sistema/index.html
+          test -s preview-package/site/demos/start/index.html
+          test -s preview-package/site/demos/rost/index.html
+          test -s preview-package/site/demos/sistema/index.html
+          test -s preview-package/start-preview.bat
+          test -s preview-package/serve-preview.ps1
+          echo "All seven main and demo routes exist in the export."
+          du -sh preview-package
+      - name: Upload interactive review kit
+        uses: actions/upload-artifact@v4
+        with:
+          name: kodbuster-fomo-next-interactive
+          path: preview-package/
+          retention-days: 30
+
+  verify-windows-launch:
+    needs: package
+    runs-on: windows-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: kodbuster-fomo-next-interactive
+          path: preview-package/
+      - name: Smoke test PowerShell launcher, pages, scripts and styles
+        shell: pwsh
+        run: |
+          $root = Join-Path $env:GITHUB_WORKSPACE 'preview-package'
+          $script = Join-Path $root 'serve-preview.ps1'
+          $args = @('-NoLogo','-NoProfile','-ExecutionPolicy','Bypass','-File',('"' + $script + '"'),'-NoBrowser')
+          $process = Start-Process -FilePath 'powershell.exe' -ArgumentList $args -PassThru -WindowStyle Hidden
+          try {
+            $running = $false
+            for($i=0; $i -lt 40; $i++) {
+              Start-Sleep -Milliseconds 350
+              try {
+                $response = Invoke-WebRequest -Uri 'http://127.0.0.1:8765/' -UseBasicParsing -TimeoutSec 2
+                if($response.StatusCode -eq 200) { $running = $true; break }
+              } catch {}
+            }
+            if(!$running) { throw 'Local preview server did not serve homepage on Windows.' }
+            foreach($route in @('/packages/start/', '/packages/rost/', '/packages/sistema/', '/demos/start/', '/demos/rost/', '/demos/sistema/')) {
+              $response = Invoke-WebRequest -Uri ('http://127.0.0.1:8765' + $route) -UseBasicParsing -TimeoutSec 12
+              if($response.StatusCode -ne 200) { throw ('Failed route: ' + $route) }
+            }
+            $request = [System.Net.HttpWebRequest][System.Net.WebRequest]::Create('http://127.0.0.1:8765/api/lead.php')
+            $request.Method = 'POST'
+            $request.ContentLength = 0
+            try { $request.GetResponse() | Out-Null; throw 'POST should be blocked' }
+            catch [System.Net.WebException] {
+              $response = $_.Exception.Response
+              if($null -eq $response -or [int]$response.StatusCode -ne 405) { throw 'Form POST not blocked with HTTP 405' }
+              $response.Close()
+            }
+            Write-Host 'Windows preview: homepage + 6 demo URLs OK, POST blocked.'
+          } finally {
+            Stop-Process -Id $process.Id -Force -ErrorAction SilentlyContinue
+          }
