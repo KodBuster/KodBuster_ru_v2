@@ -1,0 +1,53 @@
+name: Create FOMO screenshots (test branch only)
+on:
+  push:
+    branches: [feature/fomo-sales-v1]
+    paths:
+      - 'scripts/capture-fomo-preview.mjs'
+      - '.github/workflows/fomo-screenshots.yml'
+      - 'src/**'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: fomo-screenshots
+  cancel-in-progress: true
+
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - name: Build test branch (no deployment)
+        run: npm run build
+        env:
+          NEXT_PUBLIC_BASE_PATH: ''
+          NEXT_PUBLIC_SITE_URL: https://kodbuster.ru/
+      - name: Render real desktop/mobile design
+        run: node scripts/capture-fomo-preview.mjs
+      - name: Upload screenshots for reviewer
+        uses: actions/upload-artifact@v4
+        with:
+          name: kodbuster-fomo-screenshots
+          path: docs/previews/*.jpg
+          retention-days: 14
+      - name: Save snapshots only on feature branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/previews/
+          if ! git diff --cached --quiet; then
+            git commit -m "docs(preview): render actual branch screenshots [skip ci]"
+            git push origin HEAD:feature/fomo-sales-v1
+          fi
