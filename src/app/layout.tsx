@@ -3,6 +3,7 @@ import { ContactFab } from "@/components/contact-fab";
 import { CookieNotice } from "@/components/cookie-notice";
 import { pageUrl, siteRoot } from "@/lib/site-url";
 import "./globals.css";
+import "./fomo.css";
 
 const description = "Продающие сайты для локального бизнеса. Старт — 70 000 ₽, Рост — 120 000 ₽, Система — 170 000 ₽. Заявка приходит в Telegram или MAX.";
 
