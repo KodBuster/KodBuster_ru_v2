@@ -1,6 +1,9 @@
 import Image from "next/image";
 import { ArrowUpRight, PhoneIcon } from "@/components/icons";
 import { LeadForm } from "@/components/lead-form";
+import { FomoComparison } from "@/components/fomo-comparison";
+import { FomoAudit } from "@/components/fomo-audit";
+import { PaybackCalculator } from "@/components/payback-calculator";
 import { PackageChoiceButton } from "@/components/package-choice";
 import { PortfolioReel } from "@/components/portfolio-reel";
 import { SiteHeader } from "@/components/site-header";
@@ -25,7 +28,9 @@ export default function HomePage() {
       <main id="content">
         <StoryHero />
 
+        <FomoComparison />
         <PortfolioReel />
+        <FomoAudit />
 
         <section className="service-intro section-pad" id="services" aria-labelledby="services-title">
           <div className="container">
@@ -88,7 +93,7 @@ export default function HomePage() {
                     <div className="package-top">
                       <div className="package-tags">
                         <span className="package-label">{item.label}</span>
-                        {featured && <span className="package-badge">Чаще выбирают</span>}
+                        {featured && <span className="package-badge">Для развития рекламы</span>}
                       </div>
                       <h3>{item.title}</h3>
                       <p>{item.text}</p>
@@ -100,6 +105,7 @@ export default function HomePage() {
                     </div>
                     <ul>{item.items.map((feature) => <li key={feature}><span aria-hidden="true">✓</span>{feature}</li>)}</ul>
                     <p className="package-note">{item.note}</p>
+                    <div className="fomo-price-why"><span><strong>Когда выбирать:</strong> {item.label === "Старт" ? "Когда компании нужно достойно представить себя онлайн." : item.label === "Рост" ? "Когда важно аргументировать выбор и измерять обращения." : "Когда ключевые направления требуют отдельных страниц."}</span></div>
                     <PackageChoiceButton label={item.label} className={featured ? "button-primary" : "button-outline"} />
                   </article>
                 );
@@ -114,12 +120,14 @@ export default function HomePage() {
           </div>
         </section>
 
+        <PaybackCalculator />
+
         <section className="final-cta" id="contact" aria-labelledby="contact-title">
           <div className="container final-card">
             <div className="final-copy">
               <p className="section-kicker light"><i /> Старт проекта</p>
-              <h2 id="contact-title">Ваш следующий клиент<br /><em>уже ищет вас.</em></h2>
-              <p>Расскажите, чем занимаетесь и что нужно запустить. Ответим по существу и предложим следующий шаг.</p>
+              <h2 id="contact-title">Клиент сравнивает.<br /><em>Покажем вашу силу.</em></h2>
+              <p>Расскажите, чем занимаетесь, и пришлите ссылку на сайт, если он есть. Начнём с вопроса: что посетителю мешает выбрать вашу компанию?</p>
               <ul className="contact-list" aria-label="Другие способы связи">
                 {contacts.phone && contacts.phoneHref && (
                   <li><span>Позвонить</span><a href={contacts.phoneHref}><PhoneIcon />{contacts.phone}</a></li>

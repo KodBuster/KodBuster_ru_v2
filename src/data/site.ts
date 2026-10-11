@@ -1,4 +1,6 @@
 export const navigation = [
+  { label: "Сравнение", href: "#compare" },
+  { label: "Разбор", href: "#audit" },
   { label: "Услуги", href: "#services" },
   { label: "Как работаем", href: "#process" },
   { label: "Кейсы", href: "#cases" },

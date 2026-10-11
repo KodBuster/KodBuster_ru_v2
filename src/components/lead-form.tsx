@@ -28,6 +28,8 @@ export function LeadForm() {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [comment, setComment] = useState("");
+  const [businessType, setBusinessType] = useState("");
+  const [businessLink, setBusinessLink] = useState("");
   const [consent, setConsent] = useState(false);
   const [website, setWebsite] = useState("");
   const [chosenPackage, setChosenPackage] = useState<PackageChoice | null>(null);
@@ -36,29 +38,46 @@ export function LeadForm() {
 
   useEffect(() => {
     const stored = readPackageChoice();
-    if (stored) setChosenPackage(stored);
+    let cancelled = false;
+    // Restore a remembered choice without updating state during effect setup.
+    if (stored) queueMicrotask(() => {
+      if (!cancelled) setChosenPackage(stored);
+    });
     const onChoice = (event: Event) => {
       const choice = packageChoice((event as CustomEvent<string>).detail);
       if (choice) setChosenPackage(choice);
     };
     window.addEventListener(PACKAGE_CHOICE_EVENT, onChoice);
-    return () => window.removeEventListener(PACKAGE_CHOICE_EVENT, onChoice);
+    return () => {
+      cancelled = true;
+      window.removeEventListener(PACKAGE_CHOICE_EVENT, onChoice);
+    };
   }, []);
 
   const markStart = () => {
     if (startedAt.current) return;
     startedAt.current = Date.now();
     reachGoal("form_start");
+    if (!chosenPackage) reachGoal("audit_form_start");
   };
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (status === "sending") return;
 
+    // The current lead.php accepts only one comment field. Keep its schema intact.
+    // Never send form contents to analytics; include business context only in the lead.
+    const leadDetails = [
+      chosenPackage ? "Обращение: обсуждение тарифа" : "Обращение: предварительный разбор бизнеса",
+      businessType ? `Направление: ${businessType}` : null,
+      businessLink.trim() ? `Сайт/Яндекс Карты: ${businessLink.trim()}` : null,
+      comment.trim() ? `Задача: ${comment.trim()}` : null,
+    ].filter(Boolean).join("\n");
+
     const payload = {
       name: name.trim(),
       phone: `+${phoneDigits(phone)}`,
-      comment: comment.trim(),
+      comment: leadDetails,
       consent,
       website,
       form_started_at: startedAt.current,
@@ -91,6 +110,7 @@ export function LeadForm() {
       }
       setStatus("success");
       reachGoal("lead_submit");
+      reachGoal(chosenPackage ? "package_lead_submit" : "audit_request_submit");
     } catch {
       setError(fallbackError);
       setStatus("idle");
@@ -101,8 +121,8 @@ export function LeadForm() {
     return (
       <div className="lead-card lead-success" role="status" aria-live="polite">
         <span className="lead-success-icon"><CheckIcon /></span>
-        <h3>Заявка отправлена</h3>
-        <p>{name.trim()}, мы получили ваш номер {formatPhone(phone)}{chosenPackage ? ` и пакет «${chosenPackage}»` : ""}. Свяжемся с вами в рабочее время.</p>
+        <h3>Обращение отправлено</h3>
+        <p>{name.trim()}, мы получили ваше обращение и номер {formatPhone(phone)}{chosenPackage ? ` по пакету «${chosenPackage}»` : ""}. Уточним задачу и согласуем следующий шаг в рабочее время.</p>
         <p className="lead-success-hint">Если удобнее написать самим:</p>
         <div className="lead-messengers">
           <a href={contacts.telegramUrl} target="_blank" rel="noreferrer">Telegram <ArrowUpRight /></a>
@@ -114,8 +134,8 @@ export function LeadForm() {
 
   return (
     <form className="lead-card" onSubmit={onSubmit} onFocusCapture={markStart} onPointerDownCapture={markStart} noValidate aria-labelledby={`${id}-title`}>
-      <h3 id={`${id}-title`}>Оставить заявку</h3>
-      <p className="lead-intro">Имя и телефон. Перезвоним или напишем — как вам удобнее.</p>
+      <h3 id={`${id}-title`}>{chosenPackage ? "Обсудить пакет" : "Запросить предварительный разбор"}</h3>
+      <p className="lead-intro">Укажите направление и сайт, если есть. Мы сначала уточним задачу и согласуем формат разбора; не обещаем аудит до разговора.</p>
       {chosenPackage && <p className="lead-choice">Пакет: «{chosenPackage}»</p>}
 
       <div className="lead-field">
@@ -148,13 +168,43 @@ export function LeadForm() {
       </div>
 
       <div className="lead-field">
-        <label htmlFor={`${id}-comment`}>Чем занимаетесь <span>необязательно</span></label>
+        <label htmlFor={`${id}-business-type`}>Направление бизнеса <span>необязательно</span></label>
+        <select
+          id={`${id}-business-type`}
+          name="businessType"
+          value={businessType}
+          onChange={(event) => { markStart(); setBusinessType(event.target.value); }}
+        >
+          <option value="">Выберите направление</option>
+          <option value="Детейлинг / автосервис">Детейлинг / автосервис</option>
+          <option value="Косметология / клиника">Косметология / клиника</option>
+          <option value="Ремонт / строительство">Ремонт / строительство</option>
+          <option value="Другая сфера">Другая сфера</option>
+        </select>
+      </div>
+
+      <div className="lead-field">
+        <label htmlFor={`${id}-business-link`}>Сайт или Яндекс Карты <span>необязательно</span></label>
+        <input
+          id={`${id}-business-link`}
+          name="businessLink"
+          type="text"
+          autoComplete="url"
+          maxLength={240}
+          placeholder="Ссылка на сайт, карточку или «сайта нет»"
+          value={businessLink}
+          onChange={(event) => { markStart(); setBusinessLink(event.target.value); }}
+        />
+      </div>
+
+      <div className="lead-field">
+        <label htmlFor={`${id}-comment`}>Что хотите улучшить <span>необязательно</span></label>
         <textarea
           id={`${id}-comment`}
           name="comment"
           rows={3}
-          maxLength={1000}
-          placeholder="Например: детейлинг в Подольске, сайта нет"
+          maxLength={550}
+          placeholder="Например: мало обращений с Карт, сложно объяснить различия услуг"
           value={comment}
           onChange={(event) => { markStart(); setComment(event.target.value); }}
         />
@@ -167,15 +217,15 @@ export function LeadForm() {
 
       <label className="lead-consent">
         <input type="checkbox" name="consent" checked={consent} onChange={(event) => { markStart(); setConsent(event.target.checked); }} required />
-        <span>Соглашаюсь на обработку имени, телефона и комментария, чтобы KodBuster связался со мной по заявке, в том числе через Telegram и MAX. Подробности — в <a href={`${basePath}/privacy/`}>политике конфиденциальности</a></span>
+        <span>Соглашаюсь на обработку имени, телефона и предоставленной информации о бизнесе, чтобы KodBuster связался со мной по обращению, в том числе через Telegram и MAX. Подробности — в <a href={`${basePath}/privacy/`}>политике конфиденциальности</a></span>
       </label>
 
       {error && <p className="lead-error" role="alert">{error}</p>}
 
       <button className={`button button-primary lead-submit${status === "sending" ? " is-sending" : ""}`} type="submit" disabled={!consent || status === "sending"}>
-        <span>{status === "sending" ? "Отправляем…" : "Отправить заявку"}</span><ArrowUpRight />
+        <span>{status === "sending" ? "Отправляем…" : chosenPackage ? "Обсудить выбранный пакет" : "Запросить разбор"}</span><ArrowUpRight />
       </button>
-      <p className="lead-note">Заявка приходит нам в Telegram и MAX — так же, как будет у вас.</p>
+      <p className="lead-note">Это запрос на уточнение задачи, не запись на платную услугу и не обещание бесплатного подробного аудита. Также можно написать в Telegram.</p>
     </form>
   );
 }
