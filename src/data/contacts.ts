@@ -2,7 +2,8 @@ const clean = (value: string | undefined) => (value ?? "").trim();
 
 const phone = clean(process.env.NEXT_PUBLIC_PHONE) || "+7 (993) 365-43-30";
 const telegramUrl = clean(process.env.NEXT_PUBLIC_TELEGRAM_URL) || "https://t.me/kodbuster";
-const maxUrl = clean(process.env.NEXT_PUBLIC_MAX_URL) || "https://max.ru/u/test";
+// Never show a test messenger address as a real sales channel.
+const maxUrl = clean(process.env.NEXT_PUBLIC_MAX_URL);
 const leadEndpoint = clean(process.env.NEXT_PUBLIC_LEAD_ENDPOINT) || "/api/lead.php";
 
 /**
