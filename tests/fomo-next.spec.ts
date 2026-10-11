@@ -85,6 +85,8 @@ test("refreshed tariffs and demo routes remain visible", async ({ page }) => {
   await expect(pkg.locator('a[href="/packages/sistema/"]')).toBeVisible();
   await page.goto("/packages/rost/");
   await expect(page.locator("iframe")).toHaveAttribute("src", "/demos/rost/");
+  await page.goto("/packages/start/");
+  await expect(page.getByText("показатели компании в этом демо — демонстрационные", { exact: false })).toBeVisible();
 });
 
 test("canonical and messenger URLs avoid old staging placeholders", async ({ page }) => {
