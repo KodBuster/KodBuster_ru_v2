@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useId, useRef, useState, type FormEvent } from "react";
+import { useId, useRef, useState, useSyncExternalStore, type FormEvent } from "react";
 import { ArrowUpRight, CheckIcon } from "@/components/icons";
 import { PACKAGE_CHOICE_EVENT, readPackageChoice } from "@/components/package-choice";
 import { contacts } from "@/data/contacts";
-import { formatPhone, packageChoice, phoneDigits, validateLead, type PackageChoice } from "@/lib/lead-validation";
+import { formatPhone, phoneDigits, validateLead } from "@/lib/lead-validation";
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 const fallbackError = "Не удалось отправить заявку. Напишите нам в мессенджер или позвоните.";
@@ -15,6 +15,11 @@ declare global {
   interface Window {
     ym?: ((id: number, action: string, ...args: unknown[]) => void) & { a?: unknown[]; l?: number };
   }
+}
+
+function subscribeToPackage(onChange: () => void) {
+  window.addEventListener(PACKAGE_CHOICE_EVENT, onChange);
+  return () => window.removeEventListener(PACKAGE_CHOICE_EVENT, onChange);
 }
 
 function reachGoal(goal: string) {
@@ -30,20 +35,9 @@ export function LeadForm() {
   const [comment, setComment] = useState("");
   const [consent, setConsent] = useState(false);
   const [website, setWebsite] = useState("");
-  const [chosenPackage, setChosenPackage] = useState<PackageChoice | null>(null);
+  const chosenPackage = useSyncExternalStore(subscribeToPackage, readPackageChoice, () => null);
   const [error, setError] = useState<string | null>(null);
   const [status, setStatus] = useState<Status>("idle");
-
-  useEffect(() => {
-    const stored = readPackageChoice();
-    if (stored) setChosenPackage(stored);
-    const onChoice = (event: Event) => {
-      const choice = packageChoice((event as CustomEvent<string>).detail);
-      if (choice) setChosenPackage(choice);
-    };
-    window.addEventListener(PACKAGE_CHOICE_EVENT, onChoice);
-    return () => window.removeEventListener(PACKAGE_CHOICE_EVENT, onChoice);
-  }, []);
 
   const markStart = () => {
     if (startedAt.current) return;

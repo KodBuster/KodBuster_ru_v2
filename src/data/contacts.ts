@@ -1,14 +1,14 @@
 const clean = (value: string | undefined) => (value ?? "").trim();
 
-const phone = clean(process.env.NEXT_PUBLIC_PHONE);
+const phone = clean(process.env.NEXT_PUBLIC_PHONE) || "+7 (993) 365-43-30";
 const telegramUrl = clean(process.env.NEXT_PUBLIC_TELEGRAM_URL) || "https://t.me/kodbuster";
-const maxUrl = clean(process.env.NEXT_PUBLIC_MAX_URL);
-const leadEndpoint = clean(process.env.NEXT_PUBLIC_LEAD_ENDPOINT);
+const maxUrl = clean(process.env.NEXT_PUBLIC_MAX_URL) || "https://max.ru/u/test";
+const leadEndpoint = clean(process.env.NEXT_PUBLIC_LEAD_ENDPOINT) || "/api/lead.php";
 
 /**
- * Контакты студии. Значения приходят из переменных окружения на этапе сборки,
- * чтобы в репозитории не было выдуманных номеров и ссылок.
- * Пустое значение означает, что канал не показывается на сайте.
+ * Контакты студии. Переменные окружения подставляются при сборке.
+ * Если переменная пустая, остаётся публичное значение по умолчанию.
+ * Адрес формы по умолчанию — /api/lead.php на том же домене (хостинг с PHP).
  */
 export const contacts = {
   phone: phone || null,
@@ -19,4 +19,6 @@ export const contacts = {
   leadEndpoint: leadEndpoint || null,
 } as const;
 
-export const contactAnchor = "#contact";
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+/** Ведёт на форму заявки с любой страницы, не только с главной. */
+export const contactAnchor = `${basePath}/#contact`;

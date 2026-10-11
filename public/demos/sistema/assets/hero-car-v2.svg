@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1800 1100" role="img" aria-labelledby="title desc">
+<title id="title">Тёмный премиальный автомобиль в детейлинг-студии</title>
+<desc id="desc">Стилизованная детализированная сцена для демонстрационного сайта детейлинг-центра.</desc>
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#070909"/><stop offset=".5" stop-color="#111817"/><stop offset="1" stop-color="#050606"/></linearGradient>
+  <radialGradient id="ceiling" cx="66%" cy="10%" r="64%"><stop stop-color="#d6ffe0" stop-opacity=".18"/><stop offset=".45" stop-color="#b7ff5a" stop-opacity=".04"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient>
+  <linearGradient id="floor" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#171c1b"/><stop offset="1" stop-color="#050606"/></linearGradient>
+  <linearGradient id="body" x1=".12" y1="0" x2=".94" y2="1"><stop stop-color="#8b9996"/><stop offset=".06" stop-color="#3d4745"/><stop offset=".24" stop-color="#111514"/><stop offset=".55" stop-color="#070909"/><stop offset=".78" stop-color="#2e3735"/><stop offset="1" stop-color="#090b0a"/></linearGradient>
+  <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#bfd3ce" stop-opacity=".46"/><stop offset=".28" stop-color="#53615e" stop-opacity=".62"/><stop offset=".8" stop-color="#111716" stop-opacity=".96"/><stop offset="1" stop-color="#070909"/></linearGradient>
+  <radialGradient id="rim"><stop stop-color="#aeb8b5"/><stop offset=".14" stop-color="#2a302f"/><stop offset=".62" stop-color="#0b0d0d"/><stop offset="1" stop-color="#020303"/></radialGradient>
+  <filter id="blur40"><feGaussianBlur stdDeviation="40"/></filter>
+  <filter id="blur18"><feGaussianBlur stdDeviation="18"/></filter>
+  <filter id="glow"><feGaussianBlur stdDeviation="7" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  <filter id="soft"><feGaussianBlur stdDeviation="2.2"/></filter>
+  <pattern id="grid" width="140" height="140" patternUnits="userSpaceOnUse"><path d="M140 0H0V140" fill="none" stroke="#b9c9c5" stroke-opacity=".055" stroke-width="1"/></pattern>
+</defs>
+<rect width="1800" height="1100" fill="url(#bg)"/>
+<rect width="1800" height="790" fill="url(#grid)"/>
+<rect width="1800" height="790" fill="url(#ceiling)"/>
+<g opacity=".54">
+  <rect x="105" y="102" width="360" height="16" rx="8" fill="#e8f0ed"/><rect x="600" y="102" width="360" height="16" rx="8" fill="#e8f0ed"/><rect x="1095" y="102" width="360" height="16" rx="8" fill="#e8f0ed"/>
+  <rect x="105" y="102" width="360" height="16" rx="8" fill="#dfffff" filter="url(#glow)" opacity=".42"/><rect x="600" y="102" width="360" height="16" rx="8" fill="#dfffff" filter="url(#glow)" opacity=".42"/><rect x="1095" y="102" width="360" height="16" rx="8" fill="#dfffff" filter="url(#glow)" opacity=".42"/>
+</g>
+<path d="M0 790h1800v310H0z" fill="url(#floor)"/>
+<ellipse cx="1100" cy="880" rx="680" ry="105" fill="#000" opacity=".78" filter="url(#blur40)"/>
+<ellipse cx="1240" cy="790" rx="500" ry="300" fill="#caff3e" opacity=".06" filter="url(#blur40)"/>
+<g transform="translate(110 130)">
+  <path d="M235 595c45-105 110-194 205-256 111-72 248-110 409-116 182-7 330 35 462 122 115 75 191 178 239 307 21 57 15 109-18 145-37 41-101 55-190 55H456c-120 0-201-26-239-76-36-48-30-109 18-181z" fill="url(#body)" stroke="#a3b0ad" stroke-opacity=".21" stroke-width="3"/>
+  <path d="M462 340c109-84 228-126 374-128 167-3 303 42 434 137l126 205H348l114-214z" fill="#0b0f0e"/>
+  <path d="M500 356c98-67 205-99 336-100 139-1 256 34 367 105l91 150H417l83-155z" fill="url(#glass)" stroke="#bed1cc" stroke-opacity=".16" stroke-width="3"/>
+  <path d="M837 256l13 254" stroke="#9eaaa7" stroke-opacity=".25" stroke-width="5"/>
+  <path d="M423 536c282-45 657-44 986 5" fill="none" stroke="#f5ffff" stroke-opacity=".16" stroke-width="12" stroke-linecap="round"/>
+  <path d="M505 408c251-131 597-130 817 6" fill="none" stroke="#ffffff" stroke-opacity=".2" stroke-width="10" stroke-linecap="round"/>
+  <path d="M470 471c163-60 331-81 508-70" fill="none" stroke="#dfffff" stroke-opacity=".12" stroke-width="6" stroke-linecap="round"/>
+  <path d="M1035 401c132 19 245 56 343 123" fill="none" stroke="#caff3e" stroke-opacity=".11" stroke-width="7" stroke-linecap="round"/>
+  <path d="M291 634c172-55 385-75 606-75 263 0 460 22 595 68" fill="none" stroke="#8a9995" stroke-opacity=".24" stroke-width="4"/>
+  <path d="M1202 552c107 13 190 36 256 76l-19 68c-69-15-137-18-224-11" fill="#090c0b"/>
+  <path d="M1247 564c88 11 151 28 202 58" fill="none" stroke="#caff3e" stroke-width="13" stroke-linecap="round" filter="url(#glow)"/>
+  <path d="M305 589c56-16 110-22 174-18" fill="none" stroke="#f2f7f5" stroke-width="13" stroke-linecap="round" filter="url(#glow)" opacity=".8"/>
+  <path d="M559 690h610" stroke="#a4b0ad" stroke-opacity=".16" stroke-width="3"/>
+  <g transform="translate(456 685)">
+    <circle r="126" fill="url(#rim)"/><circle r="78" fill="#080b0a" stroke="#65706d" stroke-width="8"/><circle r="27" fill="#b3bdb9"/>
+    <g stroke="#818b88" stroke-width="11" stroke-linecap="round"><path d="M0-61V61"/><path d="M-61 0H61"/><path d="M-43-43L43 43"/><path d="M43-43L-43 43"/></g>
+  </g>
+  <g transform="translate(1252 685)">
+    <circle r="126" fill="url(#rim)"/><circle r="78" fill="#080b0a" stroke="#65706d" stroke-width="8"/><circle r="27" fill="#b3bdb9"/>
+    <g stroke="#818b88" stroke-width="11" stroke-linecap="round"><path d="M0-61V61"/><path d="M-61 0H61"/><path d="M-43-43L43 43"/><path d="M43-43L-43 43"/></g>
+  </g>
+  <path d="M368 772c260 49 775 47 1016-6" fill="none" stroke="#eaf1ef" stroke-opacity=".08" stroke-width="5"/>
+</g>
+<g opacity=".55" filter="url(#soft)"><path d="M770 944h440" stroke="#caff3e" stroke-opacity=".3" stroke-width="2"/><path d="M832 958h316" stroke="#eaffbc" stroke-opacity=".16" stroke-width="2"/></g>
+<g font-family="Arial, sans-serif" fill="#cbd6d2" opacity=".35"><text x="105" y="720" font-size="18" letter-spacing="5">STUDIO 01 / PAINT CORRECTION</text><text x="1395" y="745" font-size="14" letter-spacing="4">LIGHT CHECK</text></g>
+</svg>

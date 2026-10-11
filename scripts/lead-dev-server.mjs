@@ -106,11 +106,11 @@ createServer(async (req, res) => {
   const digits = phoneDigits(payload.phone);
   const pretty = `+7 (${digits.slice(1, 4)}) ${digits.slice(4, 7)}-${digits.slice(7, 9)}-${digits.slice(9, 11)}`;
   const packages = new Set(["Старт", "Рост", "Система"]);
-  const lines = [`Новая заявка с сайта «${SITE_NAME}»`, "", `Имя: ${String(payload.name).trim()}`, `Телефон: ${pretty}`];
-  if (packages.has(payload.package)) lines.push(`Пакет: «${payload.package}»`);
-  if (payload.comment?.trim()) lines.push(`Комментарий: ${payload.comment.trim()}`);
-  if (payload.page) lines.push(`Страница: ${payload.page}`);
-  lines.push(`Время: ${new Date().toLocaleString("ru-RU")}`);
+  const lines = [`📩 Новая заявка с сайта «${SITE_NAME}»`, "", `👤 Имя: ${String(payload.name).trim()}`, `📞 Телефон: ${pretty}`];
+  if (packages.has(payload.package)) lines.push(`📦 Пакет: «${payload.package}»`);
+  if (payload.comment?.trim()) lines.push(`💬 Комментарий: ${payload.comment.trim()}`);
+  if (payload.page) lines.push(`🔗 Страница: ${payload.page}`);
+  lines.push(`🕒 Время: ${new Date().toLocaleString("ru-RU")}`);
 
   const ok = await deliver(lines.join("\n"));
   if (!ok) return respond(res, 502, { ok: false, error: "Не удалось доставить заявку. Попробуйте позже или напишите нам в мессенджер." });

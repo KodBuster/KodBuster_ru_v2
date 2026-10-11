@@ -7,6 +7,19 @@ import { contactAnchor } from "@/data/contacts";
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
+const heroTitle = (
+  <>
+    Не просто сайт.
+    <br className="hero-title-break" />
+    {" "}Система{" "}
+    <em>
+      привлечения
+      <br className="hero-title-break" />
+      {" "}клиентов.
+    </em>
+  </>
+);
+
 const scenes = [
   {
     number: "01",
@@ -14,7 +27,7 @@ const scenes = [
     meta: "Поиск · Карты · Нейросети",
     copy: "Помогаем поиску, картам и нейросетям правильно понять, кому и чем полезен ваш бизнес.",
     image: "/images/new_hero_1.png",
-    alt: "Владелица ветеринарной клиники обсуждает расписание с администратором",
+    alt: "Мастер детейлинга полирует капот чёрного автомобиля",
   },
   {
     number: "02",
@@ -22,7 +35,7 @@ const scenes = [
     meta: "Структура · Работы · Цены",
     copy: "Человек видит ваш подход, примеры и условия — и понимает, почему стоит обратиться именно к вам.",
     image: "/images/new_hero_2.png",
-    alt: "Владелица косметологической клиники обсуждает обращения с управляющей",
+    alt: "Косметолог показывает клиентке план процедуры на планшете",
   },
   {
     number: "03",
@@ -30,7 +43,7 @@ const scenes = [
     meta: "Заявка · Telegram · MAX",
     copy: "Клиент оставляет контакты, а собственник получает уведомление прямо на смартфон.",
     image: "/images/new_hero_3.png",
-    alt: "Собственник автоцентра проверяет новые обращения вместе с мастером-приёмщиком",
+    alt: "Дизайнер интерьера обсуждает с клиенткой план ремонта и образцы материалов",
   },
 ] as const;
 
@@ -62,7 +75,7 @@ export function StoryHero() {
       const rect = section.getBoundingClientRect();
       const travel = Math.max(1, section.offsetHeight - window.innerHeight);
       const progress = Math.min(1, Math.max(0, -rect.top / travel));
-      const next = progress < 0.14 ? -1 : progress < 0.4 ? 0 : progress < 0.7 ? 1 : 2;
+      const next = progress < 0.12 ? -1 : progress < 0.38 ? 0 : progress < 0.68 ? 1 : 2;
       setActiveScene((current) => current === next ? current : next);
     };
 
@@ -84,7 +97,7 @@ export function StoryHero() {
 
   return (
     <>
-      <section className="story-hero story-desktop" id="top" ref={sectionRef} aria-labelledby="hero-title">
+      <section className="story-hero story-desktop" ref={sectionRef} aria-labelledby="hero-title">
         <div className="story-sticky">
           <div className="story-panels" data-active={activeScene}>
             {scenes.map((scene, index) => (
@@ -107,7 +120,7 @@ export function StoryHero() {
           </div>
 
           <div className="story-intro" data-hidden={activeScene !== -1}>
-            <h1 id="hero-title">Не просто сайт. Система <em>привлечения клиентов.</em></h1>
+            <h1 id="hero-title">{heroTitle}</h1>
             <div className="story-intro-bottom">
               <div>
                 <p className="story-kicker">Сайты для реального бизнеса</p>
@@ -156,14 +169,14 @@ export function StoryHero() {
 
             {index === 0 ? (
               <div className="mobile-story-content mobile-story-intro">
-                <h1>Не просто сайт. Система <em>привлечения клиентов.</em></h1>
+                <h1>{heroTitle}</h1>
                 <p className="story-kicker">Сайты для реального бизнеса</p>
                 <p>Показываем ценность бизнеса и передаём новую заявку прямо на смартфон.</p>
                 <PrimaryLink />
               </div>
             ) : (
               <div className="mobile-story-content">
-                <p className="mobile-story-lockup">Разные бизнесы · Одна цель</p>
+                <p className="mobile-story-lockup">Не просто сайт · Система</p>
                 <h2>{scene.title}</h2>
                 <p className="story-kicker">{scene.meta}</p>
                 <p>{scene.copy}</p>

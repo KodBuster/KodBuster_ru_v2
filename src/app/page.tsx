@@ -1,13 +1,14 @@
 import Image from "next/image";
 import { ArrowUpRight, PhoneIcon } from "@/components/icons";
 import { LeadForm } from "@/components/lead-form";
-import { PackageChoiceButton } from "@/components/package-choice";
+import { PackageLayers } from "@/components/package-layers";
 import { PortfolioReel } from "@/components/portfolio-reel";
 import { SiteHeader } from "@/components/site-header";
 import { StoryHero } from "@/components/story-hero";
+import { TarifStartAnchor } from "@/components/tarif-start-anchor";
 import { contactAnchor, contacts } from "@/data/contacts";
 import { JsonLd } from "@/components/json-ld";
-import { packages, packageTerms, processSteps, services } from "@/data/site";
+import { packageTerms, processSteps, services } from "@/data/site";
 import { homeJsonLd } from "@/lib/json-ld";
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
@@ -23,6 +24,7 @@ export default function HomePage() {
       <a className="skip-link" href="#content">Перейти к содержанию</a>
       <SiteHeader />
       <main id="content">
+        <div id="top" className="page-top" tabIndex={-1} />
         <StoryHero />
 
         <PortfolioReel />
@@ -77,34 +79,11 @@ export default function HomePage() {
         <section className="packages section-pad" id="packages" aria-labelledby="packages-title">
           <div className="container">
             <div className="section-heading heading-split">
-              <div><p className="section-kicker"><i /> Пакеты и цены</p><h2 id="packages-title">Три пакета.<br />Одна задача — заявка.</h2></div>
-              <p>Не конструктор и не шаблон за пять тысяч: своя страница и тексты, домен и хостинг оформлены на вас, заявки доходят до телефона. Цены фиксированные, без «от».</p>
+              <div><p className="section-kicker"><i /> Пакеты и цены</p><h2 id="packages-title">Выберите формат сайта<br />под вашу задачу</h2></div>
+              <p>Не конструктор и не шаблон: своя страница, тексты, домен и хостинг оформлены на вас, заявки доходят до телефона. Цены фиксированные, без «от».</p>
             </div>
-            <div className="package-grid">
-              {packages.map((item) => {
-                const featured = "featured" in item && item.featured;
-                return (
-                  <article className={`package-card ${featured ? "package-featured" : ""}`} key={item.label}>
-                    <div className="package-top">
-                      <div className="package-tags">
-                        <span className="package-label">{item.label}</span>
-                        {featured && <span className="package-badge">Чаще выбирают</span>}
-                      </div>
-                      <h3>{item.title}</h3>
-                      <p>{item.text}</p>
-                    </div>
-                    <div className="package-price">
-                      <strong>{item.price}</strong>
-                      <small><b>{item.fastPrice}</b> при быстрой предоплате</small>
-                      <span className="package-term">Срок — {item.term}</span>
-                    </div>
-                    <ul>{item.items.map((feature) => <li key={feature}><span aria-hidden="true">✓</span>{feature}</li>)}</ul>
-                    <p className="package-note">{item.note}</p>
-                    <PackageChoiceButton label={item.label} className={featured ? "button-primary" : "button-outline"} />
-                  </article>
-                );
-              })}
-            </div>
+            <PackageLayers />
+            <TarifStartAnchor />
             <dl className="package-terms">
               {packageTerms.map((term) => (
                 <div key={term.title}><dt>{term.title}</dt><dd>{term.text}</dd></div>
@@ -118,7 +97,7 @@ export default function HomePage() {
           <div className="container final-card">
             <div className="final-copy">
               <p className="section-kicker light"><i /> Старт проекта</p>
-              <h2 id="contact-title">Ваш следующий клиент<br /><em>уже ищет вас.</em></h2>
+              <h2 id="contact-title">Ваш следующий<br />клиент<br /><em>уже ищет вас.</em></h2>
               <p>Расскажите, чем занимаетесь и что нужно запустить. Ответим по существу и предложим следующий шаг.</p>
               <ul className="contact-list" aria-label="Другие способы связи">
                 {contacts.phone && contacts.phoneHref && (

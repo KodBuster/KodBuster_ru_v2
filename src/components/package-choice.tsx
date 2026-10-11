@@ -1,5 +1,6 @@
 "use client";
 
+import type { ReactNode } from "react";
 import { ArrowUpRight } from "@/components/icons";
 import { contactAnchor } from "@/data/contacts";
 import { packageChoice, type PackageChoice } from "@/lib/lead-validation";
@@ -19,11 +20,23 @@ export function publishPackageChoice(label: string) {
   window.dispatchEvent(new CustomEvent<PackageChoice>(PACKAGE_CHOICE_EVENT, { detail: choice }));
 }
 
-export function PackageChoiceButton({ label, className = "" }: { label: string; className?: string }) {
+export function PackageChoiceButton({
+  label,
+  className = "button button-outline",
+  children,
+}: {
+  label: string;
+  className?: string;
+  children?: ReactNode;
+}) {
   return (
-    <a className={`button ${className}`} href={contactAnchor} onClick={() => publishPackageChoice(label)}>
-      <span>Выбрать «{label}»</span>
-      <ArrowUpRight />
+    <a className={className} href={contactAnchor} onClick={() => publishPackageChoice(label)}>
+      {children ?? (
+        <>
+          <span>Выбрать «{label}»</span>
+          <ArrowUpRight />
+        </>
+      )}
     </a>
   );
 }

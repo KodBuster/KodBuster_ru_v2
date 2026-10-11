@@ -18,7 +18,19 @@ export function SiteHeader() {
   return (
     <header className="site-header">
       <div className="header-inner">
-        <a className="brand" href="#top" aria-label="KodBuster — на главную">
+        <a
+          className="brand"
+          href="#top"
+          aria-label="KodBuster — на главную"
+          onClick={(event) => {
+            event.preventDefault();
+            setOpen(false);
+            window.scrollTo({ top: 0, behavior: "smooth" });
+            if (window.location.hash !== "#top") {
+              window.history.pushState(null, "", "#top");
+            }
+          }}
+        >
           <span>KODBUSTER</span>
           <small>сайты, которые<br />приносят клиентов</small>
         </a>

@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { PointerEvent, UIEvent, useEffect, useRef, useState } from "react";
+import { PointerEvent, UIEvent, useRef, useState, type MouseEvent } from "react";
 import { ArrowUpRight } from "@/components/icons";
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
@@ -26,7 +26,7 @@ const projects = [
     description: "Ювелирный интернет-магазин с каталогом и оформлением заказа.",
     urlLabel: "synonym-jewelry.ru",
     href: "https://synonym-jewelry.ru/",
-    image: "/images/case-synonym.webp",
+    image: "/images/case-synonym.png",
     alt: "Главный экран сайта ювелирного бренда Синоним",
     shot: true,
     tone: "silver",
@@ -73,89 +73,100 @@ const projects = [
 ] as const;
 
 export function PortfolioReel() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const stickyRef = useRef<HTMLDivElement>(null);
-  const trackRef = useRef<HTMLDivElement>(null);
-  const cursorRef = useRef<HTMLDivElement>(null);
+  const windowRef = useRef<HTMLDivElement>(null);
+  const dragRef = useRef<{ active: boolean; moved: boolean; startX: number; startScroll: number }>({
+    active: false,
+    moved: false,
+    startX: 0,
+    startScroll: 0,
+  });
   const [activeIndex, setActiveIndex] = useState(0);
+  const [dragging, setDragging] = useState(false);
 
-  useEffect(() => {
-    const section = sectionRef.current;
-    const track = trackRef.current;
-    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-    if (!section || !track || reducedMotion.matches) return;
-
-    let frame = 0;
-    const update = () => {
-      frame = 0;
-      if (window.innerWidth < 960) return;
-
-      const rect = section.getBoundingClientRect();
-      const travel = Math.max(1, section.offsetHeight - window.innerHeight);
-      const progress = Math.min(1, Math.max(0, -rect.top / travel));
-      const maxShift = Math.max(0, track.scrollWidth - window.innerWidth + window.innerWidth * 0.06);
-      track.style.transform = `translate3d(${-progress * maxShift}px, 0, 0)`;
-      const nextIndex = Math.min(projects.length - 1, Math.round(progress * (projects.length - 1)));
-      setActiveIndex((current) => current === nextIndex ? current : nextIndex);
-    };
-
-    const requestUpdate = () => {
-      if (!frame) frame = window.requestAnimationFrame(update);
-    };
-
-    update();
-    window.addEventListener("scroll", requestUpdate, { passive: true });
-    window.addEventListener("resize", requestUpdate);
-    return () => {
-      window.removeEventListener("scroll", requestUpdate);
-      window.removeEventListener("resize", requestUpdate);
-      if (frame) window.cancelAnimationFrame(frame);
-    };
-  }, []);
-
-  const moveCursor = (event: PointerEvent<HTMLElement>) => {
-    const cursor = cursorRef.current;
-    const sticky = stickyRef.current;
-    if (!cursor || !sticky || window.innerWidth < 960) return;
-    const isOverCard = (event.target as HTMLElement).closest(".portfolio-card");
-    const rect = sticky.getBoundingClientRect();
-    cursor.style.transform = `translate3d(${event.clientX - rect.left - 48}px, ${event.clientY - rect.top - 48}px, 0)`;
-    cursor.dataset.visible = isOverCard ? "true" : "false";
-  };
-
-  const hideCursor = () => {
-    if (cursorRef.current) cursorRef.current.dataset.visible = "false";
-  };
-
-  const updateMobileProgress = (event: UIEvent<HTMLDivElement>) => {
-    if (window.innerWidth >= 960) return;
+  const updateProgress = (event: UIEvent<HTMLDivElement>) => {
     const viewport = event.currentTarget;
     const travel = Math.max(1, viewport.scrollWidth - viewport.clientWidth);
     const nextIndex = Math.min(projects.length - 1, Math.round((viewport.scrollLeft / travel) * (projects.length - 1)));
-    setActiveIndex((current) => current === nextIndex ? current : nextIndex);
+    setActiveIndex((current) => (current === nextIndex ? current : nextIndex));
+  };
+
+  const onPointerDown = (event: PointerEvent<HTMLDivElement>) => {
+    if (event.pointerType !== "mouse" || event.button !== 0) return;
+    if ((event.target as HTMLElement).closest("a, button")) return;
+
+    const viewport = windowRef.current;
+    if (!viewport) return;
+
+    dragRef.current = {
+      active: true,
+      moved: false,
+      startX: event.clientX,
+      startScroll: viewport.scrollLeft,
+    };
+    viewport.setPointerCapture(event.pointerId);
+    setDragging(true);
+  };
+
+  const onPointerMove = (event: PointerEvent<HTMLDivElement>) => {
+    const drag = dragRef.current;
+    const viewport = windowRef.current;
+    if (!drag.active || !viewport) return;
+
+    const delta = event.clientX - drag.startX;
+    if (Math.abs(delta) > 4) drag.moved = true;
+    viewport.scrollLeft = drag.startScroll - delta;
+  };
+
+  const endDrag = (event: PointerEvent<HTMLDivElement>) => {
+    const drag = dragRef.current;
+    const viewport = windowRef.current;
+    if (!drag.active) return;
+
+    drag.active = false;
+    setDragging(false);
+    if (viewport?.hasPointerCapture(event.pointerId)) {
+      viewport.releasePointerCapture(event.pointerId);
+    }
+  };
+
+  const onClickCapture = (event: MouseEvent<HTMLDivElement>) => {
+    if (!dragRef.current.moved) return;
+    event.preventDefault();
+    event.stopPropagation();
+    dragRef.current.moved = false;
   };
 
   return (
     <section
       className="portfolio-reel"
       id="cases"
-      ref={sectionRef}
       data-active={activeIndex}
       aria-labelledby="cases-title"
-      onPointerMove={moveCursor}
-      onPointerLeave={hideCursor}
     >
-      <div className="portfolio-sticky" ref={stickyRef}>
+      <div className="portfolio-sticky">
         <div className="portfolio-heading">
           <div>
             <p className="portfolio-kicker"><span>05</span> реальных проектов</p>
             <h2 id="cases-title">Пять проектов.<br /><em>Пять разных задач.</em></h2>
           </div>
-          <p>Проекты можно открыть и проверить. Показываем реальные сайты — без выдуманных цифр и одинаковых шаблонов.</p>
+          <div className="portfolio-heading-side">
+            <p>Проекты можно открыть и проверить. Показываем реальные сайты — без выдуманных цифр и одинаковых шаблонов.</p>
+          </div>
         </div>
 
-        <div className="portfolio-window" tabIndex={0} aria-label="Лента проектов" onScroll={updateMobileProgress}>
-          <div className="portfolio-track" ref={trackRef}>
+        <div
+          className={`portfolio-window${dragging ? " is-dragging" : ""}`}
+          ref={windowRef}
+          tabIndex={0}
+          aria-label="Лента проектов. Листайте вбок перетаскиванием или полосой прокрутки."
+          onScroll={updateProgress}
+          onPointerDown={onPointerDown}
+          onPointerMove={onPointerMove}
+          onPointerUp={endDrag}
+          onPointerCancel={endDrag}
+          onClickCapture={onClickCapture}
+        >
+          <div className="portfolio-track">
             {projects.map((project, index) => (
               <article className={`portfolio-card tone-${project.tone} ${index === activeIndex ? "is-active" : ""}`} key={project.title}>
                 <a href={project.href} target="_blank" rel="noreferrer" aria-label={`Открыть проект ${project.title}`}>
@@ -203,7 +214,6 @@ export function PortfolioReel() {
           <i><b style={{ width: `${((activeIndex + 1) / projects.length) * 100}%` }} /></i>
           <span>05</span>
         </div>
-        <div className="reel-cursor" ref={cursorRef} data-visible="false" aria-hidden="true">Смотреть<ArrowUpRight /></div>
       </div>
     </section>
   );

@@ -1,0 +1,755 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#050807" />
+  <title>ATLAS Detailing — демо тарифа «Старт» | KodBuster</title>
+  <meta name="description" content="Демонстрационный одностраничный сайт детейлинг-центра в тарифе KodBuster Старт." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700;800&family=Roboto+Condensed:ital,wght@0,600;0,700;0,800;0,900;1,700;1,800;1,900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="design-system.css" />
+  <!-- Панель управления демо вынесена на страницу /packages/start/ -->
+  <style>
+    :root { --bar-h: 0px !important; }
+    .kb-demo-bar { display: none !important; }
+
+    /* Мобильное меню: непрозрачный фон, влезает в iframe, бургер поверх */
+    @media (max-width: 1050px) {
+      .site-header {
+        z-index: 1200 !important;
+      }
+      .mobile-menu {
+        inset: 0 !important;
+        z-index: 1100 !important;
+        display: flex !important;
+        flex-direction: column;
+        gap: 0;
+        padding:
+          calc(84px + env(safe-area-inset-top, 0px))
+          20px
+          calc(28px + env(safe-area-inset-bottom, 0px));
+        overflow-x: hidden;
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        -webkit-overflow-scrolling: touch;
+        background: #070b0a !important;
+        color: #f4f7f5;
+        transform: translate3d(0, -105%, 0) !important;
+        visibility: hidden;
+        pointer-events: none;
+        transition: transform .3s cubic-bezier(.2, .75, .2, 1), visibility 0s linear .3s;
+      }
+      .mobile-menu.is-open,
+      .mobile-menu[aria-hidden="false"] {
+        transform: none !important;
+        visibility: visible !important;
+        pointer-events: auto !important;
+        transition: transform .3s cubic-bezier(.2, .75, .2, 1), visibility 0s linear 0s;
+      }
+      .mobile-menu > a:not(.button) {
+        display: block;
+        flex: 0 0 auto;
+        font-size: clamp(1.25rem, 6.5vw, 1.7rem);
+        line-height: 1.25;
+        letter-spacing: -.03em;
+        padding: 14px 0;
+        border-bottom: 1px solid #2a302e;
+      }
+      .mobile-menu > .button {
+        margin-top: 22px;
+        width: 100%;
+        max-width: none;
+        flex: 0 0 auto;
+      }
+      body.is-mobile-nav-open,
+      html.is-mobile-nav-open {
+        overflow: hidden !important;
+      }
+    }
+    @media (max-width: 760px) {
+      .mobile-menu {
+        padding-top: calc(72px + env(safe-area-inset-top, 0px));
+      }
+      /* Кейсы 01–03 раскрыты сразу на мобильном */
+      .case-card .case-card__detail {
+        grid-template-rows: 1fr !important;
+        opacity: 1 !important;
+        margin-bottom: 18px !important;
+      }
+      .case-card .case-card__media img {
+        transform: scale(1.035);
+      }
+      .case-card .case-card__media::after {
+        opacity: 1;
+      }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .mobile-menu,
+      .mobile-menu.is-open,
+      .mobile-menu[aria-hidden="false"] { transition: none !important; }
+    }
+
+    /* Промежуточные CTA только на мобиле — в потоке, не sticky */
+    .mid-cta--mobile { display: none; }
+    @media (max-width: 760px) {
+      .mid-cta--mobile {
+        display: grid;
+        gap: 14px;
+        margin: 28px 20px 0;
+        padding: 18px 16px;
+        border-radius: 18px;
+        background: linear-gradient(180deg, #101916, #08100e);
+        border: 1px solid rgba(141, 234, 255, .18);
+        box-shadow: 0 16px 40px rgba(0, 0, 0, .28);
+      }
+      .mid-cta--mobile p {
+        margin: 0;
+        color: #c7d2cd;
+        font-size: 14px;
+        line-height: 1.45;
+      }
+      .mid-cta--mobile .button {
+        width: 100%;
+        min-height: 48px;
+      }
+
+      .site-header {
+        grid-template-columns: minmax(0, 1fr) auto auto !important;
+        gap: 8px !important;
+      }
+      .site-header .header-cta {
+        display: inline-flex !important;
+        align-items: center;
+        justify-content: center;
+        min-width: 0;
+        min-height: 36px;
+        padding: 0 11px;
+        font-size: 11px;
+        letter-spacing: .04em;
+        white-space: nowrap;
+      }
+
+    }
+  </style>
+</head>
+<body>
+  <div class="site-shell" id="top">
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="ATLAS Detailing">
+        <span class="brand__dot"></span>
+        <span>ATLAS <b>DETAILING</b></span>
+      </a>
+      <nav class="main-nav" aria-label="Главное меню">
+        <a href="#services">Услуги</a>
+        <a href="#result">Результат</a>
+        <a href="#reviews">Отзывы</a>
+        <a href="#process">Как работаем</a>
+        <a href="#contacts">Контакты</a>
+      </nav>
+      <a class="header-phone" href="tel:+74951234567">+7 495 123-45-67</a>
+      <a class="header-cta" href="#request">Записаться</a>
+      <button class="menu-toggle" type="button" aria-label="Открыть меню" aria-expanded="false">
+        <span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero__visual" aria-hidden="true">
+          <img src="assets/hero-main.webp" alt="" />
+          <div class="hero__scan"></div>
+          <div class="hero__visual-label">
+            <span>PAINT / LIGHT CHECK</span>
+            <b>01 — 04</b>
+          </div>
+        </div>
+        <div class="hero__shade"></div>
+        <div class="hero__content">
+          <p class="eyebrow">Профессиональный детейлинг · Москва</p>
+          <h1 id="hero-title">Безупречный автомобиль<br><span>начинается с деталей.</span></h1>
+          <p class="hero__lead">Защита кузова, коррекция лака и глубокая очистка салона. Сначала осмотр — потом точный состав работ и фиксированная стоимость.</p>
+          <div class="hero__actions">
+            <a class="button button--primary" href="#request">Записаться на детейлинг <span>↗</span></a>
+            <a class="button button--text" href="#services">Посмотреть услуги <span>↓</span></a>
+          </div>
+          <div class="hero__facts" aria-label="Преимущества">
+            <div><strong>6 лет</strong><span>работаем с премиальными автомобилями</span></div>
+            <div><strong>600+</strong><span>автомобилей прошли студию</span></div>
+            <div><strong>до 3 лет</strong><span>ресурс защитных составов</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section--light" id="services">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow eyebrow--dark">01 / Услуги</p>
+            <h2>Всё, что нужно автомобилю.<br><span>Без лишних процедур.</span></h2>
+          </div>
+          <p>Подбираем состав работ под состояние автомобиля и задачу владельца. До начала работ фиксируем объём и стоимость.</p>
+        </div>
+        <div class="services-overview">
+          <div class="services-overview__stat"><strong>6</strong><span>главных направлений</span></div>
+          <div class="services-overview__text">Основные услуги — сразу. Полный перечень раскрывается внутри карточки и не перегружает страницу.</div>
+        </div>
+
+        <div class="services-grid services-grid--catalog">
+          <article class="service-card service-card--catalog">
+            <div class="service-card__media"><img src="assets/detail-headlight.webp" alt="Мойка и уход за кузовом автомобиля" loading="lazy"></div>
+            <div class="service-card__body">
+              <div class="service-card__top"><span class="service-card__num">01</span><span class="service-card__tag">УХОД</span></div>
+              <h3>Мойка и уход</h3>
+              <p>Безопасная очистка кузова, колёс и подкапотного пространства.</p>
+              <div class="service-chips"><span>Детейлинг-мойка</span><span>Диски</span><span>Воск</span><span>Подкапотное</span></div>
+              <details class="service-details">
+                <summary>Все услуги <span>+</span></summary>
+                <div class="service-details__content">
+                  <div><h4>Кузов</h4><ul><li>Детейлинг-мойка</li><li>Ручная мойка</li><li>Двухфазная / трёхфазная мойка</li><li>Очистка от битума, реагентов и металлических вкраплений</li><li>Консервация кузова</li><li>Воск и гидрофобные составы</li></ul></div>
+                  <div><h4>Колёса</h4><ul><li>Очистка и детейлинг дисков</li><li>Полировка дисков</li><li>Керамика для дисков</li><li>Детейлинг шин</li><li>Чернение и консервация резины</li><li>Мойка арок</li></ul></div>
+                  <div><h4>Подкапотное</h4><ul><li>Мойка двигателя</li><li>Детейлинг моторного отсека</li><li>Очистка пластика</li><li>Консервация резиновых и пластиковых элементов</li></ul></div>
+                </div>
+              </details>
+            </div>
+          </article>
+
+          <article class="service-card service-card--catalog">
+            <div class="service-card__media"><img src="assets/service-polish.webp" alt="Полировка кузова автомобиля" loading="lazy"></div>
+            <div class="service-card__body">
+              <div class="service-card__top"><span class="service-card__num">02</span><span class="service-card__tag">ЛАК</span></div>
+              <h3>Полировка</h3>
+              <p>Коррекция лака, удаление дефектов и восстановление прозрачности оптики.</p>
+              <div class="service-chips"><span>Восстановительная</span><span>Антиголограммная</span><span>Локальная</span></div>
+              <details class="service-details">
+                <summary>Все услуги <span>+</span></summary>
+                <div class="service-details__content">
+                  <div><h4>Полировка кузова</h4><ul><li>Восстановительная</li><li>Абразивная</li><li>Одношаговая</li><li>Многоэтапная</li><li>Антиголограммная</li><li>Локальная</li><li>Удаление мелких царапин</li></ul></div>
+                  <div><h4>Фары и фонари</h4><ul><li>Полировка фар и фонарей</li><li>Восстановление прозрачности</li><li>Защитное покрытие</li><li>Оклейка PPF-плёнкой</li><li>Тонировка фар</li></ul></div>
+                  <div><h4>Повреждения</h4><ul><li>Удаление царапин и притёртостей</li><li>Следы чужой краски</li><li>Локальное восстановление ЛКП</li><li>Восстановление сколов</li><li>PDR — удаление вмятин без покраски</li></ul></div>
+                </div>
+              </details>
+            </div>
+          </article>
+
+          <article class="service-card service-card--catalog">
+            <div class="service-card__media"><img src="assets/service-ceramic.webp" alt="Керамическое защитное покрытие кузова" loading="lazy"></div>
+            <div class="service-card__body">
+              <div class="service-card__top"><span class="service-card__num">03</span><span class="service-card__tag">ПОКРЫТИЕ</span></div>
+              <h3>Керамика и защита</h3>
+              <p>Покрытия для блеска, гидрофоба и более простого регулярного ухода.</p>
+              <div class="service-chips"><span>Керамика</span><span>Кварц</span><span>Антидождь</span><span>Силанты</span></div>
+              <details class="service-details">
+                <summary>Все услуги <span>+</span></summary>
+                <div class="service-details__content">
+                  <div><h4>Защитные покрытия</h4><ul><li>Керамика</li><li>Жидкое стекло</li><li>Кварцевые покрытия</li><li>Защитный воск</li><li>Силанты</li><li>Гидрофоб для стёкол «антидождь»</li><li>Защита дисков керамикой</li><li>Защита пластика и хрома</li></ul></div>
+                  <div><h4>Подготовка</h4><ul><li>Предпродажная подготовка</li><li>Подготовка нового авто после дилера</li><li>Комплекс после зимы</li><li>Комплекс перед зимой</li><li>Подготовка перед плёнкой или керамикой</li></ul></div>
+                </div>
+              </details>
+            </div>
+          </article>
+
+          <article class="service-card service-card--catalog">
+            <div class="service-card__media"><img src="assets/service-protection.webp" alt="Оклейка автомобиля защитной плёнкой" loading="lazy"></div>
+            <div class="service-card__body">
+              <div class="service-card__top"><span class="service-card__num">04</span><span class="service-card__tag">PPF / ПЛЁНКА</span></div>
+              <h3>PPF и оклейка</h3>
+              <p>Антигравийная защита, изменение цвета и локальная оклейка зон риска.</p>
+              <div class="service-chips"><span>PPF</span><span>Полная оклейка</span><span>Винил</span><span>Смена цвета</span></div>
+              <details class="service-details">
+                <summary>Все услуги <span>+</span></summary>
+                <div class="service-details__content">
+                  <div><h4>Оклейка автомобиля</h4><ul><li>Прозрачная полиуретановая PPF-плёнка</li><li>Антигравийная защита зон риска</li><li>Полная оклейка кузова</li><li>Виниловая оклейка</li><li>Смена цвета автомобиля</li><li>Матовая / сатиновая плёнка</li><li>Оклейка карбоном</li><li>Защитная плёнка на фары</li><li>Ручки, пороги, стойки и элементы салона</li></ul></div>
+                </div>
+              </details>
+            </div>
+          </article>
+
+          <article class="service-card service-card--catalog">
+            <div class="service-card__media"><img src="assets/service-interior.webp" alt="Химчистка и детейлинг салона" loading="lazy"></div>
+            <div class="service-card__body">
+              <div class="service-card__top"><span class="service-card__num">05</span><span class="service-card__tag">САЛОН</span></div>
+              <h3>Химчистка и салон</h3>
+              <p>Глубокая очистка, уход за кожей, текстилем, пластиком и декоративными элементами.</p>
+              <div class="service-chips"><span>Химчистка</span><span>Кожа</span><span>Озонация</span><span>Алькантара</span></div>
+              <details class="service-details">
+                <summary>Все услуги <span>+</span></summary>
+                <div class="service-details__content">
+                  <div><h4>Химчистка</h4><ul><li>Полная химчистка</li><li>Сиденья, пол, потолок, дверные карты</li><li>Багажник и ремни безопасности</li><li>Удаление пятен</li><li>Устранение запахов</li><li>Озонация</li><li>Антибактериальная обработка</li></ul></div>
+                  <div><h4>Детейлинг салона</h4><ul><li>Глубокая очистка кожи</li><li>Кондиционирование и керамическая защита кожи</li><li>Очистка алькантары</li><li>Защита текстиля</li><li>Очистка и консервация пластика</li><li>Полировка декоративных элементов</li><li>Восстановление элементов салона</li></ul></div>
+                  <div><h4>Реставрация кожи</h4><ul><li>Ремонт и реставрация</li><li>Покраска кожи</li><li>Устранение потёртостей и трещин</li><li>Восстановление рулей, сидений и боковин</li></ul></div>
+                </div>
+              </details>
+            </div>
+          </article>
+
+          <article class="service-card service-card--catalog">
+            <div class="service-card__media"><img src="assets/showcase-sedan.webp" alt="Тонировка и защита автомобильных стёкол" loading="lazy"></div>
+            <div class="service-card__body">
+              <div class="service-card__top"><span class="service-card__num">06</span><span class="service-card__tag">СТЁКЛА</span></div>
+              <h3>Тонировка и стёкла</h3>
+              <p>Комфорт, защита салона и дополнительная безопасность стеклянных поверхностей.</p>
+              <div class="service-chips"><span>Тонировка</span><span>Атермальная</span><span>Бронирование</span><span>Антидождь</span></div>
+              <details class="service-details">
+                <summary>Все услуги <span>+</span></summary>
+                <div class="service-details__content">
+                  <div><h4>Стёкла</h4><ul><li>Тонировка стёкол</li><li>Атермальная плёнка</li><li>Бронирование стёкол</li><li>Защитная плёнка на лобовое стекло</li><li>Антидождь</li><li>Полировка стекла</li></ul></div>
+                </div>
+              </details>
+            </div>
+          </article>
+        </div>
+
+        <section class="special-services" aria-label="Дополнительные услуги">
+          <div class="special-services__head">
+            <div class="special-services__kicker"><span>07</span><span>СПЕЦУСЛУГИ</span></div>
+            <strong>Редкие задачи.<br><em>Тоже берём в работу.</em></strong>
+            <p>Не всё укладывается в стандартный прайс. Для нестандартных задач собираем отдельный сценарий работ после осмотра.</p>
+            <div class="special-services__signal"><i></i><span>ИНДИВИДУАЛЬНЫЙ ЗАПРОС</span></div>
+          </div>
+          <div class="special-services__grid">
+            <article class="special-service">
+              <div class="special-service__media"><img src="assets/special-01-cabriolet.jpg" alt="Детейлинг кабриолета" loading="lazy"></div>
+              <div class="special-service__body"><span class="special-service__num">01</span><strong>Детейлинг кабриолетов</strong></div>
+              <span class="special-service__arrow">↗</span>
+            </article>
+            <article class="special-service">
+              <div class="special-service__media"><img src="assets/special-02-softtop.jpg" alt="Обработка мягкой крыши кабриолета" loading="lazy"></div>
+              <div class="special-service__body"><span class="special-service__num">02</span><strong>Обработка мягкой крыши</strong></div>
+              <span class="special-service__arrow">↗</span>
+            </article>
+            <article class="special-service">
+              <div class="special-service__media"><img src="assets/special-03-motorcycle.jpg" alt="Детейлинг мотоцикла" loading="lazy"></div>
+              <div class="special-service__body"><span class="special-service__num">03</span><strong>Детейлинг мотоциклов</strong></div>
+              <span class="special-service__arrow">↗</span>
+            </article>
+            <article class="special-service">
+              <div class="special-service__media"><img src="assets/special-04-collector.jpg" alt="Уход за премиальным коллекционным авто" loading="lazy"></div>
+              <div class="special-service__body"><span class="special-service__num">04</span><strong>Премиальные и коллекционные авто</strong></div>
+              <span class="special-service__arrow">↗</span>
+            </article>
+            <article class="special-service">
+              <div class="special-service__media"><img src="assets/special-05-exhaust.jpg" alt="Очистка выхлопных насадок" loading="lazy"></div>
+              <div class="special-service__body"><span class="special-service__num">05</span><strong>Очистка выхлопных насадок</strong></div>
+              <span class="special-service__arrow">↗</span>
+            </article>
+            <article class="special-service">
+              <div class="special-service__media"><img src="assets/special-06-chrome.jpg" alt="Восстановление хромированных деталей" loading="lazy"></div>
+              <div class="special-service__body"><span class="special-service__num">06</span><strong>Восстановление хрома</strong></div>
+              <span class="special-service__arrow">↗</span>
+            </article>
+            <article class="special-service">
+              <div class="special-service__media"><img src="assets/special-07-odor.jpg" alt="Устранение запаха табака в салоне" loading="lazy"></div>
+              <div class="special-service__body"><span class="special-service__num">07</span><strong>Устранение запаха табака</strong></div>
+              <span class="special-service__arrow">↗</span>
+            </article>
+            <article class="special-service">
+              <div class="special-service__media"><img src="assets/special-08-pethair.jpg" alt="Удаление шерсти животных из салона" loading="lazy"></div>
+              <div class="special-service__body"><span class="special-service__num">08</span><strong>Удаление шерсти животных</strong></div>
+              <span class="special-service__arrow">↗</span>
+            </article>
+          </div>
+        </section>
+
+        <div class="mid-cta mid-cta--mobile" aria-label="Запись">
+          <p>Подобрали нужную услугу? Оставьте номер — скажем, что имеет смысл делать.</p>
+          <a class="button button--primary" href="#request">Записаться <span>↗</span></a>
+        </div>
+      </section>
+
+      <section class="section result" id="result">
+        <div class="section-head section-head--dark">
+          <div>
+            <p class="eyebrow">02 / Результат</p>
+            <h2>Разницу видно<br><span>до слов.</span></h2>
+          </div>
+          <p>Потяните разделитель: слева — тусклый лак с мелкими рисками, справа — поверхность после коррекции и защитного состава.</p>
+        </div>
+
+        <div class="comparison" data-comparison>
+          <div class="comparison__scene comparison__photo comparison__photo--after" aria-hidden="true">
+            <img src="assets/detail-headlight.webp" alt="" />
+            <span class="compare-label compare-label--right">ПОСЛЕ</span>
+          </div>
+          <div class="comparison__before" data-before>
+            <div class="comparison__scene comparison__scene--fixed comparison__photo comparison__photo--before" aria-hidden="true">
+              <img src="assets/detail-headlight.webp" alt="" />
+              <div class="comparison__wear"></div>
+              <span class="compare-label">ДО</span>
+            </div>
+          </div>
+          <div class="comparison__line" data-line><span>↔</span></div>
+          <input class="comparison__range" type="range" min="8" max="92" value="48" aria-label="Сравнить состояние кузова до и после" data-range />
+          <noscript><img class="comparison__noscript" src="assets/comparison-before-after.webp" alt="Сравнение состояния автомобиля до и после детейлинга"></noscript>
+        </div>
+
+        <div class="case-rail" aria-label="Примеры работ" data-case-rail>
+          <article class="case-card is-open" tabindex="0" data-case-card data-case-title="BMW X5 G05" data-case-service="Коррекция лака + керамическое покрытие кузова" data-case-time="2 дня" data-case-price="49 000 ₽" data-case-image="assets/case-bmw-x5.webp">
+            <button class="case-card__media" type="button" data-open-case-lightbox aria-label="Открыть фото кейса BMW X5 G05">
+              <img src="assets/case-bmw-x5.webp" alt="BMW X5 G05 после коррекции лака и керамического покрытия" loading="lazy">
+              <span class="case-card__view">смотреть кейс <b>↗</b></span>
+            </button>
+            <div class="case-card__body">
+              <div><span class="case-card__index">КЕЙС 01</span><h3>BMW X5 G05</h3></div>
+              <p>Коррекция лака + керамическое покрытие кузова</p>
+              <div class="case-card__tags"><span>Лак</span><span>Керамика</span><span>Гидрофоб</span></div>
+              <div class="case-card__detail">
+                <div class="case-card__detail-grid">
+                  <span>Удалили мелкие риски и голограммы</span>
+                  <span>Нанесли керамический состав в 2 слоя</span>
+                  <span>Сделали глубокий чёрный глянец и защиту кузова</span>
+                </div>
+              </div>
+              <div class="case-card__rule"><span>PAINT / PROTECTION</span><i></i></div><div class="case-card__meta"><span>2 дня</span><strong>49 000 ₽</strong></div>
+            </div>
+          </article>
+          <article class="case-card" tabindex="0" data-case-card data-case-title="Audi Q8" data-case-service="Защита передней части полиуретановой плёнкой" data-case-time="1 день" data-case-price="76 000 ₽" data-case-image="assets/case-audi-q8.webp">
+            <button class="case-card__media" type="button" data-open-case-lightbox aria-label="Открыть фото кейса Audi Q8">
+              <img src="assets/case-audi-q8.webp" alt="Audi Q8 с оклейкой передней части полиуретановой плёнкой" loading="lazy">
+              <span class="case-card__view">смотреть кейс <b>↗</b></span>
+            </button>
+            <div class="case-card__body">
+              <div><span class="case-card__index">КЕЙС 02</span><h3>Audi Q8</h3></div>
+              <p>Защита передней части полиуретановой плёнкой</p>
+              <div class="case-card__tags"><span>PPF</span><span>Передняя часть</span><span>Антигравий</span></div>
+              <div class="case-card__detail">
+                <div class="case-card__detail-grid">
+                  <span>Закрыли капот, бампер, крылья и зеркала</span>
+                  <span>Плёнка повторяет геометрию кузова и почти незаметна</span>
+                  <span>Защита от сколов, пескоструя и следов эксплуатации</span>
+                </div>
+              </div>
+              <div class="case-card__rule"><span>PPF / FRONT ZONE</span><i></i></div><div class="case-card__meta"><span>1 день</span><strong>76 000 ₽</strong></div>
+            </div>
+          </article>
+          <article class="case-card" tabindex="0" data-case-card data-case-title="Porsche Macan" data-case-service="Глубокая химчистка салона + защита кожи" data-case-time="1 день" data-case-price="21 000 ₽" data-case-image="assets/case-porsche-macan.webp">
+            <button class="case-card__media" type="button" data-open-case-lightbox aria-label="Открыть фото кейса Porsche Macan">
+              <img src="assets/case-porsche-macan.webp" alt="Салон Porsche Macan после глубокой химчистки и защиты кожи" loading="lazy">
+              <span class="case-card__view">смотреть кейс <b>↗</b></span>
+            </button>
+            <div class="case-card__body">
+              <div><span class="case-card__index">КЕЙС 03</span><h3>Porsche Macan</h3></div>
+              <p>Глубокая химчистка салона + защита кожи</p>
+              <div class="case-card__tags"><span>Салон</span><span>Кожа</span><span>Химчистка</span></div>
+              <div class="case-card__detail">
+                <div class="case-card__detail-grid">
+                  <span>Очистили сиденья, тоннель, карты дверей и пластик</span>
+                  <span>Удалили повседневные загрязнения и освежили интерьер</span>
+                  <span>Нанесли защитный состав на кожу для мягкости и ухода</span>
+                </div>
+              </div>
+              <div class="case-card__rule"><span>INTERIOR / LEATHER</span><i></i></div><div class="case-card__meta"><span>1 день</span><strong>21 000 ₽</strong></div>
+            </div>
+          </article>
+        </div>
+        <p class="demo-price-note">Примеры стоимости в демо условные и показывают, как можно подавать реальные кейсы клиента.</p>
+      </section>
+
+
+      <section class="section section--light start-reviews" id="reviews" aria-labelledby="start-reviews-title">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow eyebrow--dark">03 / Отзывы</p>
+            <h2 id="start-reviews-title">Что говорят после работ.<br><span>Коротко и по делу.</span></h2>
+          </div>
+          <p>В тарифе «Старт» отзывы работают как базовое социальное доказательство: несколько понятных историй рядом с услугой и автомобилем клиента.</p>
+        </div>
+
+        <div class="start-reviews__notice">
+          <span>ДЕМО-КОНТЕНТ</span>
+          <p>Отзывы ниже — демонстрационные. В реальном проекте здесь размещаются только реальные отзывы клиента со ссылкой на источник, если он доступен.</p>
+        </div>
+
+        <div class="start-reviews__grid" aria-label="Демонстрационные отзывы клиентов">
+          <article class="start-review-card">
+            <div class="start-review-card__top"><span>BMW X5 G05</span><b>★★★★★</b></div>
+            <p>«После полировки цвет снова стал глубоким, а мелкая паутинка почти исчезла. Понравилось, что заранее объяснили, что реально исправить.»</p>
+            <div class="start-review-card__meta"><strong>Коррекция лака + керамика</strong><span>ДЕМО-ОТЗЫВ / 01</span></div>
+          </article>
+          <article class="start-review-card">
+            <div class="start-review-card__top"><span>Audi Q8</span><b>★★★★★</b></div>
+            <p>«Оклеили переднюю часть аккуратно, кромки не бросаются в глаза. Машину отдали в согласованный срок, без сюрпризов по цене.»</p>
+            <div class="start-review-card__meta"><strong>PPF передней части</strong><span>ДЕМО-ОТЗЫВ / 02</span></div>
+          </article>
+          <article class="start-review-card">
+            <div class="start-review-card__top"><span>Porsche Macan</span><b>★★★★★</b></div>
+            <p>«Салон заметно посвежел, особенно кожа и светлый текстиль. Никакого резкого запаха химии после выдачи.»</p>
+            <div class="start-review-card__meta"><strong>Химчистка + защита кожи</strong><span>ДЕМО-ОТЗЫВ / 03</span></div>
+          </article>
+          <article class="start-review-card">
+            <div class="start-review-card__top"><span>Mercedes GLE</span><b>★★★★★</b></div>
+            <p>«Сделали керамику и антидождь. После мойки автомобиль реально проще привести в порядок, вода уходит заметно быстрее.»</p>
+            <div class="start-review-card__meta"><strong>Керамика + стёкла</strong><span>ДЕМО-ОТЗЫВ / 04</span></div>
+          </article>
+          <article class="start-review-card">
+            <div class="start-review-card__top"><span>BMW 5 Series</span><b>★★★★★</b></div>
+            <p>«Не навязывали полный комплекс. После осмотра предложили только то, что действительно имело смысл для состояния машины.»</p>
+            <div class="start-review-card__meta"><strong>Полировка кузова</strong><span>ДЕМО-ОТЗЫВ / 05</span></div>
+          </article>
+          <article class="start-review-card">
+            <div class="start-review-card__top"><span>Range Rover Sport</span><b>★★★★★</b></div>
+            <p>«Отдельно понравилась выдача: показали результат под светом и объяснили, как ухаживать за покрытием дальше.»</p>
+            <div class="start-review-card__meta"><strong>Комплексный детейлинг</strong><span>ДЕМО-ОТЗЫВ / 06</span></div>
+          </article>
+        </div>
+
+        <div class="start-reviews__footer">
+          <div><span>СОЦИАЛЬНОЕ ДОКАЗАТЕЛЬСТВО</span><strong>Отзывы подтверждают опыт клиентов, но не перегружают базовый тариф.</strong></div>
+          <p>В реальном сайте сюда можно добавить ссылку на Яндекс Карты или другой подтверждённый источник отзывов.</p>
+        </div>
+
+        <div class="mid-cta mid-cta--mobile" aria-label="Запись">
+          <p>Хотите такой же результат? Запишитесь на осмотр — без обязательств.</p>
+          <a class="button button--primary" href="#request">Записаться <span>↗</span></a>
+        </div>
+      </section>
+
+      <section class="section section--light advantages">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow eyebrow--dark">04 / Почему ATLAS</p>
+            <h2>Нормальный сервис.<br><span>Без сюрпризов.</span></h2>
+          </div>
+          <p>Не обещаем невозможное. Сначала осматриваем автомобиль, затем предлагаем только те работы, которые дадут заметный результат.</p>
+        </div>
+        <div class="advantage-list">
+          <div class="advantage"><span>01</span><h3>Фиксируем состояние</h3><p>Фото и видео автомобиля до начала работ.</p></div>
+          <div class="advantage"><span>02</span><h3>Согласовываем цену</h3><p>Никаких неожиданных доплат после приёмки.</p></div>
+          <div class="advantage"><span>03</span><h3>Проверяем результат</h3><p>Финальный контроль при разном освещении.</p></div>
+          <div class="advantage"><span>04</span><h3>Остаёмся на связи</h3><p>Подскажем, как сохранить эффект после выдачи.</p></div>
+        </div>
+      </section>
+
+
+      <section class="section section--light signature">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow eyebrow--dark">05 / Детали</p>
+            <h2>Сайт продаёт не услуги.<br><span>Он продаёт ощущение качества.</span></h2>
+          </div>
+          <p>Для первого тарифа мы уже показываем живые и дорогие по восприятию кадры: блеск кузова, фары, колёса и фактуру салона. Это делает даже базовый сайт визуально убедительным.</p>
+        </div>
+        <div class="signature-grid">
+          <article class="signature-card signature-card--wide">
+            <img src="assets/showcase-sedan.webp" alt="Премиальный седан в детейлинг-студии" loading="lazy">
+            <div class="signature-card__overlay">
+              <span>ПРЕМИАЛЬНЫЙ ВИД</span>
+              <h3>Автомобиль должен выглядеть дорого ещё до первого звонка.</h3>
+            </div>
+          </article>
+          <article class="signature-card">
+            <img src="assets/detail-wheel.webp" alt="Крупный план диска и кузова после детейлинга" loading="lazy">
+            <div class="signature-card__overlay"><span>ДЕТАЛЬ 01</span><h3>Чистая геометрия, зеркальный лак, акцент на деталях.</h3></div>
+          </article>
+          <article class="signature-card">
+            <img src="assets/detail-headlight.webp" alt="Крупный план фары после детейлинга" loading="lazy">
+            <div class="signature-card__overlay"><span>ДЕТАЛЬ 02</span><h3>Свет, фактура и блеск, которые считываются за секунду.</h3></div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section process" id="process">
+        <div class="section-head section-head--dark">
+          <div>
+            <p class="eyebrow">05 / Процесс</p>
+            <h2>От заявки<br><span>до выдачи.</span></h2>
+          </div>
+          <p>Понятный процесс в четыре шага. Вы знаете, что происходит с автомобилем и когда он будет готов.</p>
+        </div>
+        <div class="timeline">
+          <article>
+            <div class="timeline__media"><img src="assets/process-request.webp" alt="3D визуал заявки на детейлинг через интерфейс записи" loading="lazy"></div>
+            <div class="timeline__meta"><span class="timeline__num">01</span><span class="timeline__status">ЗАЯВКА / ВХОД</span></div>
+            <h3>Заявка</h3>
+            <p>Оставляете номер или отправляете заявку с сайта. Уточняем модель автомобиля, задачу и удобное время связи.</p>
+          </article>
+          <article>
+            <div class="timeline__media"><img src="assets/process-inspection.webp" alt="3D визуал осмотра автомобиля в детейлинг-студии" loading="lazy"></div>
+            <div class="timeline__meta"><span class="timeline__num">02</span><span class="timeline__status">ОСМОТР / 360°</span></div>
+            <h3>Осмотр</h3>
+            <p>Проводим осмотр кузова и салона, показываем состояние автомобиля и согласовываем точный состав работ.</p>
+          </article>
+          <article>
+            <div class="timeline__media"><img src="assets/process-work.webp" alt="3D визуал процесса детейлинга и ухода за автомобилем" loading="lazy"></div>
+            <div class="timeline__meta"><span class="timeline__num">03</span><span class="timeline__status">РАБОТА / СЕЙЧАС</span></div>
+            <h3>Работа</h3>
+            <p>Выполняем детейлинг, полировку, защиту или химчистку. По ходу работ можно присылать промежуточные фото и статус.</p>
+          </article>
+          <article>
+            <div class="timeline__media"><img src="assets/process-delivery.webp" alt="3D визуал выдачи автомобиля клиенту после детейлинга" loading="lazy"></div>
+            <div class="timeline__meta"><span class="timeline__num">04</span><span class="timeline__status">ГОТОВО / ВЫДАЧА</span></div>
+            <h3>Выдача</h3>
+            <p>Показываем результат, передаём автомобиль клиенту и даём рекомендации, как сохранить эффект как можно дольше.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="cta-band">
+        <div>
+          <p class="eyebrow eyebrow--dark">Свободные окна на этой неделе</p>
+          <h2>Покажите автомобиль.<br><span>Мы скажем, что ему действительно нужно.</span></h2>
+        </div>
+        <a class="button button--dark" href="#request">Записаться на осмотр <span>↗</span></a>
+      </section>
+
+      <section class="section section--light request" id="request">
+        <div class="request__copy">
+          <p class="eyebrow eyebrow--dark">06 / Запись</p>
+          <h2>Оставьте номер.<br><span>Скажем, что имеет смысл делать.</span></h2>
+          <p>Назовите модель и задачу — менеджер уточнит состояние автомобиля, предложит подходящий вариант и сориентирует по стоимости до визита.</p>
+          <div class="request__note"><span>↳</span> Заявка с сайта может приходить владельцу бизнеса в Telegram или MAX.</div>
+        </div>
+        <form class="lead-form" data-lead-form novalidate>
+          <label>Ваше имя<input type="text" name="name" autocomplete="name" placeholder="Александр" required /></label>
+          <label>Телефон<input type="tel" name="phone" inputmode="tel" autocomplete="tel" placeholder="+7 (999) 000-00-00" maxlength="18" required /></label>
+          <label>Когда удобно связаться<select name="time"><option>В любое время</option><option>Утром</option><option>Днём</option><option>Вечером</option></select></label>
+          <label>Комментарий<textarea name="comment" rows="3" placeholder="Например: BMW X5, нужна защита передней части"></textarea></label>
+          <button class="button button--dark button--wide" type="submit">Отправить заявку <span>↗</span></button>
+          <p class="form-legal">Нажимая кнопку, вы соглашаетесь на обработку персональных данных.</p>
+          <div class="form-status" role="status" aria-live="polite"></div>
+        </form>
+      </section>
+    </main>
+
+    <footer class="footer" id="contacts">
+      <div class="footer__brand">
+        <a class="brand brand--footer" href="#top"><span class="brand__dot"></span><span>ATLAS <b>DETAILING</b></span></a>
+        <p>Демонстрационный бренд для показа возможностей тарифа KodBuster «Старт».</p>
+      </div>
+      <div><span class="footer__label">АДРЕС</span><p>Москва, ул. Примерная, 12</p><a href="#">Открыть на карте ↗</a></div>
+      <div><span class="footer__label">СВЯЗЬ</span><p><a href="tel:+74951234567">+7 495 123-45-67</a></p><a href="mailto:hello@example.ru">hello@example.ru</a></div>
+      <div><span class="footer__label">РЕЖИМ</span><p>Ежедневно<br>09:00—21:00</p></div>
+      <div class="footer__bottom"><span>© 2026 ATLAS DETAILING</span><span>Демо · KodBuster</span></div>
+    </footer>
+  </div>
+
+  <section class="kb-next-tier kb-next-tier--3d kb-next-tier--upgrade" id="growth-preview" aria-labelledby="growth-title">
+    <div class="kb-next-tier__bg" aria-hidden="true">
+      <div class="kb-next-tier__hud-grid"></div>
+      <div class="kb-next-tier__ceiling-ring"></div>
+      <div class="kb-next-tier__scan"></div>
+      <div class="kb-next-tier__motion-lines"></div>
+      <div class="kb-next-tier__beams">
+        <span class="kb-next-tier__beam kb-next-tier__beam--1"></span>
+        <span class="kb-next-tier__beam kb-next-tier__beam--2"></span>
+        <span class="kb-next-tier__beam kb-next-tier__beam--3"></span>
+        <span class="kb-next-tier__beam kb-next-tier__beam--4"></span>
+      </div>
+      <div class="kb-next-tier__axis kb-next-tier__axis--x"><span>AXIS / X</span></div>
+      <div class="kb-next-tier__axis kb-next-tier__axis--y"><span>NEXT LEVEL</span></div>
+      <div class="kb-next-tier__orb kb-next-tier__orb--lime"></div>
+      <div class="kb-next-tier__orb kb-next-tier__orb--cyan"></div>
+      <div class="kb-next-tier__frame kb-next-tier__frame--left"><span>01</span><small>LEVEL</small></div>
+      <div class="kb-next-tier__frame kb-next-tier__frame--right"><small>FROM START</small><small>TO GROWTH</small></div>
+      <div class="kb-next-tier__platform"><div class="kb-next-tier__platform-core"></div></div>
+      <div class="kb-next-tier__chamber-label">UPGRADE CHAMBER</div>
+    </div>
+    <div class="kb-next-tier__inner kb-next-tier__inner--upgrade">
+      <div class="kb-next-tier__copy kb-next-tier__copy--3d kb-next-tier__copy--upgrade">
+        <span class="kb-next-tier__eyebrow">KODBUSTER <em>/</em> ПЕРЕХОД НА ТАРИФ</span>
+        <p class="kb-next-tier__step">УРОВЕНЬ 01 ЗАВЕРШЁН</p>
+        <h2 id="growth-title">СТАРТ — ЭТО ЗАЯВКА.<br>РОСТ — <span>ЭТО ВЫБОР,<br>СРАВНЕНИЕ И УБЕЖДЕНИЕ.</span></h2>
+        <p>Следующий тариф даёт больше аргументов, сценариев выбора и инструментов, чтобы клиент мог сравнить, выбрать и принять решение ещё до разговора с менеджером.</p>
+      </div>
+      <div class="kb-next-tier__stack kb-next-tier__stack--upgrade kb-growth-list" aria-label="Что добавляет тариф Рост">
+        <p class="kb-growth-list__title">НОВОЕ В «РОСТ»</p>
+        <ul class="kb-growth-list__items">
+          <li><b>01</b><span>Анализ конкурентов и ваших сильных сторон</span></li>
+          <li><b>02</b><span>Продающая структура страницы</span></li>
+          <li><b>03</b><span>Формулировка предложения, которое отличает вас от конкурентов</span></li>
+          <li><b>04</b><span>Подробная презентация ключевых услуг</span></li>
+          <li><b>05</b><span>Гарантии, материалы, бренды и этапы работы</span></li>
+          <li><b>06</b><span>Ответы на частые сомнения клиентов</span></li>
+          <li><b>07</b><span>Яндекс Метрика, цели и отслеживание источников заявок</span></li>
+          <li><b>08</b><span>Проверка и дооформление карточки Яндекс Бизнес</span></li>
+        </ul>
+        <a class="kb-growth-button kb-growth-button--3d kb-growth-button--upgrade" href="../../packages/rost/" target="_top" rel="noopener" data-growth-tilt="soft"><span class="kb-growth-button__copy"><span class="kb-growth-button__status"><i></i>СИСТЕМА ГОТОВА</span><span class="kb-growth-button__label">Перейти к пакету «Рост»</span></span><span class="kb-growth-button__arrow">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <div class="case-lightbox" data-case-lightbox aria-hidden="true">
+    <div class="case-lightbox__backdrop" data-close-case-lightbox></div>
+    <div class="case-lightbox__dialog" role="dialog" aria-modal="true" aria-labelledby="case-lightbox-title">
+      <button class="case-lightbox__close" type="button" aria-label="Закрыть" data-close-case-lightbox>×</button>
+      <div class="case-lightbox__media">
+        <img src="" alt="" data-case-lightbox-image>
+        <div class="case-lightbox__counter" data-case-lightbox-counter>01 / 03</div>
+      </div>
+      <div class="case-lightbox__content">
+        <p class="case-lightbox__eyebrow">ATLAS DETAILING · CASE STUDY</p>
+        <h2 id="case-lightbox-title" data-case-lightbox-title></h2>
+        <p class="case-lightbox__service" data-case-lightbox-service></p>
+        <div class="case-lightbox__meta"><span data-case-lightbox-time></span><strong data-case-lightbox-price></strong></div>
+        <div class="case-lightbox__actions">
+          <button type="button" data-case-prev aria-label="Предыдущий кейс">←</button>
+          <button type="button" data-case-next aria-label="Следующий кейс">→</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <aside class="package-drawer" data-package-drawer aria-hidden="true" aria-labelledby="package-title">
+    <div class="package-drawer__backdrop" data-close-package></div>
+    <div class="package-drawer__panel" role="dialog" aria-modal="true">
+      <button class="package-drawer__close" type="button" aria-label="Закрыть" data-close-package>×</button>
+      <p class="eyebrow eyebrow--dark">KodBuster / Тариф</p>
+      <h2 id="package-title">СТАРТ</h2>
+      <div class="package-price"><strong>70 000 ₽</strong><span>до 5 рабочих дней</span></div>
+      <div class="package-discount">63 000 ₽ <span>при быстрой предоплате</span></div>
+      <p class="package-intro">Если сайта ещё нет или старый сайт не показывает реальный уровень вашей компании.</p>
+      <ul class="package-list">
+        <li><b>01</b><span>Одностраничный сайт под вашу компанию с потрясающим дизайном и оптимизированной структурой.</span></li>
+        <li><b>02</b><span>Основные услуги и цены</span></li>
+        <li><b>03</b><span>Фотографии работ и «до / после»</span></li>
+        <li><b>04</b><span>Отзывы и преимущества компании</span></li>
+        <li><b>05</b><span>Тексты для всех блоков сайта</span></li>
+        <li><b>06</b><span>Формы записи и заявки в Telegram или MAX</span></li>
+        <li><b>07</b><span>Мобильная версия</span></li>
+        <li><b>08</b><span>Подключение домена, хостинга и сайта к Яндекс Бизнес</span></li>
+      </ul>
+      <div class="package-explain">
+        <span>Что вы видите в демо</span>
+        <p>Hero → услуги → один лёгкий интерактив «до/после» → примеры работ → отзывы → преимущества → процесс → CTA → форма и контакты. Это полноценная коммерческая страница без сложных калькуляторов и продуктовой логики старших тарифов.</p>
+      </div>
+      <a class="button button--dark button--wide" href="#request" data-close-package>Хочу такой уровень сайта <span>↗</span></a>
+    </div>
+  </aside>
+
+  <aside class="growth-drawer growth-drawer--tech" data-growth-drawer aria-hidden="true" aria-labelledby="growth-drawer-title">
+    <div class="growth-drawer__backdrop" data-close-growth></div>
+    <div class="growth-drawer__panel" role="dialog" aria-modal="true">
+      <div class="growth-drawer__glow" aria-hidden="true"></div>
+      <button class="growth-drawer__close" type="button" aria-label="Закрыть" data-close-growth>×</button>
+
+      <div class="growth-drawer__kicker"><span></span>KODBUSTER / ПЕРЕХОД НА ТАРИФ</div>
+      <div class="growth-drawer__level">LEVEL 01 → LEVEL 02</div>
+      <h2 id="growth-drawer-title">СТАРТ <span>→</span> РОСТ</h2>
+      <p class="growth-drawer__lead">«Старт» показывает и приводит к заявке. «Рост» добавляет выбор, сравнение и больше информации до контакта с менеджером.</p>
+
+      <p class="kb-growth-list__title" style="margin:0 0 12px">НОВОЕ В «РОСТ»</p>
+      <ul class="kb-growth-list__items growth-drawer__growth-list">
+        <li><b>01</b><span>Анализ конкурентов и ваших сильных сторон</span></li>
+        <li><b>02</b><span>Продающая структура страницы</span></li>
+        <li><b>03</b><span>Формулировка предложения, которое отличает вас от конкурентов</span></li>
+        <li><b>04</b><span>Подробная презентация ключевых услуг</span></li>
+        <li><b>05</b><span>Гарантии, материалы, бренды и этапы работы</span></li>
+        <li><b>06</b><span>Ответы на частые сомнения клиентов</span></li>
+        <li><b>07</b><span>Яндекс Метрика, цели и отслеживание источников заявок</span></li>
+        <li><b>08</b><span>Проверка и дооформление карточки Яндекс Бизнес</span></li>
+      </ul>
+
+      <div class="growth-drawer__note"><span>NEXT STEP</span><p>Для «Рост» будет отдельное полноценное демо — это следующий продуктовый уровень, а не просто усложнение «Старт».</p></div>
+      <button class="growth-drawer__return" type="button" data-close-growth><span>Вернуться к «Старт»</span><b>←</b></button>
+    </div>
+  </aside>
+
+  <div class="mobile-menu" data-mobile-menu aria-hidden="true">
+    <a href="#services">Услуги</a><a href="#result">Результат</a><a href="#reviews">Отзывы</a><a href="#process">Как работаем</a><a href="#contacts">Контакты</a>
+    <a class="button button--primary" href="#request">Записаться</a>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

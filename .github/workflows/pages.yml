@@ -29,6 +29,10 @@ jobs:
       - run: npm run build
         env:
           NEXT_PUBLIC_BASE_PATH: /KodBuster_ru_v2
+          NEXT_PUBLIC_SITE_URL: https://kodbuster.github.io/KodBuster_ru_v2/
+          NEXT_PUBLIC_PHONE: "+7 (993) 365-43-30"
+          NEXT_PUBLIC_TELEGRAM_URL: https://t.me/kodbuster
+          NEXT_PUBLIC_MAX_URL: https://max.ru/u/test
       - uses: actions/configure-pages@v5
         with:
           enablement: true

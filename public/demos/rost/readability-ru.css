@@ -1,0 +1,93 @@
+
+/* KODBUSTER РОСТ 2.0.7.3 — крупная навигация, доступная типографика, контраст. */
+:root { --cyan:#9ceeff; --ds-cyan:#9ceeff; }
+/* Center the desktop header menu relative to the viewport, not the variable width brand. */
+@media (min-width:1261px) {
+  .site-header {display:flex;justify-content:flex-end;align-items:center;gap:19px;position:relative;}
+  .site-header .brand {margin-right:auto;flex-shrink:0;}
+  .site-header .main-nav {position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:flex;align-items:center;justify-content:center;gap:clamp(14px,1.5vw,24px);white-space:nowrap;}
+  .site-header .main-nav a {font-size:15.5px;font-weight:700;line-height:1.35;letter-spacing:0;}
+  .site-header .header-phone {font-size:13px;white-space:nowrap;}
+  .site-header .header-cta {font-size:13px;white-space:nowrap;}
+  .g2-detail-nav {position:relative;justify-content:space-between;}
+  .g2-detail-nav nav {position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:flex;align-items:center;gap:30px;}
+  .g2-detail-nav nav a {font-size:15px;font-weight:700;}
+  .g2-nav-cta {font-size:14px;}
+}
+/* Avoid overlap as the available header width becomes insufficient. */
+@media (min-width:1101px) and (max-width:1260px) {
+  .site-header {grid-template-columns:minmax(0,1fr) auto auto;}
+  .site-header .main-nav {display:none;}
+  .site-header .menu-toggle {display:block;}
+}
+@media (max-width:1100px) {
+  .site-header .main-nav.is-open {gap:4px;}
+  .site-header .main-nav.is-open a {font-size:16px;min-height:46px;}
+}
+/* Stable legibility floor for informative captions, not an across-the-board giant type. */
+.hero-status,.section-kicker,.g2-detail-index,.rv-hero-bottom,
+.g27-card__open,.g27-card__visual span,.g27-gallery figcaption,
+.g27-work small,.g27-review small,.g27-review span,
+.g27-car-select button,.g27-condition-select button,
+.g27-deep-head>div>span,.g27-config__header span,
+.g27-selection__head span,.g27-selection__top strong,
+.g27-result span,.g27-selection__estimate>span,
+.rv-gallery-card__label,.rv-section-nav a,.rv-section-nav__count {
+  font-size:13px;
+  letter-spacing:.025em;
+  line-height:1.45;
+}
+.g27-work span,.g27-review p,.g27-panel-foot span,.g27-choice-row,
+.g27-search-label,.g27-selection__estimate p,
+.g2-service-search label,.g2-detail-panel label,.g2-result-list p,
+.g2-detail-footer p,.g2-detail-link {font-size:14px;line-height:1.5;}
+.g27-card__info p,.g27-config__header p,.g27-selection__head p,
+.g27-deep-head p,.g27-deep-head li span {font-size:16px;line-height:1.55;}
+.rv-section-nav__inner {min-height:56px;}
+/* Cyan needs separate light/dark contrast treatments. */
+:where(.growth-hero,.proof-protocol,.process-control,.client-voice,.case-lab,.g27-card__details,.g27-selection,.g2-detail-hero,.rv-intro,.rv-choice,.rv-gallery,.rv-process,.rv-faq,.g2-contacts,.footer) .cyan,
+:where(.growth-hero,.proof-protocol,.process-control,.client-voice,.case-lab,.g27-card__details,.g27-selection,.g2-detail-hero,.rv-intro,.rv-choice,.rv-gallery,.rv-process,.rv-faq,.g2-contacts,.footer) [class*="__cyan"] {color:#a4efff;}
+:where(.g2-directions,.service-matrix,.g2-detail-config,.g27-result,.g27-card__info) .cyan,
+:where(.g2-directions,.service-matrix,.g2-detail-config,.g27-result,.g27-card__info) [class*="__cyan"] {color:#086b76;}
+.service-matrix__head .section-kicker,.g2-directions .section-kicker {color:#115d66;}
+/* A handful of original turquoise labels were too muted against dark surfaces. */
+.kb-next-tier--upgrade .kb-growth-button__status,.footer__label,.timeline__num,
+.case-card__index {color:#a5f0ff;}
+/* Truncation must not hide long Russian labels. */
+.g27-config__header,.g27-selection__head,.g27-panel-foot {min-width:0;}
+.g27-card__info h3,.g27-card__info p,.g27-deep-head h4,
+.g27-work span,.g27-result small {overflow-wrap:anywhere;}
+@media(max-width:760px) {
+  .hero-status,.g27-card__visual span,.g27-card__open,
+  .g27-gallery figcaption,.g27-work small,.g27-review small,
+  .rv-gallery-card__label,.rv-section-nav a {font-size:13px;}
+  .g27-work span,.g27-review p,.g27-choice-row,
+  .g27-car-select button,.g27-condition-select button {font-size:14px;}
+  .rv-section-nav__inner {min-height:55px;gap:18px;}
+  .rv-section-nav a {font-size:13px;}
+  .g2-detail-nav nav a {font-size:15px;}
+}
+@media(prefers-reduced-motion:reduce){html:focus-within {scroll-behavior:auto;}}
+/* Prevent a hidden navigation between mobile and large desktop breakpoints. */
+@media (min-width:761px) and (max-width:1260px) {
+ .site-header {grid-template-columns:minmax(0,1fr) auto auto;gap:14px;}
+ .site-header .header-phone {display:none;}
+ .site-header .menu-toggle {display:block;cursor:pointer;}
+ .site-header .main-nav {display:none;}
+ .site-header .main-nav.is-open {display:flex;position:absolute;left:18px;right:18px;top:75px;transform:none;flex-direction:column;align-items:stretch;gap:4px;border:1px solid #496055;border-radius:16px;background:#08110f;padding:16px 22px;z-index:80;box-shadow:0 12px 32px #000b;}
+ .site-header .main-nav.is-open a {display:block;min-height:42px;padding:11px 4px;font-size:16px;}
+}
+@media (max-width:760px) {
+ .site-header .main-nav.is-open {top:64px;}
+}
+
+/* 2.0.7.4 — видимый номер и название светлого блока примеров работ.
+   Общий бирюзовый .section-kicker применялся и на светлом фоне, что снижало контраст. */
+.case-lab__head .section-kicker {
+  color:#075762 !important;
+  font-size:14px !important;
+  font-weight:800;
+  letter-spacing:.08em;
+  line-height:1.5 !important;
+  opacity:1;
+}

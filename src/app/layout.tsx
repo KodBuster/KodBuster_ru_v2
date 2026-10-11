@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { ContactFab } from "@/components/contact-fab";
 import { CookieNotice } from "@/components/cookie-notice";
 import { pageUrl, siteRoot } from "@/lib/site-url";
 import "./globals.css";
@@ -27,7 +28,7 @@ export const metadata: Metadata = {
     siteName: "KodBuster",
     title: "KodBuster — продающие сайты для бизнеса",
     description,
-    images: [{ url: pageUrl("images/new_hero_1.png"), alt: "Собственник проверяет новую заявку с сайта на смартфоне" }],
+    images: [{ url: pageUrl("images/new_hero_1.png"), alt: "Мастер детейлинга полирует капот чёрного автомобиля" }],
   },
   twitter: {
     card: "summary_large_image",
@@ -46,7 +47,7 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="ru">
-      <body>{children}<CookieNotice /></body>
+      <body>{children}<ContactFab /><CookieNotice /></body>
     </html>
   );
 }

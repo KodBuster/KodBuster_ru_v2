@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useSyncExternalStore } from "react";
 
 const storageKey = "kb-cookie-choice";
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
@@ -28,24 +28,29 @@ function loadMetrika() {
   });
 }
 
+function subscribeToChoice(onChange: () => void) {
+  window.addEventListener("kb-cookie-choice", onChange);
+  return () => window.removeEventListener("kb-cookie-choice", onChange);
+}
+
+function readChoice() {
+  return window.localStorage.getItem(storageKey);
+}
+
 export function CookieNotice() {
-  const [choice, setChoice] = useState<string | null>(null);
-  const [ready, setReady] = useState(false);
+  const choice = useSyncExternalStore(subscribeToChoice, readChoice, () => "server");
 
   useEffect(() => {
-    const saved = window.localStorage.getItem(storageKey);
-    setChoice(saved);
-    setReady(true);
-    if (saved === "accept") loadMetrika();
-  }, []);
+    if (choice === "accept") loadMetrika();
+  }, [choice]);
 
   const choose = (value: "accept" | "decline") => {
     window.localStorage.setItem(storageKey, value);
-    setChoice(value);
+    window.dispatchEvent(new Event("kb-cookie-choice"));
     if (value === "accept") loadMetrika();
   };
 
-  if (!ready || choice) return null;
+  if (choice) return null;
 
   return (
     <div className="cookie-notice" role="dialog" aria-label="Файлы cookie">

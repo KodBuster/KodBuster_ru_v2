@@ -70,21 +70,21 @@ $package = trim((string) ($payload['package'] ?? ''));
 $allowedPackages = ['Старт', 'Рост', 'Система'];
 
 $lines = [
-  "Новая заявка с сайта «{$config['SITE_NAME']}»",
+  "📩 Новая заявка с сайта «{$config['SITE_NAME']}»",
   '',
-  "Имя: {$name}",
-  "Телефон: {$phonePretty}",
+  "👤 Имя: {$name}",
+  "📞 Телефон: {$phonePretty}",
 ];
 if (in_array($package, $allowedPackages, true)) {
-  $lines[] = "Пакет: «{$package}»";
+  $lines[] = "📦 Пакет: «{$package}»";
 }
 if ($comment !== '') {
-  $lines[] = "Комментарий: {$comment}";
+  $lines[] = "💬 Комментарий: {$comment}";
 }
 if ($page !== '' && filter_var($page, FILTER_VALIDATE_URL)) {
-  $lines[] = "Страница: {$page}";
+  $lines[] = "🔗 Страница: {$page}";
 }
-$lines[] = 'Время: ' . date('d.m.Y H:i:s');
+$lines[] = '🕒 Время: ' . date('d.m.Y H:i:s');
 $text = implode("\n", $lines);
 
 $telegramTargets = kb_split_list($config['TELEGRAM_CHAT_IDS']);
