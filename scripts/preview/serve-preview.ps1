@@ -1,5 +1,5 @@
 # LOCAL ONLY - KodBuster preview. Pure PowerShell, no dependencies.
-param([int]$Port = 8765)
+param([int]$Port = 8765, [switch]$NoBrowser)
 $ErrorActionPreference = "Stop"
 $root = [System.IO.Path]::GetFullPath((Join-Path $PSScriptRoot "site"))
 if (!(Test-Path -LiteralPath (Join-Path $root "index.html"))) {
@@ -26,7 +26,7 @@ $url = "http://127.0.0.1:$Port/"
 Write-Host "KodBuster FOMO NEXT - local interactive preview" -ForegroundColor Cyan
 Write-Host "URL: $url (only this computer)" -ForegroundColor Green
 Write-Host "Form submissions are DISABLED; press Ctrl+C to stop."
-Start-Process $url
+if (!$NoBrowser) { Start-Process $url }
 $crlf = [string][char]13 + [string][char]10
 try {
   while ($true) {
