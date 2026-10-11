@@ -36,6 +36,7 @@ export default function StartPackageDemoPage() {
               К пакетам
             </a>
           </div>
+          <p className="package-demo-disclosure">Прототип KodBuster: название, телефон, отзывы и показатели компании в этом демо — демонстрационные.</p>
         </div>
       }
     />
