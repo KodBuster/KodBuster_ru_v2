@@ -71,7 +71,7 @@ test("business audit request asks for evidence without creating a fictitious res
   await expect(form.getByRole("button", { name: "Запросить разбор" })).toBeDisabled();
   await form.getByRole("checkbox", { name: /Соглашаюсь/ }).check();
   await expect(form.getByRole("button", { name: "Запросить разбор" })).toBeEnabled();
-  await expect(form).toContainText("не обещаем аудит до разговора");
+  await expect(form).toContainText("без выдуманных диагнозов и обещаний роста продаж");
   await expect(form).toContainText("не обещание бесплатного подробного аудита");
 });
 
