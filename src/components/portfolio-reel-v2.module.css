@@ -142,3 +142,26 @@
 .layers { background: radial-gradient(circle at 50% 45%, #f4fbff, #e5eef3 78%); }
 .steps { background: radial-gradient(circle at 50% 45%, #fffbed, #f7edcf 78%); }
 .steps .chartBars i { border-radius: 2px 8px 2px 2px; }
+
+
+/* Art-direction QA: card copy should remain readable on 768–1440px
+   and result narratives must stay legible beside the infographic. */
+@media (min-width: 701px) {
+  .detailRow p { font-size: clamp(12px, .9vw, 13px); line-height: 1.43; }
+  .detailRow b { font-size: 11px; }
+  .description { font-size: clamp(13px, 1vw, 15px); line-height: 1.44; }
+  .resultCopy { padding: 14px 13px 14px 6px; }
+  .resultCopy p { font-size: clamp(12.5px, .94vw, 14px); line-height: 1.48; }
+  .result { min-height: 178px; }
+  .cardCopy h3 { margin-top: 14px; }
+}
+@media (min-width: 701px) and (max-width: 1100px) {
+  .cardCopy { padding-inline: 17px; }
+  .cardTop { min-height: 395px; }
+  .resultCopy p { font-size: 12.5px; }
+}
+@media (max-width: 700px) {
+  .resultCopy { padding-right: 11px; }
+  .resultCopy p { font-size: clamp(11.7px, 3.2vw, 13px); line-height: 1.46; }
+  .cardCopy h3 { margin-top: 14px; }
+}
