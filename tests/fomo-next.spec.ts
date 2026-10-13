@@ -32,7 +32,11 @@ test("FOMO content avoids guarantees, fake scarcity and invented ROI", async ({ 
   await expect(page.locator("#compare")).toContainText("учебное сравнение");
   await expect(page.locator("#economy")).toContainText("не прогноз");
   await expect(page.locator("#audit")).toContainText("Сначала факты");
-  await expect(page.locator("#compare a[href='#contact']")).toHaveCount(1);
+  // The main audit CTA and the now-functional service CTA both go to
+  // the real contact form; never count illustrative decorative controls.
+  await expect(page.locator("#compare a[href='#contact']")).toHaveCount(2);
+  await expect(page.locator("#compare a.fomo-mock-cta[href='#contact']")).toHaveCount(1);
+  await expect(page.locator("#compare .fomo-lab-bottom a[href='#contact']")).toHaveCount(1);
 });
 
 test("FOMO sections remain within viewport", async ({ page }) => {
