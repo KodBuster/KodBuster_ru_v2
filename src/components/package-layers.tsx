@@ -1,21 +1,8 @@
 import { PackageChoiceButton } from "@/components/package-choice";
 import { packageComparison, packageHref, packages } from "@/data/site";
+import { PackageComparison3D } from "@/components/package-comparison-3d";
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
-
-function cellValue(value: string | boolean) {
-  if (value === true) return <span className="pkg-check" aria-label="Есть">✓</span>;
-  if (value === false) return <span className="pkg-empty" aria-hidden="true">—</span>;
-  if (value.startsWith("✓")) {
-    return (
-      <span className="pkg-check-text">
-        <span className="pkg-check" aria-hidden="true">✓</span>
-        {value.replace(/^✓\s*/, "")}
-      </span>
-    );
-  }
-  return value;
-}
 
 export function PackageLayers() {
   return (
@@ -89,28 +76,7 @@ export function PackageLayers() {
           <p>{packageComparison.lead}</p>
         </div>
 
-        <div className="pkg-table-wrap">
-          <table className="pkg-table">
-            <thead>
-              <tr>
-                <th scope="col"></th>
-                <th scope="col">Старт</th>
-                <th scope="col">Рост</th>
-                <th scope="col">Система</th>
-              </tr>
-            </thead>
-            <tbody>
-              {packageComparison.rows.map((row) => (
-                <tr key={row.feature} className={row.feature === "Стоимость" ? "is-price" : undefined}>
-                  <th scope="row">{row.feature}</th>
-                  <td>{cellValue(row.start)}</td>
-                  <td>{cellValue(row.growth)}</td>
-                  <td>{cellValue(row.system)}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        <PackageComparison3D />
 
         <div className="pkg-shorts">
           <h4>Если совсем коротко</h4>
