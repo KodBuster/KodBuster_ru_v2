@@ -5,7 +5,7 @@ import { FomoComparison } from "@/components/fomo-comparison";
 import { FomoAudit } from "@/components/fomo-audit";
 import { PaybackCalculator } from "@/components/payback-calculator";
 import { PackageLayers } from "@/components/package-layers";
-import { PortfolioReel } from "@/components/portfolio-reel";
+import { PortfolioReelV2 } from "@/components/portfolio-reel-v2";
 import { SiteHeader } from "@/components/site-header";
 import { StoryHero } from "@/components/story-hero";
 import { TarifStartAnchor } from "@/components/tarif-start-anchor";
@@ -30,7 +30,7 @@ export default function HomePage() {
         <div id="top" className="page-top" tabIndex={-1} />
         <StoryHero />
 
-        <PortfolioReel />
+        <PortfolioReelV2 />
         <FomoComparison />
         <FomoAudit />
 
