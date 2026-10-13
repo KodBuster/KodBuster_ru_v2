@@ -57,10 +57,13 @@ test("all sectors have relevant visual media and no blank image placeholder", as
   await expect(compare.locator(".fomo-mock-photo img")).toHaveCount(0);
 });
 
-test("unified comparison controls stay accessible on phone and desktop", async ({ page }) => {
+test("unified comparison controls stay accessible on phone and desktop", async ({ page }, testInfo) => {
   for (const width of [360,390,768,1440]) {
     await page.setViewportSize({width,height:900});
     const compare = await openDemo(page);
+    if (width === 390 || width === 1440) {
+      await compare.locator(".fomo-lab").screenshot({path: `test-results/fomo-visual-v4-${width}-${testInfo.project.name}.png`, animations: "disabled"});
+    }
     await expect(compare.getByRole("button",{name:"Косметология"})).toBeVisible();
     await compare.getByRole("button",{name:"Косметология"}).click();
     await expect(compare.locator(".fomo-preview-better h4")).toHaveText("Консультация специалиста");
