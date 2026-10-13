@@ -133,3 +133,12 @@
 @media (prefers-reduced-motion: reduce) {
   .section *, .section *::before, .section *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
 }
+
+/* Distinct infographic treatments by business context. No KPI values. */
+.ring { background: radial-gradient(circle at 50% 45%, #fff7f1, #f8e7d9 76%); }
+.bars { background: radial-gradient(circle at 50% 45%, #f5f7f0, #e4eadc 78%); }
+.path { background: radial-gradient(circle at 50% 45%, #fff8fc, #fae5ee 78%); }
+.path .chartBars { transform: rotateX(14deg) rotateY(12deg); }
+.layers { background: radial-gradient(circle at 50% 45%, #f4fbff, #e5eef3 78%); }
+.steps { background: radial-gradient(circle at 50% 45%, #fffbed, #f7edcf 78%); }
+.steps .chartBars i { border-radius: 2px 8px 2px 2px; }
