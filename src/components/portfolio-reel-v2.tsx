@@ -174,7 +174,7 @@ export function PortfolioReelV2() {
         <p className={styles.kicker}><span>05</span> реальных проектов</p>
         <h2 id="cases-title">Пять проектов.<br /><em>Пять разных задач.</em></h2>
       </div>
-      <p className={styles.intro}>Разные отрасли — разные решения. Показываем структуру, визуал и путь посетителя к обращению. Без неподтверждённых цифр.</p>
+      <p className={styles.intro}>Пять разных задач — пять способов показать ценность бизнеса. Откройте кейс, изучите решение и посмотрите сайт вживую.</p>
     </div>
 
     <div className={styles.window} ref={viewportRef} onScroll={syncScroll}
