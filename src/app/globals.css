@@ -8,6 +8,8 @@
   --line: rgba(16, 28, 43, 0.14);
   --orange: #ff6b2c;
   --orange-bright: #ff7b42;
+  --kb-button-radius: 999px;
+  --kb-button-focus: #54c9ff;
   --blue: #1b96c3;
   --container: 1280px;
   --section: clamp(5rem, 9vw, 8.5rem);
@@ -1176,3 +1178,9 @@ svg { width: 1.2rem; height: 1.2rem; flex: none; }
 @media (max-width: 700px) {
   .route-flow .route-active { margin-inline: 0; }
 }
+
+/* Unified action-button geometry across KodBuster: hero, tariffs, FOMO,
+   contact form and portfolio. Visual hierarchy is encoded by variant, not by
+   inventing new shapes for every section. */
+.button, .pkg-cta { border-radius: var(--kb-button-radius); }
+.button:focus-visible, .pkg-cta:focus-visible {outline:3px solid var(--kb-button-focus);outline-offset:3px;}
