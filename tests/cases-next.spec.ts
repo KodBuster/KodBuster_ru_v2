@@ -1,9 +1,10 @@
 import { expect, test } from "@playwright/test";
 
 async function openCases(page: import("@playwright/test").Page) {
+  // Cookie consent is unrelated to portfolio QA. Make snapshots deterministic
+  // before first render instead of racing the cookie modal hydration.
+  await page.addInitScript(() => window.localStorage.setItem("kb-cookie-choice", "decline"));
   await page.goto("/#cases");
-  const decline = page.getByRole("button", { name: "Отказаться" });
-  if (await decline.isVisible().catch(() => false)) await decline.click();
   await expect(page.getByRole("heading", { name: /Пять проектов/ })).toBeVisible();
 }
 
@@ -49,6 +50,7 @@ test("carousel arrows and keyboard control change navigation progress", async ({
 });
 
 test("cases layout fits common viewport widths without page overflow", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
   for (const width of [360, 390, 768, 1280, 1440]) {
     await page.setViewportSize({ width, height: width < 800 ? 844 : 900 });
     await openCases(page);
@@ -71,4 +73,18 @@ test("reduced motion disables decorative case animations", async ({ page }) => {
   await expect(animated).toBeVisible();
   const animationName = await animated.evaluate((node) => getComputedStyle(node).animationName);
   expect(animationName).toBe("none");
+});
+
+test("case explanations remain readable on tablet and mobile", async ({ page }) => {
+  for (const width of [390, 768, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    await openCases(page);
+    const card = page.locator("#cases article").first();
+    const detail = card.locator('[class*="detailRow"] p').first();
+    const result = card.locator('[class*="resultCopy"] p').first();
+    const sizes = await Promise.all([detail, result].map(async (el) =>
+      el.evaluate((node) => parseFloat(getComputedStyle(node).fontSize))));
+    expect(sizes[0], `Task explanation at ${width}px`).toBeGreaterThanOrEqual(12);
+    expect(sizes[1], `Result explanation at ${width}px`).toBeGreaterThanOrEqual(11.5);
+  }
 });
