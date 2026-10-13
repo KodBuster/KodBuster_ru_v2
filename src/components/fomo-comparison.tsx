@@ -95,7 +95,7 @@ function RenovationImage({ refined }: { refined: boolean }) {
   </svg>;
 }
 
-function MockMedia({ current, sector, refined }: { current: (typeof sectors)[Sector]; sector: Sector; refined: boolean }) {
+function MockMedia({ current, refined }: { current: (typeof sectors)[Sector]; refined: boolean }) {
   return <div className={`fomo-mock-photo ${refined ? "fomo-mock-photo--refined" : "fomo-mock-photo--plain"}`}>
     {current.image ? <Image src={`${basePath}${current.image}`} alt={current.imageAlt} fill sizes="(max-width: 640px) 90vw, (max-width: 1100px) 46vw, 540px" className="fomo-mock-image" /> : <RenovationImage refined={refined}/>}
     <span className="fomo-photo-caption">{current.imageLabel}</span>
@@ -137,7 +137,7 @@ export function FomoComparison() {
               <div className="fomo-browser"><i /><i /><i /><span>Типовая слабая подача</span></div>
               <div className="fomo-preview-body is-before">
                 <div className="fomo-preview-meta">БИЗНЕС / ПРЕЗЕНТАЦИЯ</div>
-                <MockMedia current={current} sector={sector} refined={false}/>
+                <MockMedia current={current} refined={false}/>
                 <h4>Мы оказываем услуги</h4>
                 <p>{current.service}. Позвоните и уточните подробности.</p>
                 <div className="fomo-placeholder-line" aria-hidden="true" />
@@ -151,7 +151,7 @@ export function FomoComparison() {
               <div className="fomo-browser"><i /><i /><i /><span>Проработанная подача</span></div>
               <div className="fomo-preview-body is-after">
                 <div className="fomo-preview-meta">УСЛУГА / РЕШЕНИЕ / ЗАПИСЬ</div>
-                <MockMedia current={current} sector={sector} refined={true}/>
+                <MockMedia current={current} refined={true}/>
                 <h4>{current.service}</h4>
                 <p>Что входит, как проходит работа, примеры и условия — всё на одной понятной странице.</p>
                 <div className="fomo-mock-chips" role="group" aria-label="Подробности услуги">
