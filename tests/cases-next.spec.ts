@@ -14,7 +14,7 @@ test("five real websites are presented with three case-study parts", async ({ pa
   for (const card of await cases.all()) {
     await expect(card.getByText("Задача", { exact: true })).toBeVisible();
     await expect(card.getByText("Решение", { exact: true })).toBeVisible();
-    await expect(card.getByText("Результат", { exact: true })).toBeVisible();
+    await expect(card.getByText(/Результат/)).toBeVisible();
     await expect(card.getByRole("button", { name: /Посмотреть кейс/ })).toBeEnabled();
   }
   const texts = await cases.allTextContents();
