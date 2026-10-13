@@ -11,7 +11,7 @@ import { StoryHero } from "@/components/story-hero";
 import { TarifStartAnchor } from "@/components/tarif-start-anchor";
 import { contactAnchor, contacts } from "@/data/contacts";
 import { JsonLd } from "@/components/json-ld";
-import { packageTerms, processSteps, services } from "@/data/site";
+import { processSteps, services } from "@/data/site";
 import { homeJsonLd } from "@/lib/json-ld";
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
@@ -89,12 +89,7 @@ export default function HomePage() {
             </div>
             <PackageLayers />
             <TarifStartAnchor />
-            <dl className="package-terms">
-              {packageTerms.map((term) => (
-                <div key={term.title}><dt>{term.title}</dt><dd>{term.text}</dd></div>
-              ))}
-            </dl>
-            <p className="package-after">Реклама в Яндекс Директе, отслеживание звонков и сбор заявок в CRM подключаем отдельно после запуска. Обсудим на разборе, когда будет понятно, что нужно именно вам.</p>
+
           </div>
         </section>
 
