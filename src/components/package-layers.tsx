@@ -1,5 +1,6 @@
 import { PackageChoiceButton } from "@/components/package-choice";
 import { packageComparison, packageHref, packages } from "@/data/site";
+import { PackageShorts3D } from "@/components/package-shorts-3d";
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
@@ -112,17 +113,7 @@ export function PackageLayers() {
           </table>
         </div>
 
-        <div className="pkg-shorts">
-          <h4>Если совсем коротко</h4>
-          <ul>
-            {packageComparison.shorts.map((item) => (
-              <li key={item.label}>
-                <strong>{item.label}</strong>
-                <span>{item.text}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
+        <PackageShorts3D />
       </section>
     </div>
   );
