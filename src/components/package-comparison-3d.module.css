@@ -277,9 +277,11 @@
   .mobileControls button:focus-visible { outline: 3px solid #075f94; }
   .mobileAfter { display: block; margin: 6px 13px 0; font-size: 11px; color: #627083; line-height: 1.5; }
   .viewport { padding: 13px 0 13px; border-radius: 0; }
-  .table { width: 1040px; min-width: 1040px; border-spacing: 4px 0; }
-  .featuresCol { width: 192px; }
-  .planCol { width: calc((1040px - 192px) / 3); }
+  /* One feature column + one full tariff fits within a 360px device.
+     All three tariff columns remain in the semantic table and can be swiped. */
+  .table { width: 710px; min-width: 710px; border-spacing: 4px 0; }
+  .featuresCol { width: 140px; }
+  .planCol { width: 190px; }
   .board .table thead th.featuresHeader,
   .board .table tbody th.featureCell {
     position: sticky;
@@ -288,11 +290,11 @@
   }
   .board .table thead th.featuresHeader { z-index: 7; }
   .featuresHeader > span { min-height: 99px; padding: 12px 8px; font-size: 12px; }
-  .board .table tbody th.featureCell { padding: 8px 7px; font-size: 11.5px; box-shadow: 6px 0 9px rgba(16,32,51,.13); }
-  .featureInner { gap: 7px; }
-  .featureIcon { flex-basis: 25px; width: 25px; height: 25px; border-radius: 7px; }
-  .featureIcon svg { width: 16px; height: 16px; }
-  .board .table tbody td { font-size: 13px; padding-inline: 14px; }
+  .board .table tbody th.featureCell { padding: 8px 6px; font-size: 11px; line-height: 1.36; box-shadow: 6px 0 9px rgba(16,32,51,.13); }
+  .featureInner { gap: 5px; }
+  .featureIcon { flex-basis: 22px; width: 22px; height: 22px; border-radius: 7px; }
+  .featureIcon svg { width: 15px; height: 15px; }
+  .board .table tbody td { font-size: 12px; line-height: 1.45; padding-inline: 9px; }
   .board .table tbody tr.priceRow th { background: #fff1e6; }
   .topCap { height: 111px; }
   .mobileControls { position: relative; z-index: 8; }
