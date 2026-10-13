@@ -24,7 +24,7 @@ test("five real websites are presented with three case-study parts", async ({ pa
 test("case details are accessible and link to the real website", async ({ page }) => {
   await openCases(page);
   await page.getByRole("button", { name: "Посмотреть кейс РамПадел" }).click();
-  const dialog = page.getByRole("dialog");
+  const dialog = page.getByRole("dialog", { name: "РамПадел" });
   await expect(dialog).toBeVisible();
   await expect(dialog.getByRole("heading", { name: "РамПадел" })).toBeVisible();
   await expect(dialog.getByText("Задача", { exact: true })).toBeVisible();
@@ -57,6 +57,12 @@ test("cases layout fits common viewport widths without page overflow", async ({ 
       body: document.body.scrollWidth - document.documentElement.clientWidth,
       cards: document.querySelectorAll("#cases article").length,
     }));
+    if (width === 360 && metrics.document > 1) {
+      const debug = await page.evaluate(() => Array.from(document.querySelectorAll<HTMLElement>("body *"))
+        .filter((el) => el.getBoundingClientRect().right > innerWidth + 1 && !el.closest("#cases"))
+        .slice(0, 12).map((el) => ({ tag: el.tagName, className: typeof el.className === "string" ? el.className.slice(0, 80) : "", right: Math.round(el.getBoundingClientRect().right) })));
+      console.log("Mobile overflow diagnostic", JSON.stringify(debug));
+    }
     expect.soft(metrics.document, `document overflow at ${width}px`).toBeLessThanOrEqual(1);
     expect.soft(metrics.body, `body overflow at ${width}px`).toBeLessThanOrEqual(1);
     expect(metrics.cards).toBe(5);
