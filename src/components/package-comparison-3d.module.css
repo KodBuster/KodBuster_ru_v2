@@ -265,7 +265,7 @@
   .mobileControls button {
     flex: 1;
     min-height: 43px;
-    border-radius: 10px;
+    border-radius: var(--kb-button-radius, 999px);
     border: 1px solid #e2dcd6;
     background: #fff;
     color: var(--tb-text);
