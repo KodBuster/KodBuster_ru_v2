@@ -49,7 +49,7 @@ test("carousel arrows and keyboard control change navigation progress", async ({
   await expect(progress).toHaveAttribute("aria-valuenow", "3");
 });
 
-test("cases layout fits common viewport widths without page overflow", async ({ page }) => {
+test("cases layout fits common viewport widths without page overflow", async ({ page }, testInfo) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   for (const width of [360, 390, 768, 1280, 1440]) {
     await page.setViewportSize({ width, height: width < 800 ? 844 : 900 });
@@ -62,7 +62,7 @@ test("cases layout fits common viewport widths without page overflow", async ({ 
     expect.soft(metrics.document, `document overflow at ${width}px`).toBeLessThanOrEqual(1);
     expect.soft(metrics.body, `body overflow at ${width}px`).toBeLessThanOrEqual(1);
     expect(metrics.cards).toBe(5);
-    await page.locator("#cases").screenshot({ path: `test-results/cases-next-${width}.png` });
+    await page.locator("#cases").screenshot({ path: `test-results/cases-next-${width}-${testInfo.project.name}.png` });
   }
 });
 
