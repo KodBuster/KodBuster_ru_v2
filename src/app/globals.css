@@ -1169,3 +1169,10 @@ svg { width: 1.2rem; height: 1.2rem; flex: none; }
   }
 }
 
+
+
+/* Mobile QA: prevent the highlighted customer-journey row from bleeding
+   beyond the viewport. On wider screens retain the original overhang. */
+@media (max-width: 700px) {
+  .route-flow .route-active { margin-inline: 0; }
+}
