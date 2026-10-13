@@ -125,7 +125,7 @@ export function PortfolioReelV2() {
     if (!viewport) return;
     const max = Math.max(0, viewport.scrollWidth - viewport.clientWidth);
     const next = Math.min(cases.length - 1, Math.max(0, index));
-    viewport.scrollTo({ left: max * next / (cases.length - 1), behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth" });
+    viewport.scrollTo({ left: max * next / (cases.length - 1), behavior: "instant" });
     setActive(next);
   }, []);
 
