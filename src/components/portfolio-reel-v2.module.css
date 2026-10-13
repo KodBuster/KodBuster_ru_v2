@@ -14,7 +14,7 @@
 .heading h2 { margin: 0; font-family: var(--display, "Arial Black", sans-serif); font-size: clamp(36px, 5vw, 83px); letter-spacing: -.059em; line-height: .91; font-weight: 900; text-transform: uppercase; }
 .heading h2 em { font-style: normal; color: var(--orange); }
 .intro { max-width: 320px; margin: 0 0 3px; color: #666d70; font-size: clamp(13px, 1.05vw, 16px); line-height: 1.48; }
-.window { overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scrollbar-width: none; -webkit-overflow-scrolling: touch; outline: none; padding: 0 3vw 15px; }
+.window { overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: none; scrollbar-width: none; -webkit-overflow-scrolling: touch; outline: none; padding: 0 3vw 15px; }
 .window::-webkit-scrollbar { display: none; }
 .window:focus-visible { outline: 3px solid #0d6893; outline-offset: -3px; }
 .track { width: max-content; display: flex; gap: 14px; padding-right: 3vw; }
@@ -100,7 +100,7 @@
   .heading { width: calc(100% - 32px); display: block; margin-bottom: 24px; }
   .heading h2 { font-size: clamp(31px, 8.4vw, 48px); letter-spacing: -.06em; }
   .intro { margin-top: 15px; font-size: 13px; max-width: 420px; }
-  .window { padding: 0 16px 12px; }
+  .window { padding: 0 16px 12px; scroll-snap-type: x proximity; }
   .track { gap: 12px; padding-right: 16px; }
   .card { width: min(calc(100vw - 42px), 460px); min-height: 0; border-radius: 14px; }
   .cardTop { grid-template-columns: 1fr; min-height: 0; }
