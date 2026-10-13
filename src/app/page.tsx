@@ -2,7 +2,7 @@ import Image from "next/image";
 import { ArrowUpRight, PhoneIcon } from "@/components/icons";
 import { LeadForm } from "@/components/lead-form";
 import { PackageLayers } from "@/components/package-layers";
-import { PortfolioReel } from "@/components/portfolio-reel";
+import { PortfolioReelV2 } from "@/components/portfolio-reel-v2";
 import { SiteHeader } from "@/components/site-header";
 import { StoryHero } from "@/components/story-hero";
 import { TarifStartAnchor } from "@/components/tarif-start-anchor";
@@ -27,7 +27,7 @@ export default function HomePage() {
         <div id="top" className="page-top" tabIndex={-1} />
         <StoryHero />
 
-        <PortfolioReel />
+        <PortfolioReelV2 />
 
         <section className="service-intro section-pad" id="services" aria-labelledby="services-title">
           <div className="container">
