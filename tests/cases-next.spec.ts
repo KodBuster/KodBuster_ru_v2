@@ -60,15 +60,15 @@ test("cases layout fits common viewport widths without page overflow", async ({ 
     expect.soft(metrics.document, `document overflow at ${width}px`).toBeLessThanOrEqual(1);
     expect.soft(metrics.body, `body overflow at ${width}px`).toBeLessThanOrEqual(1);
     expect(metrics.cards).toBe(5);
+    await page.locator("#cases").screenshot({ path: `test-results/cases-next-${width}.png` });
   }
 });
 
 test("reduced motion disables decorative case animations", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await openCases(page);
-  const motion = await page.locator("#cases article").first().locator('[aria-hidden="true"]').filter({ has: page.locator("span") }).count();
-  expect(motion).toBeGreaterThan(0);
-  const animated = page.locator("#cases article").first().locator("div").filter({ has: page.locator("i") }).first();
+  const animated = page.locator('#cases [class*="donut"]').first();
+  await expect(animated).toBeVisible();
   const animationName = await animated.evaluate((node) => getComputedStyle(node).animationName);
   expect(animationName).toBe("none");
 });
