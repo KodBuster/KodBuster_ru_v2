@@ -32,3 +32,10 @@ jobs:
           name: playwright-failure-artifacts
           path: test-results/
           retention-days: 5
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: fomo-comparison-v4-visual-review
+          path: test-results/fomo-visual-v4-*.png
+          if-no-files-found: ignore
+          retention-days: 14
