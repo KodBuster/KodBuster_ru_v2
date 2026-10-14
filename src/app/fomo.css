@@ -313,3 +313,90 @@
   .fomo-compare-grid .fomo-preview-body { flex: 1 0 auto; }
   .fomo-compare-grid .fomo-preview-footer { margin-top: auto; }
 }
+
+
+/* FOMO v5 — full-resolution photographic Hero. CSS never stretches the
+   original 3:1 photograph; <picture> provides density-aware alternatives.
+   Live heading and business switches stay above an accessible decorative image. */
+.fomo-lab-top--detailing {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: #071624;
+  min-height: clamp(272px, 25vw, 342px);
+}
+.fomo-lab-top--detailing > .fomo-hero-picture {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: block;
+  overflow: hidden;
+  pointer-events: none;
+}
+.fomo-lab-top--detailing .fomo-hero-picture img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 54%;
+}
+.fomo-lab-top--detailing::before {
+  z-index: 1;
+  background-image: linear-gradient(90deg,
+    rgba(5,18,31,.92) 0%,
+    rgba(5,18,31,.84) 25%,
+    rgba(5,18,31,.38) 48%,
+    rgba(5,18,31,.06) 78%,
+    rgba(5,18,31,.2) 100%);
+  background-position: center;
+  background-size: cover;
+}
+.fomo-lab-top--detailing > div {
+  position: relative;
+  z-index: 2;
+}
+@media (min-width: 960px) {
+  .fomo-lab-top--detailing h3 {
+    max-width: 510px;
+  }
+}
+@media (min-width: 641px) and (max-width: 959px) {
+  .fomo-lab-top--detailing {
+    min-height: 360px;
+  }
+  .fomo-lab-top--detailing .fomo-hero-picture img {
+    object-position: 61% 55%;
+  }
+  .fomo-lab-top--detailing::before {
+    background-image: linear-gradient(100deg,
+      rgba(5,18,31,.95) 0%,
+      rgba(5,18,31,.82) 37%,
+      rgba(5,18,31,.38) 75%,
+      rgba(5,18,31,.27) 100%);
+  }
+}
+@media (max-width: 640px) {
+  .fomo-lab-top--detailing {
+    min-height: 402px;
+    justify-content: flex-start;
+    gap: 21px;
+  }
+  /* Art direction: entire automobile panorama is visible near the bottom
+     on narrow screens rather than cropping off the grille or rear wheel. */
+  .fomo-lab-top--detailing > .fomo-hero-picture {
+    inset: auto 0 0;
+    width: 100%;
+    height: min(41vw, 167px);
+  }
+  .fomo-lab-top--detailing .fomo-hero-picture img {
+    object-fit: contain;
+    object-position: center bottom;
+  }
+  .fomo-lab-top--detailing::before {
+    background-image: linear-gradient(180deg,
+      rgba(5,18,31,.97) 0%,
+      rgba(5,18,31,.94) 47%,
+      rgba(5,18,31,.54) 71%,
+      rgba(5,18,31,.06) 100%);
+  }
+}

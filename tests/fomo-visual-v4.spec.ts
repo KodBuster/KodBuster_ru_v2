@@ -51,8 +51,11 @@ test("all sectors have relevant visual media and no blank image placeholder", as
   await expect(images.nth(0)).toHaveJSProperty("naturalHeight",240);
   await expect(images.nth(1)).toHaveJSProperty("naturalWidth",531);
   await expect(images.nth(1)).toHaveJSProperty("naturalHeight",240);
-  const heroBackground = await compare.locator(".fomo-lab-top--media").evaluate(el => getComputedStyle(el,"::before").backgroundImage);
-  expect(heroBackground).toContain("fomo-mercedes-hero.jpg");
+  const heroImage = compare.locator(".fomo-hero-picture img");
+  await expect(heroImage).toHaveCount(1);
+  await expect(heroImage).toHaveJSProperty("complete", true);
+  const heroSource = await heroImage.evaluate(el => (el as HTMLImageElement).currentSrc);
+  expect(heroSource).toMatch(/mercedes-hero-wide-(700|1000|2172)\.webp/);
 
   await compare.getByRole("button",{name:"Косметология"}).click();
   const beautyImages = compare.locator(".fomo-mock-photo img");
@@ -123,14 +126,20 @@ test("reference fidelity: detailing colors, framing and default desktop/mobile s
     const right = await photos.nth(1).locator("img");
     await expect(right).toHaveJSProperty("naturalWidth", 531);
     await expect(right).toHaveJSProperty("naturalHeight", 240);
-    const hero = await compare.locator(".fomo-lab-top--media").evaluate(node => ({
-      background: getComputedStyle(node,"::before").backgroundImage,
-      size: getComputedStyle(node,"::before").backgroundSize,
-    }));
-    expect(hero.background).toContain("fomo-mercedes-hero.jpg");
-    if (width === 1440) {
-      expect(hero.size).toContain("58%");
-    }
+    const hero = await compare.locator(".fomo-hero-picture img").evaluate(node => {
+      const image = node as HTMLImageElement;
+      const style = getComputedStyle(image);
+      return {
+        src: image.currentSrc,
+        loaded: image.complete && image.naturalWidth > 0,
+        ratio: image.naturalWidth / image.naturalHeight,
+        fit: style.objectFit,
+      };
+    });
+    expect(hero.src).toMatch(/mercedes-hero-wide-(700|1000|2172)\.webp/);
+    expect(hero.loaded).toBe(true);
+    expect(hero.ratio).toBeCloseTo(3, 1);
+    expect(hero.fit).toBe(width === 390 ? "contain" : "cover");
 
     // Capture the INITIAL detailing state, not a different industry selected
     // during other interaction tests. These screenshots are visual approval assets.
@@ -139,4 +148,43 @@ test("reference fidelity: detailing colors, framing and default desktop/mobile s
       animations: "disabled",
     });
   }
+});
+
+test("new Mercedes Hero adapts across devices and keeps other industries intact", async ({ page }) => {
+  for (const width of [360, 390, 768, 1024, 1440, 1920]) {
+    await page.setViewportSize({ width, height: 900 });
+    const compare = await openDemo(page);
+    const hero = compare.locator(".fomo-hero-picture img");
+    await expect(hero).toHaveCount(1);
+    await expect(hero).toHaveJSProperty("complete", true);
+    const image = await hero.evaluate(node => {
+      const el = node as HTMLImageElement;
+      const box = el.getBoundingClientRect();
+      return {
+        src: el.currentSrc,
+        loaded: el.naturalWidth > 0,
+        ratio: el.naturalWidth / el.naturalHeight,
+        cssWidth: box.width,
+        cssHeight: box.height,
+        fit: getComputedStyle(el).objectFit,
+      };
+    });
+    expect(image.loaded).toBe(true);
+    expect(image.ratio).toBeCloseTo(3, 1);
+    expect(image.cssWidth).toBeGreaterThan(0);
+    expect(image.cssHeight).toBeGreaterThan(0);
+    expect(image.fit).toBe(width <= 640 ? "contain" : "cover");
+    if (width >= 1101) expect(image.src).toContain("mercedes-hero-wide-2172.webp");
+    if (width <= 640) expect(image.src).toMatch(/mercedes-hero-wide-(700|1000)\.webp/);
+    const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
+    expect(overflow, `overflow at ${width}px`).toBeLessThanOrEqual(1);
+  }
+  await page.setViewportSize({ width: 1440, height: 900 });
+  const compare = await openDemo(page);
+  await compare.getByRole("button", { name: "Косметология" }).click();
+  await expect(compare.locator(".fomo-hero-picture")).toHaveCount(0);
+  await compare.getByRole("button", { name: "Ремонт" }).click();
+  await expect(compare.locator(".fomo-hero-picture")).toHaveCount(0);
+  await compare.getByRole("button", { name: "Детейлинг" }).click();
+  await expect(compare.locator(".fomo-hero-picture img")).toHaveCount(1);
 });

@@ -101,7 +101,6 @@ function RenovationImage({ refined }: { refined: boolean }) {
  * Other sectors retain their existing illustrative assets.
  */
 const detailingMedia = {
-  hero: "/images/fomo/fomo-mercedes-hero.jpg",
   before: "/images/fomo/fomo-mercedes-service.jpg",
   after: "/images/fomo/fomo-ppf-install.jpg",
 } as const;
@@ -131,8 +130,8 @@ export function FomoComparison() {
   const [emphasis, setEmphasis] = useState<"before" | "after">("after");
   const [detailTab, setDetailTab] = useState<DetailTab>("works");
   const current = sectors[sector];
-  const heroPhoto = sector === "detailing" ? detailingMedia.hero : current.image;
-  const heroImage = heroPhoto ? `url("${basePath}${heroPhoto}")` : "none";
+  const isWideDetailingHero = sector === "detailing";
+  const heroImage = !isWideDetailingHero && current.image ? `url("${basePath}${current.image}")` : "none";
 
   return (
     <section className="fomo-section section-pad" id="compare" aria-labelledby="fomo-title">
@@ -144,7 +143,21 @@ export function FomoComparison() {
         </div>
 
         <div className="fomo-lab">
-          <div className="fomo-lab-top fomo-lab-top--media" style={{ "--fomo-hero-image": heroImage } as CSSProperties}>
+          <div className={`fomo-lab-top fomo-lab-top--media${isWideDetailingHero ? " fomo-lab-top--detailing" : ""}`} style={{ "--fomo-hero-image": heroImage } as CSSProperties}>
+            {isWideDetailingHero && (
+              <picture className="fomo-hero-picture" aria-hidden="true">
+                <source media="(max-width: 640px)" srcSet={`${basePath}/images/fomo/mercedes-hero-wide-700.webp 1x, ${basePath}/images/fomo/mercedes-hero-wide-1000.webp 2x`} />
+                <source media="(max-width: 1100px)" srcSet={`${basePath}/images/fomo/mercedes-hero-wide-1000.webp 1x, ${basePath}/images/fomo/mercedes-hero-wide-2172.webp 2x`} />
+                <img
+                  src={`${basePath}/images/fomo/mercedes-hero-wide-2172.webp`}
+                  width={2172}
+                  height={724}
+                  loading="eager"
+                  decoding="async"
+                  alt=""
+                />
+              </picture>
+            )}
             <div>
               <span className="fomo-micro">ИНТЕРАКТИВНЫЙ ПРИМЕР / НЕ АУДИТ КОНКРЕТНОЙ КОМПАНИИ</span>
               <h3>Одна услуга.<br /><span>Два первых впечатления.</span></h3>
