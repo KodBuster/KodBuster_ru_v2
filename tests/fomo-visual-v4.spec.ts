@@ -101,3 +101,42 @@ test("extracted photos keep proportions and never stretch on different screens",
     }
   }
 });
+
+test("reference fidelity: detailing colors, framing and default desktop/mobile screenshots", async ({ page }, testInfo) => {
+  for (const width of [390, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    const compare = await openDemo(page);
+    const photos = compare.locator(".fomo-mock-photo--extracted");
+    await expect(photos).toHaveCount(2);
+
+    const left = await photos.first().evaluate(el => ({
+      filter: getComputedStyle(el).filter,
+      radius: getComputedStyle(el).borderRadius,
+      src: (el.querySelector("img") as HTMLImageElement).currentSrc,
+      fit: getComputedStyle(el.querySelector("img")!).objectFit,
+    }));
+    expect(left.filter).toBe("none");
+    expect(left.radius).toBe("0px");
+    expect(left.src).toContain("fomo-mercedes-service.jpg");
+    expect(left.fit).toBe("contain");
+
+    const right = await photos.nth(1).locator("img");
+    await expect(right).toHaveJSProperty("naturalWidth", 531);
+    await expect(right).toHaveJSProperty("naturalHeight", 240);
+    const hero = await compare.locator(".fomo-lab-top--media").evaluate(node => ({
+      background: getComputedStyle(node,"::before").backgroundImage,
+      size: getComputedStyle(node,"::before").backgroundSize,
+    }));
+    expect(hero.background).toContain("fomo-mercedes-hero.jpg");
+    if (width === 1440) {
+      expect(hero.size).toContain("58%");
+    }
+
+    // Capture the INITIAL detailing state, not a different industry selected
+    // during other interaction tests. These screenshots are visual approval assets.
+    await compare.locator(".fomo-lab").screenshot({
+      path: `test-results/fomo-visual-v4-reference-${width}-${testInfo.project.name}.png`,
+      animations: "disabled",
+    });
+  }
+});
