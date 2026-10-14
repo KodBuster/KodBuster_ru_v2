@@ -1,0 +1,487 @@
+/* KODBUSTER FOMO SALES v1 — isolated visual layer; no changes to existing layouts. */
+.fomo-section{position:relative;isolation:isolate;overflow:hidden;color:#f7f9fa;background:#071421}
+.fomo-section:before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(ellipse 45% 43% at 94% 11%,rgba(27,150,195,.14),transparent),linear-gradient(130deg,transparent 58%,rgba(255,107,44,.045))}
+.fomo-header{max-width:1000px;margin-bottom:clamp(2rem,5vw,4rem)}
+.fomo-header h2{max-width:990px;margin:.75rem 0 1.35rem;font:900 clamp(2.6rem,6.3vw,6.1rem)/.96 var(--display);letter-spacing:-.055em;text-transform:uppercase;text-wrap:balance}
+.fomo-header h2 em{font-style:normal;color:var(--orange)}
+.fomo-header>p:last-child{max-width:730px;color:#b6c9d8;font-size:clamp(1rem,1.5vw,1.2rem);line-height:1.65}
+.fomo-lab{border:1px solid #334452;background:#0b1c2b;box-shadow:0 24px 100px rgba(0,0,0,.16)}
+.fomo-lab-top{display:flex;align-items:end;justify-content:space-between;gap:1.25rem;padding:clamp(1.25rem,3vw,2.5rem);border-bottom:1px solid #293b49}
+.fomo-micro{color:#c8a590;font:800 .65rem/1.5 var(--sans);letter-spacing:.12em;text-transform:uppercase}
+.fomo-lab-top h3{margin:1.1rem 0 0;font:900 clamp(1.65rem,3.7vw,3.6rem)/1 var(--display);letter-spacing:-.045em;text-transform:uppercase}
+.fomo-lab-top h3 span{color:#aebfc9}
+.fomo-industries{display:flex;align-items:center;flex-wrap:wrap;gap:.4rem}
+.fomo-industries button{min-height:44px;padding:.65rem 1rem;color:#b8c9d4;background:transparent;border:1px solid #496071;border-radius:2px;font:.76rem var(--sans);font-weight:800;cursor:pointer;transition:color .18s,border-color .18s,background .18s}
+.fomo-industries button:hover{border-color:var(--orange)}
+.fomo-industries button.is-active{color:#091622;background:var(--orange);border-color:var(--orange)}
+.fomo-compare-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:#293b49}
+.fomo-preview{min-width:0;background:#0b1c2b;transition:background .2s}
+.fomo-preview.is-spotlight{background:#10283a}
+.fomo-preview-better{position:relative}
+.fomo-preview-better:before{content:"АРГУМЕНТЫ ВЫБОРА";position:absolute;z-index:2;right:1.25rem;top:3.8rem;padding:.45rem .65rem;color:#071421;background:var(--orange);font-size:.57rem;font-weight:900;letter-spacing:.09em;transform:rotate(2deg)}
+.fomo-browser{display:flex;align-items:center;gap:.32rem;height:43px;padding:0 1rem;background:#172c3b;border-bottom:1px solid #354857}
+.fomo-browser i{width:7px;height:7px;border-radius:50%;background:#617483}
+.fomo-browser i:first-child{background:#e77758}
+.fomo-browser span{margin-left:.8rem;color:#b6c7d1;font-size:.66rem;letter-spacing:.025em}
+.fomo-preview-body{padding:clamp(1rem,2.5vw,2.4rem);min-height:360px}
+.fomo-preview-meta{color:#8a9eac;font-size:.65rem;letter-spacing:.15em;font-weight:800}
+.fomo-mock-photo{height:clamp(90px,12vw,190px);display:flex;align-items:end;margin:1rem 0 1.3rem;padding:1.1rem;overflow:hidden;background:radial-gradient(circle at 70% 30%,#53677b 0%,transparent 44%),linear-gradient(135deg,#263b4b,#0b1720);border:1px solid #496077}
+.fomo-mock-photo span{color:#c9d6de;font-size:.7rem;text-transform:uppercase;letter-spacing:.08em}
+.is-before .fomo-mock-photo{filter:grayscale(.85) contrast(.8);background:linear-gradient(135deg,#48515a,#1e272f)}
+.is-after .fomo-mock-photo{background:radial-gradient(ellipse at 80% 5%,rgba(255,107,44,.55),transparent 55%),linear-gradient(130deg,#214459,#091724 80%);border-color:#a95b3c}
+.fomo-preview-body h4{max-width:520px;margin:0 0 .7rem;color:#fff;font:900 clamp(1.45rem,2.3vw,2.4rem)/1.08 var(--display);text-transform:uppercase}
+.fomo-preview-body p{max-width:390px;margin:0 0 1.25rem;color:#aabcca;font-size:.9rem;line-height:1.55}
+.fomo-placeholder-line{width:88%;height:6px;margin:12px 0;background:#445360}
+.fomo-placeholder-line.short{width:47%}
+.fomo-mock-link{display:inline-block;margin-top:1rem;color:#a1b4c1;font-size:.75rem;text-decoration:underline}
+.fomo-mock-chips{display:flex;flex-wrap:wrap;gap:.4rem;margin:.95rem 0 1.3rem}
+.fomo-mock-chips span{padding:.42rem .7rem;border:1px solid #5a7284;color:#cddce4;font-size:.67rem;font-weight:700}
+.fomo-mock-cta{display:inline-flex;padding:.78rem 1rem;background:var(--orange);color:#0b1720;font-size:.74rem;font-weight:900}
+.fomo-preview-footer{display:flex;justify-content:space-between;align-items:center;gap:.7rem;padding:.95rem 1.3rem;border-top:1px solid #304252;color:#99adbc;font-size:.65rem;letter-spacing:.025em}
+.fomo-preview-footer button{padding:.3rem 0;color:#fff;background:transparent;border:0;border-bottom:1px solid rgba(255,255,255,.4);font-size:.67rem;cursor:pointer;text-align:right}
+.fomo-preview-footer button[aria-pressed="true"]{color:var(--orange);border-color:var(--orange)}
+.fomo-insights{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:2rem;padding:clamp(1.25rem,3vw,2.5rem);border-top:1px solid #324c5e}
+.fomo-insights-top span{display:block;margin-bottom:1rem;color:var(--orange);font-size:.65rem;font-weight:900;letter-spacing:.12em}
+.fomo-insights-top strong{display:block;max-width:480px;font-size:clamp(1.08rem,1.5vw,1.4rem);line-height:1.4}
+.fomo-insights ul{list-style:none;margin:0;padding:0;display:grid;gap:.9rem}
+.fomo-insights li{display:flex;gap:.9rem;align-items:start;color:#d7e2e9;font-size:.88rem;line-height:1.4}
+.fomo-insights li span{color:var(--orange);font-size:.71rem;font-weight:900}
+.fomo-lab-bottom{display:flex;align-items:center;justify-content:space-between;gap:1.5rem;padding:1.3rem clamp(1.25rem,3vw,2.5rem);border-top:1px solid #324c5e}
+.fomo-lab-bottom p{max-width:570px;margin:0;color:#9baebb;font-size:.76rem;line-height:1.5}
+.fomo-lab-bottom .button{flex:none}
+.fomo-audit{position:relative;background:#ecedea}
+.fomo-audit-shell{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:clamp(1.5rem,5vw,5rem);align-items:center}
+.fomo-audit h2{margin:.7rem 0 1.3rem;font:900 clamp(2.4rem,4.7vw,5.4rem)/.95 var(--display);text-transform:uppercase;letter-spacing:-.045em}
+.fomo-audit h2 em{color:#cf5526;font-style:normal}
+.fomo-audit-copy>p:last-of-type{max-width:530px;color:#4a5964;line-height:1.7}
+.fomo-audit-copy .button{margin-top:1.5rem}
+.fomo-audit-list{display:grid;gap:0;list-style:none;margin:0;padding:0;border-top:2px solid #122333}
+.fomo-audit-list li{display:flex;gap:1.1rem;padding:1.45rem 0;border-bottom:1px solid #b9bec3}
+.fomo-audit-list li>span{flex:none;color:#d65e32;font-size:.76rem;font-weight:900}
+.fomo-audit-list strong{display:block;margin-bottom:.3rem;font-size:1.1rem}
+.fomo-audit-list p{margin:0;color:#596672;font-size:.87rem}
+.fomo-economy{background:#f5f2ec}
+.fomo-economy-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.9fr);align-items:center;gap:clamp(2rem,6vw,6rem)}
+.fomo-economy-intro h2{margin:.8rem 0 1.35rem;font:900 clamp(2.5rem,5.1vw,5.2rem)/.97 var(--display);letter-spacing:-.045em;text-transform:uppercase}
+.fomo-economy-intro h2 em{font-style:normal;color:#c8542c}
+.fomo-economy-intro>p:not(.section-kicker){max-width:560px;font-size:1.07rem;color:#52606b;line-height:1.65}
+.fomo-economy-intro .fomo-economy-disclaimer{margin-top:2rem;font-size:.78rem!important;color:#6e7981!important;border-left:2px solid #c5ccd0;padding-left:1rem}
+.fomo-economy-card{padding:clamp(1.2rem,3vw,2.5rem);color:#f9fafb;background:#0a1b2b;box-shadow:12px 18px 0 rgba(22,48,64,.12)}
+.fomo-economy-tiers{min-width:0;margin:1.4rem 0 1.3rem;padding:0;border:0}
+.fomo-economy-tiers legend,.fomo-economy-input{display:block;margin-bottom:.65rem;font-size:.8rem;font-weight:800;color:#d0dce4}
+.fomo-tier-controls{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.5rem}
+.fomo-tier-controls button{min-width:0;padding:.75rem .45rem;background:#152d3f;border:1px solid #385064;color:#d8e6ef;cursor:pointer}
+.fomo-tier-controls button:hover{border-color:var(--orange)}
+.fomo-tier-controls button.is-selected{border-color:var(--orange);box-shadow:inset 0 -3px 0 var(--orange);color:#fff}
+.fomo-tier-controls button span,.fomo-tier-controls button b{display:block;font-size:.76rem}
+.fomo-tier-controls button b{margin-top:.25rem;font-size:.87rem;white-space:nowrap}
+.fomo-economy-input input{width:100%;min-height:52px;margin-top:.6rem;padding:.65rem .9rem;font-size:1.2rem;font-weight:900;color:#fff;background:#122c3f;border:1px solid #51677b;border-radius:0}
+.fomo-economy-result{display:grid;gap:.3rem;margin:1.5rem 0 0;padding:1.3rem;border:1px solid #305166;background:#112b3c}
+.fomo-economy-result>span{color:#adbfcb;font-size:.76rem}
+.fomo-economy-result strong{font:900 clamp(3.5rem,7vw,6rem)/1 var(--display);letter-spacing:-.06em;color:var(--orange)}
+.fomo-economy-result p{margin:0;color:#edf3f6;font-size:.84rem}
+.fomo-economy-link{min-height:48px;display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-top:1.3rem;padding-top:.8rem;border-top:1px solid #3d5261;color:#fff;font-weight:800;font-size:.8rem;text-transform:uppercase}
+.fomo-economy-link svg{color:var(--orange)}
+.fomo-price-why{display:flex;align-items:flex-start;gap:.6rem;margin-top:.8rem;padding:.65rem .8rem;background:rgba(27,150,195,.06);border-left:2px solid #1b96c3}
+.fomo-price-why strong{font-size:.75rem}
+.fomo-price-why span{color:#56636d;font-size:.72rem;line-height:1.5}
+.fomo-version-note{display:inline-flex;gap:.6rem;align-items:center;margin-top:1.2rem;padding:.5rem .7rem;border:1px solid rgba(255,107,44,.6);color:#f6c7b4;background:rgba(255,107,44,.06);font-size:.65rem;letter-spacing:.11em;font-weight:800;text-transform:uppercase}
+@media(max-width:959px){.fomo-lab-top{align-items:flex-start;flex-direction:column}.fomo-audit-shell,.fomo-economy-grid{grid-template-columns:1fr}.fomo-lab-bottom{align-items:flex-start;flex-direction:column}.fomo-lab-bottom .button{max-width:100%}}
+@media(max-width:640px){.fomo-header h2{font-size:clamp(2.4rem,11vw,3.6rem)}.fomo-lab-top{padding:1.1rem}.fomo-industries{width:100%}.fomo-industries button{flex:1;min-width:90px;padding:.55rem .5rem}.fomo-compare-grid,.fomo-insights{grid-template-columns:1fr}.fomo-preview-body{min-height:0}.fomo-preview-better:before{top:3rem;right:.5rem;font-size:.49rem}.fomo-mock-photo{height:126px}.fomo-preview-footer{padding:1rem}.fomo-insights{gap:1.5rem}.fomo-lab-bottom{padding:1.1rem}.fomo-lab-bottom .button{width:100%;justify-content:space-between}.fomo-tier-controls{gap:.25rem}.fomo-tier-controls button{padding:.65rem .15rem}.fomo-tier-controls button b{font-size:.7rem}.fomo-economy-card{box-shadow:none}}
+@media(prefers-reduced-motion:reduce){.fomo-preview,.fomo-industries button{transition:none}}
+
+/* Prevent the existing highlighted route step from overhanging narrow viewports. */
+@media(max-width:640px){.route-flow .route-active{margin-inline:0}}
+
+/* Sales pilot: a compact, accessible audit-intake select. */
+.lead-field select{width:100%;min-height:52px;padding:.8rem 1rem;color:var(--ink);background:#f6f5f2;border:1px solid var(--line);border-radius:0;font:inherit;font-size:1rem}
+.lead-field select:focus-visible{outline:3px solid #54c9ff;outline-offset:2px}
+.lead-field input[maxlength="240"]{overflow-wrap:anywhere}
+
+/* Start demo uses sample business metrics: make the disclosure visible near pricing. */
+.package-demo-disclosure{flex:1 0 100%;margin:-.2rem 0 .05rem;color:#4f5960;font-size:.76rem;line-height:1.3}
+@media(max-width:760px){.package-demo-disclosure{font-size:.72rem;margin:0}}
+
+
+/* FOMO VISUAL v4 — editorial photography, without artificial "3D" buttons.
+   All actions share the existing KodBuster rounded CTA language. */
+.fomo-lab-top--media {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  min-height: clamp(190px,22vw,265px);
+  align-items: center;
+  background: #0b1c2b;
+}
+.fomo-lab-top--media::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image:
+    linear-gradient(90deg,rgba(7,20,33,.98) 0%,rgba(7,20,33,.89) 35%,rgba(7,20,33,.46) 72%,rgba(7,20,33,.8) 100%),
+    var(--fomo-hero-image);
+  background-position: center, right 41%;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.fomo-lab-top--media > * { position: relative; z-index: 1; }
+.fomo-industries button,
+.fomo-mock-chips button,
+.fomo-tier-controls button {
+  border-radius: var(--kb-button-radius,999px);
+  font-family: var(--sans);
+  font-weight: 800;
+  transition: background-color .18s ease-out, color .18s ease-out, border-color .18s ease-out, box-shadow .18s ease-out,transform .18s ease-out;
+}
+.fomo-industries button {
+  border: 1px solid rgba(219,232,242,.44);
+  background: rgba(7,20,33,.72);
+  color: #f2f5f8;
+  backdrop-filter: blur(7px);
+}
+.fomo-industries button:hover { color: #fff; border-color: var(--orange); transform: translateY(-1px); }
+.fomo-industries button.is-active { color: #fff; background: var(--orange); border-color: var(--orange); box-shadow: 0 8px 22px rgba(255,107,44,.25); }
+.fomo-industries button:focus-visible,
+.fomo-mock-chips button:focus-visible,
+.fomo-preview-footer button:focus-visible { outline: 3px solid #54c9ff; outline-offset: 3px; }
+.fomo-mock-photo {
+  position: relative;
+  border-radius: 10px;
+  padding: 0;
+  background: #172c3b;
+  box-shadow: 0 13px 27px rgba(0,0,0,.16);
+}
+.fomo-mock-image { object-fit: cover; object-position: 50% 45%; }
+.is-before .fomo-mock-photo { filter: grayscale(.95) saturate(.3); }
+.is-after .fomo-mock-photo { border-color: var(--orange);box-shadow:0 11px 28px rgba(0,0,0,.25), 0 0 0 1px rgba(255,107,44,.22); }
+.fomo-mock-photo::after { content:""; position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,transparent 42%,rgba(5,16,26,.75));z-index:1; }
+.fomo-mock-photo .fomo-photo-caption { position: absolute;z-index:2;bottom:13px;left:13px;color:#f0f4f6;font-size:.64rem;font-weight:800;text-shadow:0 2px 6px #091723; }
+.fomo-photo-service-tag { position:absolute;z-index:2;right:10px;top:10px;padding:5px 8px;color:#fff;border-radius:999px;border:1px solid rgba(255,255,255,.6);background:rgba(10,24,36,.63);font-size:.57rem;font-weight:900;letter-spacing:.07em; }
+.fomo-renovation-art { width:100%;height:100%;min-height:100%;display:block;object-fit:cover; }
+.fomo-mock-chips button {
+  min-height: 37px;
+  padding: .5rem .85rem;
+  border: 1px solid #668093;
+  background: rgba(11,28,43,.5);
+  color: #dae5ee;
+  font-size: .7rem;
+  cursor: pointer;
+}
+.fomo-mock-chips button:hover { border-color:var(--orange);color:#fff; }
+.fomo-mock-chips button.is-active {
+  background: var(--orange);
+  color: #fff;
+  border-color: var(--orange);
+}
+.fomo-service-detail {max-width:480px!important;min-height:43px;margin:-.15rem 0 1rem!important;color:#c6d5df!important;font-size:.82rem!important;line-height:1.5!important;}
+.fomo-mock-cta.button {
+  min-height: 46px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: .68rem 1.15rem;
+  border-radius: var(--kb-button-radius,999px);
+  color: white;
+  font-size: .75rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+}
+.fomo-mock-cta svg { width:19px;height:19px; }
+.fomo-preview-footer button {min-height:38px;padding:6px 2px;border-radius:0;font-weight:700;}
+.fomo-lab-bottom .button { border-radius:var(--kb-button-radius,999px); }
+@media(max-width:760px) {
+  .fomo-lab-top--media { min-height: 0; }
+  .fomo-lab-top--media::before { background-position:center,right center;opacity:.83; }
+  .fomo-photo-service-tag { display:none; }
+  .fomo-service-detail { min-height:0; }
+}
+@media(prefers-reduced-motion:reduce) {
+  .fomo-industries button,
+  .fomo-mock-chips button,
+  .fomo-tier-controls button { transition:none; }
+  .fomo-industries button:hover { transform:none; }
+}
+
+
+/* FOMO v4.1 — screenshot-derived Mercedes and PPF photos.
+   Natural 530:240 framing at all breakpoints; no image distortion or crop.
+   Hero fragment (375x274) is composited over the navy header, not stretched
+   across the entire width, keeping source detail as intact as possible. */
+.fomo-lab-top--media::before {
+  background-image:
+    linear-gradient(90deg, rgba(7,20,33,.98) 0%,rgba(7,20,33,.93) 37%,rgba(7,20,33,.3) 70%,rgba(7,20,33,.24) 100%),
+    var(--fomo-hero-image);
+  background-size: cover, min(39%, 430px) auto;
+  background-position: center, right 2% center;
+  background-repeat: no-repeat;
+}
+.fomo-preview-body .fomo-mock-photo--extracted {
+  display: block;
+  width: 100%;
+  max-width: 530px;
+  height: auto;
+  min-height: 0;
+  aspect-ratio: 530 / 240;
+  margin: 1rem auto 1.3rem;
+  background: #111c26;
+  overflow: hidden;
+}
+.fomo-mock-photo--extracted .fomo-mock-image {
+  object-fit: contain;
+  object-position: 50% 50%;
+  width: 100%;
+  height: 100%;
+}
+.fomo-preview-body .fomo-mock-photo--extracted img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+@media (max-width: 959px) {
+  .fomo-lab-top--media::before {
+    background-image:
+      linear-gradient(100deg, rgba(7,20,33,.96),rgba(7,20,33,.68) 66%,rgba(7,20,33,.62)),
+      var(--fomo-hero-image);
+    background-size: cover, min(72%, 400px) auto;
+    background-position: center, right center;
+  }
+}
+@media (max-width: 640px) {
+  .fomo-lab-top--media::before {
+    background-image:
+      linear-gradient(180deg, rgba(7,20,33,.83),rgba(7,20,33,.91)),
+      var(--fomo-hero-image);
+    background-size: cover, min(95%, 375px) auto;
+    background-position: center, center 20%;
+    opacity: 1;
+  }
+  .fomo-preview-body .fomo-mock-photo--extracted {
+    aspect-ratio: 530 / 240;
+    height: auto;
+    min-height: 0;
+  }
+}
+
+
+/* FOMO reference alignment (2026-10-14).
+   The original screenshots are unchanged: no crop or stretching in cards.
+   The wider header is a composition from a smaller, clean photo fragment,
+   not a literal copy of the overprinted reference screenshot. */
+@media (min-width: 960px) {
+  .fomo-lab-top--media h3 {
+    max-width: 510px;
+    line-height: .98;
+    position: relative;
+    z-index: 1;
+  }
+  .fomo-lab-top--media::before {
+    background-image:
+      linear-gradient(90deg,rgba(7,20,33,.97) 0%,rgba(7,20,33,.90) 33%,rgba(7,20,33,.25) 55%,rgba(7,20,33,.04) 82%,rgba(7,20,33,.13) 100%),
+      var(--fomo-hero-image);
+    background-size: cover, min(58%, 680px) auto;
+    background-position: center, right center;
+  }
+}
+/* Source service photo in the reference is full-colour — never desaturate it.
+   Its less persuasive presentation is communicated by the layout and copy. */
+.is-before .fomo-mock-photo--extracted {
+  filter: none;
+  border-radius: 0;
+}
+.fomo-mock-photo--extracted {
+  border-radius: 0;
+}
+.fomo-mock-photo--extracted .fomo-photo-service-tag {
+  display: none;
+}
+@media (max-width: 959px) {
+  .fomo-lab-top--media h3 { max-width: min(100%, 550px); }
+}
+
+/* Keep both comparison columns and their footer actions on the same baseline,
+   as in the user-approved side-by-side reference. */
+@media (min-width: 641px) {
+  .fomo-compare-grid > .fomo-preview {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+  .fomo-compare-grid .fomo-preview-body { flex: 1 0 auto; }
+  .fomo-compare-grid .fomo-preview-footer { margin-top: auto; }
+}
+
+
+/* FOMO v5 — full-resolution photographic Hero. CSS never stretches the
+   original 3:1 photograph; <picture> provides density-aware alternatives.
+   Live heading and business switches stay above an accessible decorative image. */
+.fomo-lab-top--detailing {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: #071624;
+  min-height: clamp(272px, 25vw, 342px);
+}
+.fomo-lab-top--detailing > .fomo-hero-picture {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: block;
+  overflow: hidden;
+  pointer-events: none;
+}
+.fomo-lab-top--detailing .fomo-hero-picture img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 54%;
+}
+.fomo-lab-top--detailing::before {
+  z-index: 1;
+  background-image: linear-gradient(90deg,
+    rgba(5,18,31,.92) 0%,
+    rgba(5,18,31,.84) 25%,
+    rgba(5,18,31,.38) 48%,
+    rgba(5,18,31,.06) 78%,
+    rgba(5,18,31,.2) 100%);
+  background-position: center;
+  background-size: cover;
+}
+.fomo-lab-top--detailing > div {
+  position: relative;
+  z-index: 2;
+}
+@media (min-width: 960px) {
+  .fomo-lab-top--detailing h3 {
+    max-width: 510px;
+  }
+}
+@media (min-width: 641px) and (max-width: 959px) {
+  .fomo-lab-top--detailing {
+    min-height: 360px;
+  }
+  .fomo-lab-top--detailing .fomo-hero-picture img {
+    object-position: 61% 55%;
+  }
+  .fomo-lab-top--detailing::before {
+    background-image: linear-gradient(100deg,
+      rgba(5,18,31,.95) 0%,
+      rgba(5,18,31,.82) 37%,
+      rgba(5,18,31,.38) 75%,
+      rgba(5,18,31,.27) 100%);
+  }
+}
+@media (max-width: 640px) {
+  .fomo-lab-top--detailing {
+    min-height: 402px;
+    justify-content: flex-start;
+    gap: 21px;
+  }
+  /* Art direction: entire automobile panorama is visible near the bottom
+     on narrow screens rather than cropping off the grille or rear wheel. */
+  .fomo-lab-top--detailing > .fomo-hero-picture {
+    inset: auto 0 0;
+    width: 100%;
+    height: min(41vw, 167px);
+  }
+  .fomo-lab-top--detailing .fomo-hero-picture img {
+    object-fit: contain;
+    object-position: center bottom;
+  }
+  .fomo-lab-top--detailing::before {
+    background-image: linear-gradient(180deg,
+      rgba(5,18,31,.97) 0%,
+      rgba(5,18,31,.94) 47%,
+      rgba(5,18,31,.54) 71%,
+      rgba(5,18,31,.06) 100%);
+  }
+}
+
+
+/* ROI FLOW v2 — selected 3D route: cost / unit profit / required orders.
+   Numbers are derived from the same existing mathematical model. */
+.fomo-economy .roi-flow-card {
+  position:relative;isolation:isolate;overflow:visible;border:1px solid #365468;
+  border-radius:18px;background:linear-gradient(154deg,#102c3f,#071725 81%);
+  box-shadow:11px 11px 0 #c8c9c5,20px 25px 40px rgba(14,37,52,.22);
+  transform:perspective(1200px) rotateY(-1.1deg);
+}
+.fomo-economy .roi-flow-card:before {
+  content:"";pointer-events:none;position:absolute;z-index:-1;inset:2px;
+  border-radius:16px;background:radial-gradient(circle at 95% 1%,rgba(255,117,42,.15),transparent 40%);
+}
+.fomo-economy .roi-flow-result {
+  display:grid;gap:13px;padding:20px 0 0;margin-top:24px;
+  background:transparent;border:0;
+}
+.roi-flow-track {
+  display:grid;grid-template-columns:minmax(0,1fr) 20px minmax(0,1fr) 20px minmax(0,1.1fr);
+  align-items:center;gap:6px;perspective:720px;
+}
+.roi-flow-stage {
+  position:relative;display:flex;min-width:0;min-height:111px;flex-direction:column;
+  align-items:flex-start;justify-content:center;gap:10px;
+  border:1px solid rgba(255,255,255,.7);border-radius:12px;padding:12px 9px;
+  color:#152435;background:linear-gradient(145deg,#f4f6f7,#c1d0d6);
+  box-shadow:4px 7px 0 #899ba7,7px 13px 12px rgba(0,0,0,.28),inset 0 2px 1px #fff;
+  transform:rotateY(-5deg) rotateX(3deg);
+  transition:transform .2s ease,box-shadow .2s ease;
+}
+.roi-flow-stage:nth-of-type(2) { background:linear-gradient(145deg,#f1f3f5,#a1b8c3); }
+.roi-flow-stage:hover{transform:translateY(-3px) rotateY(0);}
+.roi-flow-stage small {
+  color:#475b68;font-size:10px;line-height:1.2;font-weight:800;letter-spacing:.03em;text-transform:uppercase;
+}
+.roi-flow-stage b {
+  color:#12263b;font:900 clamp(12px,1.05vw,18px)/1.1 var(--display);
+  white-space:nowrap;letter-spacing:-.045em;
+}
+.roi-flow-operator {font:900 24px/1 var(--display);text-align:center;color:#ff8a42;text-shadow:1px 3px 0 #7d4021;}
+.roi-flow-stage.roi-flow-answer {
+  background:linear-gradient(145deg,#ffc28c,#ff7f35 55%,#ec5a1e);border-color:#ffb17a;
+  box-shadow:4px 7px 0 #be4a1e,8px 14px 15px rgba(0,0,0,.3),inset 0 2px 2px #ffe1b6;
+}
+.roi-flow-answer small{color:#5c2b18;}
+.fomo-economy .roi-flow-result .roi-flow-answer strong {
+  display:block;color:white;font:900 clamp(26px,3vw,40px)/1 var(--display);
+  text-shadow:2px 4px 0 #b64a1e;letter-spacing:-.04em;
+}
+.fomo-economy .roi-flow-result>p{
+  margin:11px 0 2px;border-left:3px solid var(--orange);
+  padding:7px 0 7px 12px;color:#dce9f1;line-height:1.35;font-size:.83rem;
+}
+.fomo-economy .roi-flow-cta.button {
+  min-height:48px;border:1px solid transparent;justify-content:space-between;
+  margin-top:20px;padding:12px 18px;border-radius:var(--kb-button-radius,999px);
+  background:var(--orange);box-shadow:0 9px 22px rgba(255,107,44,.24);color:#fff;
+}
+.fomo-economy .roi-flow-cta.button svg{color:#fff;}
+.fomo-economy .roi-flow-card .fomo-tier-controls button{
+  border-radius:999px;min-height:60px;
+}
+.fomo-economy .roi-flow-card .fomo-tier-controls button.is-selected{
+  color:#fff;border-color:#ff7835;box-shadow:inset 0 -3px 0 #ff7430,0 5px 13px #ff743022;
+}
+.fomo-economy .roi-flow-card .fomo-economy-input input{
+  border-radius:10px;background:#132e41;box-shadow:inset 0 3px 7px #0716248f;
+}
+@media(max-width:959px){
+  .fomo-economy .roi-flow-card{transform:none;}
+}
+@media(max-width:600px){
+  .roi-flow-track{grid-template-columns:minmax(0,1fr);gap:9px;max-width:100%;}
+  .roi-flow-stage{min-height:71px;transform:none;padding:11px 16px;gap:4px;}
+  .roi-flow-stage:hover{transform:translateY(-2px);}
+  .roi-flow-stage b{font-size:clamp(17px,5vw,22px);}
+  .roi-flow-operator{font-size:21px;transform:rotate(0deg);}
+  .fomo-economy .roi-flow-result .roi-flow-answer strong{font-size:32px;}
+  .fomo-economy .roi-flow-card{box-shadow:none;}
+}
+@media(prefers-reduced-motion:reduce){
+  .roi-flow-stage{transition:none;}
+  .roi-flow-stage:hover{transform:none;}
+}

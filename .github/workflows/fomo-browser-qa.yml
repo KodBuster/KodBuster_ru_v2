@@ -1,0 +1,50 @@
+name: FOMO Preview Browser QA
+
+on:
+  pull_request:
+    paths:
+      - "src/**"
+      - "tests/**"
+      - "playwright.config.ts"
+      - ".github/workflows/fomo-browser-qa.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  browser-qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:e2e
+        env:
+          CI: true
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-failure-artifacts
+          path: test-results/
+          retention-days: 5
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: fomo-comparison-v4-visual-review
+          path: test-results/fomo-visual-v4-*.png
+          if-no-files-found: ignore
+          retention-days: 14
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: roi-flow-and-contact-3d-review
+          path: |
+            test-results/roi-flow-next-*.png
+            test-results/contact-next-3d-*.png
+          if-no-files-found: ignore
+          retention-days: 14

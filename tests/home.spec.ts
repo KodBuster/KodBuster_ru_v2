@@ -1,4 +1,5 @@
 import { expect, test, type Page } from "@playwright/test";
+import { validateLead } from "../src/lib/lead-validation";
 
 async function dismissCookies(page: Page) {
   const decline = page.getByRole("button", { name: "Отказаться" });
@@ -16,11 +17,11 @@ test("landing page exposes the primary journey", async ({ page }) => {
   await expect(page).toHaveTitle(/KodBuster/);
   await expect(page.getByRole("heading", { level: 1 }).first()).toContainText("Не просто сайт");
   await expect(page.getByRole("heading", { level: 1 }).first()).toContainText("привлечения клиентов");
-  await expect(page.getByRole("link", { name: /Обсудить проект/ }).first()).toHaveAttribute("href", "#contact");
+  await expect(page.locator(".header-cta")).toHaveAttribute("href", "/#contact");
   await expect(page.getByRole("heading", { name: "РамПадел" })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Синоним" })).toBeVisible();
-  await expect(page.getByText("70 000 ₽", { exact: true })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Оставить заявку" })).toBeAttached();
+  await expect(page.locator("#packages .pkg-card").first().getByText("70 000 ₽", { exact: true }).first()).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Запросить предварительный разбор" })).toBeAttached();
   await expect(page.locator("#contact form")).toHaveCount(1);
   await expect(page.locator("body")).not.toHaveCSS("overflow-x", "scroll");
   expect(errors).toEqual([]);
@@ -39,21 +40,19 @@ test("mobile navigation opens and reaches sections", async ({ page }, testInfo) 
   await expect(page.getByRole("button", { name: "Открыть меню" })).toHaveAttribute("aria-expanded", "false");
 });
 
-test("lead form applies antibot timer and validation", async ({ page }) => {
+test("lead form applies consent and phone validation", async ({ page }) => {
   await page.goto("/#contact");
   await dismissCookies(page);
   const form = page.locator("#contact form");
   const alert = form.getByRole("alert");
-  const submit = form.getByRole("button", { name: "Отправить заявку" });
+  const submit = form.getByRole("button", { name: "Запросить разбор" });
   await expect(submit).toBeDisabled();
   await form.getByLabel("Как к вам обращаться").fill("Тест");
   await expect(submit).toBeDisabled();
   await form.getByRole("checkbox", { name: /Соглашаюсь/ }).check();
   await expect(submit).toBeEnabled();
-  await submit.click();
-  await expect(alert).toContainText("Попробуйте ещё раз");
   await page.waitForTimeout(3200);
-  await form.getByRole("button", { name: "Отправить заявку" }).click();
+  await submit.click();
   await expect(alert).toContainText("Укажите мобильный номер");
 });
 
@@ -62,4 +61,11 @@ test("page has no horizontal overflow", async ({ page }) => {
   await dismissCookies(page);
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
   expect(overflow).toBeLessThanOrEqual(1);
+});
+
+test("antibot timer threshold is deterministic", () => {
+  const now=Date.now();
+  const payload = {name:"Иван",phone:"+7 (916) 984-27-63",comment:"Запрос разбора",consent:true,website:"",form_started_at:now-1000};
+  expect(validateLead(payload,now)).toContain("Попробуйте ещё раз");
+  expect(validateLead({...payload,form_started_at:now-3200},now)).toBeNull();
 });

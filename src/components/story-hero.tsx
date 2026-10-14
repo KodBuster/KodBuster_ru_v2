@@ -124,7 +124,7 @@ export function StoryHero() {
             <div className="story-intro-bottom">
               <div>
                 <p className="story-kicker">Сайты для реального бизнеса</p>
-                <p className="story-lead">Создаём сайты, которые показывают ценность вашего бизнеса, помогают сделать выбор и передают новую заявку прямо на смартфон.</p>
+                <p className="story-lead">Клиент сравнивает вас с конкурентами ещё до первого звонка. Создаём сайты, которые показывают преимущества, помогают сделать выбор и передают обращение на смартфон.</p>
                 <a className="story-work-link" href="#cases">Смотреть наши работы <ArrowUpRight /></a>
               </div>
               <PrimaryLink />
@@ -171,7 +171,7 @@ export function StoryHero() {
               <div className="mobile-story-content mobile-story-intro">
                 <h1>{heroTitle}</h1>
                 <p className="story-kicker">Сайты для реального бизнеса</p>
-                <p>Показываем ценность бизнеса и передаём новую заявку прямо на смартфон.</p>
+                <p>Помогаем показать преимущества, пока клиент сравнивает компании, и делаем обращение простым.</p>
                 <PrimaryLink />
               </div>
             ) : (

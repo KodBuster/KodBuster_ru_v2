@@ -1,14 +1,17 @@
 import Image from "next/image";
 import { ArrowUpRight, PhoneIcon } from "@/components/icons";
 import { LeadForm } from "@/components/lead-form";
+import { FomoComparison } from "@/components/fomo-comparison";
+import { FomoAudit } from "@/components/fomo-audit";
+import { PaybackCalculator } from "@/components/payback-calculator";
 import { PackageLayers } from "@/components/package-layers";
-import { PortfolioReel } from "@/components/portfolio-reel";
+import { PortfolioReelV2 } from "@/components/portfolio-reel-v2";
 import { SiteHeader } from "@/components/site-header";
 import { StoryHero } from "@/components/story-hero";
 import { TarifStartAnchor } from "@/components/tarif-start-anchor";
 import { contactAnchor, contacts } from "@/data/contacts";
 import { JsonLd } from "@/components/json-ld";
-import { packageTerms, processSteps, services } from "@/data/site";
+import { processSteps, services } from "@/data/site";
 import { homeJsonLd } from "@/lib/json-ld";
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
@@ -27,7 +30,9 @@ export default function HomePage() {
         <div id="top" className="page-top" tabIndex={-1} />
         <StoryHero />
 
-        <PortfolioReel />
+        <PortfolioReelV2 />
+        <FomoComparison />
+        <FomoAudit />
 
         <section className="service-intro section-pad" id="services" aria-labelledby="services-title">
           <div className="container">
@@ -84,21 +89,20 @@ export default function HomePage() {
             </div>
             <PackageLayers />
             <TarifStartAnchor />
-            <dl className="package-terms">
-              {packageTerms.map((term) => (
-                <div key={term.title}><dt>{term.title}</dt><dd>{term.text}</dd></div>
-              ))}
-            </dl>
-            <p className="package-after">Реклама в Яндекс Директе, отслеживание звонков и сбор заявок в CRM подключаем отдельно после запуска. Обсудим на разборе, когда будет понятно, что нужно именно вам.</p>
+
           </div>
         </section>
 
-        <section className="final-cta" id="contact" aria-labelledby="contact-title">
-          <div className="container final-card">
+        <PaybackCalculator />
+
+        <section className="final-cta final-cta--3d" id="contact" aria-labelledby="contact-title">
+          <div className="container final-card final-card--3d">
+            <div className="contact-3d-decor contact-3d-decor--left" aria-hidden="true" />
+            <div className="contact-3d-decor contact-3d-decor--right" aria-hidden="true" />
             <div className="final-copy">
               <p className="section-kicker light"><i /> Старт проекта</p>
-              <h2 id="contact-title">Ваш следующий<br />клиент<br /><em>уже ищет вас.</em></h2>
-              <p>Расскажите, чем занимаетесь и что нужно запустить. Ответим по существу и предложим следующий шаг.</p>
+              <h2 id="contact-title">Клиент сравнивает.<br /><em>Покажем вашу силу.</em></h2>
+              <p>Расскажите, чем занимаетесь, и оставьте ссылку на сайт или Яндекс Карты. Начнём с предметного вопроса: что мешает клиенту выбрать вашу компанию?</p>
               <ul className="contact-list" aria-label="Другие способы связи">
                 {contacts.phone && contacts.phoneHref && (
                   <li><span>Позвонить</span><a href={contacts.phoneHref}><PhoneIcon />{contacts.phone}</a></li>
