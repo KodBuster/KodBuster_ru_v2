@@ -301,3 +301,15 @@
 @media (max-width: 959px) {
   .fomo-lab-top--media h3 { max-width: min(100%, 550px); }
 }
+
+/* Keep both comparison columns and their footer actions on the same baseline,
+   as in the user-approved side-by-side reference. */
+@media (min-width: 641px) {
+  .fomo-compare-grid > .fomo-preview {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+  .fomo-compare-grid .fomo-preview-body { flex: 1 0 auto; }
+  .fomo-compare-grid .fomo-preview-footer { margin-top: auto; }
+}
