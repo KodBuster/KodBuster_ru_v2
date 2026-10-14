@@ -265,3 +265,39 @@
     min-height: 0;
   }
 }
+
+
+/* FOMO reference alignment (2026-10-14).
+   The original screenshots are unchanged: no crop or stretching in cards.
+   The wider header is a composition from a smaller, clean photo fragment,
+   not a literal copy of the overprinted reference screenshot. */
+@media (min-width: 960px) {
+  .fomo-lab-top--media h3 {
+    max-width: 510px;
+    line-height: .98;
+    position: relative;
+    z-index: 1;
+  }
+  .fomo-lab-top--media::before {
+    background-image:
+      linear-gradient(90deg,rgba(7,20,33,.97) 0%,rgba(7,20,33,.90) 33%,rgba(7,20,33,.25) 55%,rgba(7,20,33,.04) 82%,rgba(7,20,33,.13) 100%),
+      var(--fomo-hero-image);
+    background-size: cover, min(58%, 680px) auto;
+    background-position: center, right center;
+  }
+}
+/* Source service photo in the reference is full-colour — never desaturate it.
+   Its less persuasive presentation is communicated by the layout and copy. */
+.is-before .fomo-mock-photo--extracted {
+  filter: none;
+  border-radius: 0;
+}
+.fomo-mock-photo--extracted {
+  border-radius: 0;
+}
+.fomo-mock-photo--extracted .fomo-photo-service-tag {
+  display: none;
+}
+@media (max-width: 959px) {
+  .fomo-lab-top--media h3 { max-width: min(100%, 550px); }
+}
