@@ -39,3 +39,12 @@ jobs:
           path: test-results/fomo-visual-v4-*.png
           if-no-files-found: ignore
           retention-days: 14
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: roi-flow-and-contact-3d-review
+          path: |
+            test-results/roi-flow-next-*.png
+            test-results/contact-next-3d-*.png
+          if-no-files-found: ignore
+          retention-days: 14

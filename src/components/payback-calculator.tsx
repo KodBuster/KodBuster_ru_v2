@@ -28,7 +28,7 @@ export function PaybackCalculator() {
           <p>Задайте прибыль с одного дополнительного заказа. Калькулятор покажет, сколько таких заказов нужно для покрытия стоимости разработки.</p>
           <p className="fomo-economy-disclaimer">Это математическая модель, а не прогноз. Сайт сам по себе не гарантирует дополнительные заказы; реклама, сопровождение и прочие расходы здесь не учитываются.</p>
         </div>
-        <div className="fomo-economy-card">
+        <div className="fomo-economy-card roi-flow-card">
           <p className="fomo-micro">ПРОВЕРЬТЕ НА СВОИХ ЧИСЛАХ</p>
           <fieldset className="fomo-economy-tiers">
             <legend>Стоимость проекта</legend>
@@ -39,12 +39,18 @@ export function PaybackCalculator() {
           <label className="fomo-economy-input" htmlFor="fomo-profit">Прибыль с одного дополнительного заказа, ₽
             <input id="fomo-profit" type="number" min="1" max="1000000000" step="1000" inputMode="numeric" value={profit} onChange={(event) => setProfit(event.target.value)} placeholder="Например, 20 000" />
           </label>
-          <div className="fomo-economy-result" role="status" aria-live="polite">
+          <div className="fomo-economy-result roi-flow-result" role="status" aria-live="polite">
             <span>Чтобы покрыть стоимость разработки, потребуется</span>
-            <strong>{count === null ? "—" : money(count)}</strong>
+            <div className="roi-flow-track" aria-label="Стоимость проекта разделить на прибыль с заказа равно количеству дополнительных заказов">
+              <div className="roi-flow-stage"><small>Стоимость</small><b>{money(price)} ₽</b></div>
+              <span className="roi-flow-operator" aria-hidden="true">÷</span>
+              <div className="roi-flow-stage"><small>Прибыль</small><b>{validProfit ? money(unitProfit) + " ₽" : "—"}</b></div>
+              <span className="roi-flow-operator" aria-hidden="true">=</span>
+              <div className="roi-flow-stage roi-flow-answer"><small>Заказы</small><strong>{count === null ? "—" : money(count)}</strong></div>
+            </div>
             <p>{count === null ? "Укажите положительную прибыль с заказа." : "дополнительных заказов за весь период окупаемости"}</p>
           </div>
-          <a className="fomo-economy-link" href="#contact">Разобрать мой бизнес <ArrowUpRight /></a>
+          <a className="fomo-economy-link button button-primary roi-flow-cta" href="#contact">Разобрать мой бизнес <ArrowUpRight /></a>
         </div>
       </div>
     </section>

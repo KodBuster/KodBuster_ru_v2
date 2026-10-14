@@ -95,8 +95,10 @@ export default function HomePage() {
 
         <PaybackCalculator />
 
-        <section className="final-cta" id="contact" aria-labelledby="contact-title">
-          <div className="container final-card">
+        <section className="final-cta final-cta--3d" id="contact" aria-labelledby="contact-title">
+          <div className="container final-card final-card--3d">
+            <div className="contact-3d-decor contact-3d-decor--left" aria-hidden="true" />
+            <div className="contact-3d-decor contact-3d-decor--right" aria-hidden="true" />
             <div className="final-copy">
               <p className="section-kicker light"><i /> Старт проекта</p>
               <h2 id="contact-title">Клиент сравнивает.<br /><em>Покажем вашу силу.</em></h2>

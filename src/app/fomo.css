@@ -400,3 +400,88 @@
       rgba(5,18,31,.06) 100%);
   }
 }
+
+
+/* ROI FLOW v2 — selected 3D route: cost / unit profit / required orders.
+   Numbers are derived from the same existing mathematical model. */
+.fomo-economy .roi-flow-card {
+  position:relative;isolation:isolate;overflow:visible;border:1px solid #365468;
+  border-radius:18px;background:linear-gradient(154deg,#102c3f,#071725 81%);
+  box-shadow:11px 11px 0 #c8c9c5,20px 25px 40px rgba(14,37,52,.22);
+  transform:perspective(1200px) rotateY(-1.1deg);
+}
+.fomo-economy .roi-flow-card:before {
+  content:"";pointer-events:none;position:absolute;z-index:-1;inset:2px;
+  border-radius:16px;background:radial-gradient(circle at 95% 1%,rgba(255,117,42,.15),transparent 40%);
+}
+.fomo-economy .roi-flow-result {
+  display:grid;gap:13px;padding:20px 0 0;margin-top:24px;
+  background:transparent;border:0;
+}
+.roi-flow-track {
+  display:grid;grid-template-columns:minmax(0,1fr) 20px minmax(0,1fr) 20px minmax(0,1.1fr);
+  align-items:center;gap:6px;perspective:720px;
+}
+.roi-flow-stage {
+  position:relative;display:flex;min-width:0;min-height:111px;flex-direction:column;
+  align-items:flex-start;justify-content:center;gap:10px;
+  border:1px solid rgba(255,255,255,.7);border-radius:12px;padding:12px 9px;
+  color:#152435;background:linear-gradient(145deg,#f4f6f7,#c1d0d6);
+  box-shadow:4px 7px 0 #899ba7,7px 13px 12px rgba(0,0,0,.28),inset 0 2px 1px #fff;
+  transform:rotateY(-5deg) rotateX(3deg);
+  transition:transform .2s ease,box-shadow .2s ease;
+}
+.roi-flow-stage:nth-of-type(2) { background:linear-gradient(145deg,#f1f3f5,#a1b8c3); }
+.roi-flow-stage:hover{transform:translateY(-3px) rotateY(0);}
+.roi-flow-stage small {
+  color:#475b68;font-size:10px;line-height:1.2;font-weight:800;letter-spacing:.03em;text-transform:uppercase;
+}
+.roi-flow-stage b {
+  color:#12263b;font:900 clamp(12px,1.05vw,18px)/1.1 var(--display);
+  white-space:nowrap;letter-spacing:-.045em;
+}
+.roi-flow-operator {font:900 24px/1 var(--display);text-align:center;color:#ff8a42;text-shadow:1px 3px 0 #7d4021;}
+.roi-flow-stage.roi-flow-answer {
+  background:linear-gradient(145deg,#ffc28c,#ff7f35 55%,#ec5a1e);border-color:#ffb17a;
+  box-shadow:4px 7px 0 #be4a1e,8px 14px 15px rgba(0,0,0,.3),inset 0 2px 2px #ffe1b6;
+}
+.roi-flow-answer small{color:#5c2b18;}
+.fomo-economy .roi-flow-result .roi-flow-answer strong {
+  display:block;color:white;font:900 clamp(26px,3vw,40px)/1 var(--display);
+  text-shadow:2px 4px 0 #b64a1e;letter-spacing:-.04em;
+}
+.fomo-economy .roi-flow-result>p{
+  margin:11px 0 2px;border-left:3px solid var(--orange);
+  padding:7px 0 7px 12px;color:#dce9f1;line-height:1.35;font-size:.83rem;
+}
+.fomo-economy .roi-flow-cta.button {
+  min-height:48px;border:1px solid transparent;justify-content:space-between;
+  margin-top:20px;padding:12px 18px;border-radius:var(--kb-button-radius,999px);
+  background:var(--orange);box-shadow:0 9px 22px rgba(255,107,44,.24);color:#fff;
+}
+.fomo-economy .roi-flow-cta.button svg{color:#fff;}
+.fomo-economy .roi-flow-card .fomo-tier-controls button{
+  border-radius:999px;min-height:60px;
+}
+.fomo-economy .roi-flow-card .fomo-tier-controls button.is-selected{
+  color:#fff;border-color:#ff7835;box-shadow:inset 0 -3px 0 #ff7430,0 5px 13px #ff743022;
+}
+.fomo-economy .roi-flow-card .fomo-economy-input input{
+  border-radius:10px;background:#132e41;box-shadow:inset 0 3px 7px #0716248f;
+}
+@media(max-width:959px){
+  .fomo-economy .roi-flow-card{transform:none;}
+}
+@media(max-width:600px){
+  .roi-flow-track{grid-template-columns:minmax(0,1fr);gap:9px;max-width:100%;}
+  .roi-flow-stage{min-height:71px;transform:none;padding:11px 16px;gap:4px;}
+  .roi-flow-stage:hover{transform:translateY(-2px);}
+  .roi-flow-stage b{font-size:clamp(17px,5vw,22px);}
+  .roi-flow-operator{font-size:21px;transform:rotate(0deg);}
+  .fomo-economy .roi-flow-result .roi-flow-answer strong{font-size:32px;}
+  .fomo-economy .roi-flow-card{box-shadow:none;}
+}
+@media(prefers-reduced-motion:reduce){
+  .roi-flow-stage{transition:none;}
+  .roi-flow-stage:hover{transform:none;}
+}
