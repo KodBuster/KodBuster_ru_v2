@@ -44,6 +44,10 @@ test("all sectors have relevant visual media and no blank image placeholder", as
   await compare.getByRole("button",{name:"Детейлинг"}).click();
   const images = compare.locator(".fomo-mock-photo img");
   await expect(images).toHaveCount(2);
+  for (const photo of await images.all()) {
+    await photo.scrollIntoViewIfNeeded();
+    await expect.poll(() => photo.evaluate(el => (el as HTMLImageElement).naturalWidth), { timeout: 15000 }).toBeGreaterThan(0);
+  }
   const sources = await images.evaluateAll(nodes => nodes.map(n => (n as HTMLImageElement).currentSrc));
   expect(sources[0]).toContain("fomo-mercedes-service.jpg");
   expect(sources[1]).toContain("fomo-ppf-install.jpg");
@@ -91,6 +95,8 @@ test("extracted photos keep proportions and never stretch on different screens",
     const photos = compare.locator(".fomo-mock-photo--extracted");
     await expect(photos).toHaveCount(2);
     for (const photo of await photos.all()) {
+      await photo.scrollIntoViewIfNeeded();
+      await expect.poll(() => photo.locator("img").evaluate(node => (node as HTMLImageElement).naturalWidth), { timeout: 15000 }).toBeGreaterThan(0);
       const geometry = await photo.evaluate(el => {
         const img = el.querySelector("img")!;
         const { width, height } = el.getBoundingClientRect();
@@ -112,6 +118,10 @@ test("reference fidelity: detailing colors, framing and default desktop/mobile s
     const photos = compare.locator(".fomo-mock-photo--extracted");
     await expect(photos).toHaveCount(2);
 
+    for (const photo of await photos.all()) {
+      await photo.scrollIntoViewIfNeeded();
+      await expect.poll(() => photo.locator("img").evaluate(node => (node as HTMLImageElement).naturalWidth), { timeout: 15000 }).toBeGreaterThan(0);
+    }
     const left = await photos.first().evaluate(el => ({
       filter: getComputedStyle(el).filter,
       radius: getComputedStyle(el).borderRadius,
