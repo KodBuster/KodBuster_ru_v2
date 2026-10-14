@@ -45,6 +45,8 @@ test("3D request form retains real fields, consent, phone validation and endpoin
   await form.getByLabel("Как к вам обращаться").fill("Тест");
   await form.getByRole("checkbox", { name: /Соглашаюсь/ }).check();
   await expect(submit).toBeEnabled();
+  // Mirror the production anti-bot minimum of three seconds.
+  await page.waitForTimeout(3250);
   await submit.click();
   await expect(form.getByRole("alert")).toContainText("Укажите мобильный номер");
   await expect(section).toContainText("без выдуманных диагнозов и обещаний роста продаж");
