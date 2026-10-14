@@ -95,9 +95,32 @@ function RenovationImage({ refined }: { refined: boolean }) {
   </svg>;
 }
 
-function MockMedia({ current, refined }: { current: (typeof sectors)[Sector]; refined: boolean }) {
-  return <div className={`fomo-mock-photo ${refined ? "fomo-mock-photo--refined" : "fomo-mock-photo--plain"}`}>
-    {current.image ? <Image src={`${basePath}${current.image}`} alt={current.imageAlt} fill sizes="(max-width: 640px) 90vw, (max-width: 1100px) 46vw, 540px" className="fomo-mock-image" /> : <RenovationImage refined={refined}/>}
+/**
+ * Screenshot-extracted detailing assets are intentionally displayed at their
+ * native aspect ratio (530×240). No re-encoding, CSS stretch or hidden crop.
+ * Other sectors retain their existing illustrative assets.
+ */
+const detailingMedia = {
+  hero: "/images/fomo/fomo-mercedes-hero.jpg",
+  before: "/images/fomo/fomo-mercedes-service.jpg",
+  after: "/images/fomo/fomo-ppf-install.jpg",
+} as const;
+
+function MockMedia({ current, sector, refined }: { current: (typeof sectors)[Sector]; sector: Sector; refined: boolean }) {
+  const extracted = sector === "detailing";
+  const photo = extracted ? (refined ? detailingMedia.after : detailingMedia.before) : current.image;
+  const alt = extracted
+    ? refined
+      ? "Мастер в перчатках наносит защитную PPF-плёнку на кузов чёрного автомобиля"
+      : "Чёрный Mercedes в светлом помещении автосервиса"
+    : current.imageAlt;
+
+  return <div className={`fomo-mock-photo ${refined ? "fomo-mock-photo--refined" : "fomo-mock-photo--plain"}${extracted ? " fomo-mock-photo--extracted" : ""}`}>
+    {photo
+      ? <Image src={`${basePath}${photo}`} alt={alt} fill
+          sizes="(max-width: 640px) calc(100vw - 68px), (max-width: 1100px) 45vw, 530px"
+          className="fomo-mock-image" unoptimized />
+      : <RenovationImage refined={refined}/>}
     <span className="fomo-photo-caption">{current.imageLabel}</span>
     {refined && <span className="fomo-photo-service-tag" aria-hidden="true">SERVICE / FOCUS</span>}
   </div>;
@@ -108,7 +131,8 @@ export function FomoComparison() {
   const [emphasis, setEmphasis] = useState<"before" | "after">("after");
   const [detailTab, setDetailTab] = useState<DetailTab>("works");
   const current = sectors[sector];
-  const heroImage = current.image ? `url("${basePath}${current.image}")` : "none";
+  const heroPhoto = sector === "detailing" ? detailingMedia.hero : current.image;
+  const heroImage = heroPhoto ? `url("${basePath}${heroPhoto}")` : "none";
 
   return (
     <section className="fomo-section section-pad" id="compare" aria-labelledby="fomo-title">
@@ -137,7 +161,7 @@ export function FomoComparison() {
               <div className="fomo-browser"><i /><i /><i /><span>Типовая слабая подача</span></div>
               <div className="fomo-preview-body is-before">
                 <div className="fomo-preview-meta">БИЗНЕС / ПРЕЗЕНТАЦИЯ</div>
-                <MockMedia current={current} refined={false}/>
+                <MockMedia current={current} sector={sector} refined={false}/>
                 <h4>Мы оказываем услуги</h4>
                 <p>{current.service}. Позвоните и уточните подробности.</p>
                 <div className="fomo-placeholder-line" aria-hidden="true" />
@@ -151,7 +175,7 @@ export function FomoComparison() {
               <div className="fomo-browser"><i /><i /><i /><span>Проработанная подача</span></div>
               <div className="fomo-preview-body is-after">
                 <div className="fomo-preview-meta">УСЛУГА / РЕШЕНИЕ / ЗАПИСЬ</div>
-                <MockMedia current={current} refined={true}/>
+                <MockMedia current={current} sector={sector} refined={true}/>
                 <h4>{current.service}</h4>
                 <p>Что входит, как проходит работа, примеры и условия — всё на одной понятной странице.</p>
                 <div className="fomo-mock-chips" role="group" aria-label="Подробности услуги">

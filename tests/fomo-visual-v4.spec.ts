@@ -40,17 +40,26 @@ test("service details switch meaningfully rather than behaving as decorative chi
 
 test("all sectors have relevant visual media and no blank image placeholder", async ({ page }) => {
   const compare = await openDemo(page);
-  for (const [sector,contains] of [
-    ["Детейлинг","new_hero_1.png"],
-    ["Косметология","hero-cosmetology-owner.webp"],
-  ] as const) {
-    await compare.getByRole("button",{name:sector}).click();
-    const images = compare.locator(".fomo-mock-photo img");
-    await expect(images).toHaveCount(2);
-    const srcs = await images.evaluateAll(nodes => nodes.map(n => (n as HTMLImageElement).currentSrc));
-    expect(srcs.every(src => src.includes(contains))).toBe(true);
-    await expect(images.first()).toHaveJSProperty("complete",true);
-    await expect(images.first()).not.toHaveJSProperty("naturalWidth",0);
+  // Screenshot-extracted JPEG assets must load at their genuine resolution.
+  await compare.getByRole("button",{name:"Детейлинг"}).click();
+  const images = compare.locator(".fomo-mock-photo img");
+  await expect(images).toHaveCount(2);
+  const sources = await images.evaluateAll(nodes => nodes.map(n => (n as HTMLImageElement).currentSrc));
+  expect(sources[0]).toContain("fomo-mercedes-service.jpg");
+  expect(sources[1]).toContain("fomo-ppf-install.jpg");
+  await expect(images.nth(0)).toHaveJSProperty("naturalWidth",530);
+  await expect(images.nth(0)).toHaveJSProperty("naturalHeight",240);
+  await expect(images.nth(1)).toHaveJSProperty("naturalWidth",531);
+  await expect(images.nth(1)).toHaveJSProperty("naturalHeight",240);
+  const heroBackground = await compare.locator(".fomo-lab-top--media").evaluate(el => getComputedStyle(el,"::before").backgroundImage);
+  expect(heroBackground).toContain("fomo-mercedes-hero.jpg");
+
+  await compare.getByRole("button",{name:"Косметология"}).click();
+  const beautyImages = compare.locator(".fomo-mock-photo img");
+  await expect(beautyImages).toHaveCount(2);
+  for (const image of await beautyImages.all()) {
+    await expect(image).toHaveAttribute("src",/hero-cosmetology-owner.webp/);
+    await expect(image).not.toHaveJSProperty("naturalWidth",0);
   }
   await compare.getByRole("button",{name:"Ремонт"}).click();
   await expect(compare.locator(".fomo-mock-photo svg")).toHaveCount(2);
@@ -69,5 +78,26 @@ test("unified comparison controls stay accessible on phone and desktop", async (
     await expect(compare.locator(".fomo-preview-better h4")).toHaveText("Консультация специалиста");
     const bodyOverflow = await page.evaluate(() => document.documentElement.scrollWidth-document.documentElement.clientWidth);
     expect(bodyOverflow,`overflow ${width}`).toBeLessThanOrEqual(1);
+  }
+});
+
+test("extracted photos keep proportions and never stretch on different screens", async ({ page }) => {
+  for (const width of [360,390,768,1280,1440]) {
+    await page.setViewportSize({width,height:900});
+    const compare = await openDemo(page);
+    const photos = compare.locator(".fomo-mock-photo--extracted");
+    await expect(photos).toHaveCount(2);
+    for (const photo of await photos.all()) {
+      const geometry = await photo.evaluate(el => {
+        const img = el.querySelector("img")!;
+        const { width, height } = el.getBoundingClientRect();
+        const style = getComputedStyle(img);
+        return { ratio: width/height, fit:style.objectFit, complete:img.complete, imageRatio:img.naturalWidth/img.naturalHeight };
+      });
+      expect(geometry.fit).toBe("contain");
+      expect(geometry.complete).toBe(true);
+      expect(geometry.ratio).toBeCloseTo(530/240,1);
+      expect(Math.abs(geometry.imageRatio - geometry.ratio)).toBeLessThan(.03);
+    }
   }
 });
